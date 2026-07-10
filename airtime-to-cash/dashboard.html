@@ -131,6 +131,42 @@ href="css/style.css">
 
 <li>
 
+<a href="#" data-page="notifications">
+
+<i class="fas fa-bell"></i>
+
+<span>Notifications</span>
+
+</a>
+
+</li>
+    
+<li>
+
+<a href="#" data-page="support">
+
+<i class="fas fa-headset"></i>
+
+<span>Support</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" data-page="security">
+
+<i class="fas fa-shield-halved"></i>
+
+<span>Trust & Security</span>
+
+</a>
+
+</li>
+    
+<li>
+
 <a href="#" id="logoutBtn">
 
 <i class="fas fa-sign-out-alt"></i>
@@ -351,6 +387,104 @@ Verified User
 
   </section>
 
+<!-- ================= RECENT ACTIVITY ================= -->
+
+<div class="activity-card">
+
+    <h2>
+
+        <i class="fas fa-history"></i>
+
+        Recent Activity
+
+    </h2>
+
+    <div class="activity-list" id="activityList">
+
+        <div class="activity-item success">
+
+            <div class="activity-icon">
+
+                <i class="fas fa-user-check"></i>
+
+            </div>
+
+            <div class="activity-content">
+
+                <h4>Account Created</h4>
+
+                <p>Your Cashify account was created successfully.</p>
+
+                <small>Just now</small>
+
+            </div>
+
+        </div>
+
+        <div class="activity-item pending">
+
+            <div class="activity-icon">
+
+                <i class="fas fa-paper-plane"></i>
+
+            </div>
+
+            <div class="activity-content">
+
+                <h4>Conversion Request Submitted</h4>
+
+                <p>Your airtime conversion request is awaiting review.</p>
+
+                <small>Today</small>
+
+            </div>
+
+        </div>
+
+        <div class="activity-item success">
+
+            <div class="activity-icon">
+
+                <i class="fas fa-wallet"></i>
+
+            </div>
+
+            <div class="activity-content">
+
+                <h4>Wallet Credited</h4>
+
+                <p>Your wallet has been credited successfully.</p>
+
+                <small>Yesterday</small>
+
+            </div>
+
+        </div>
+
+        <div class="activity-item info">
+
+            <div class="activity-icon">
+
+                <i class="fas fa-gift"></i>
+
+            </div>
+
+            <div class="activity-content">
+
+                <h4>Referral Reward</h4>
+
+                <p>You earned a referral bonus.</p>
+
+                <small>2 days ago</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    
     <!-- ================= CONVERT AIRTIME PAGE ================= -->
 
 <section id="convertPage" class="dashboard-page hidden">
@@ -716,6 +850,446 @@ Verified User
 
     </section>
 
+    <!-- ================= NOTIFICATIONS PAGE ================= -->
+
+<section id="notificationsPage" class="dashboard-page hidden">
+
+<div class="profile-card">
+
+<h2>
+
+<i class="fas fa-bell"></i>
+
+Notifications
+
+</h2>
+
+<p>
+
+All your latest updates appear here.
+
+</p>
+
+<div class="notification-list">
+
+<div class="notification-item unread">
+
+<div>
+
+<h4>
+
+🎉 Welcome to Cashify
+
+</h4>
+
+<p>
+
+Thanks for joining Cashify.
+
+</p>
+
+<small>
+
+Just now
+
+</small>
+
+</div>
+
+</div>
+
+<div class="notification-item">
+
+<div>
+
+<h4>
+
+💰 Wallet Update
+
+</h4>
+
+<p>
+
+Your wallet will be credited once your airtime conversion is approved.
+
+</p>
+
+<small>
+
+Today
+
+</small>
+
+</div>
+
+</div>
+
+<div class="notification-item">
+
+<div>
+
+<h4>
+
+🎁 Referral Bonus
+
+</h4>
+
+<p>
+
+Invite friends using your referral link and earn rewards after their first successful conversion.
+
+</p>
+
+<small>
+
+Yesterday
+
+</small>
+
+</div>
+
+</div>
+
+<div class="notification-item">
+
+<div>
+
+<h4>
+
+📢 System Notice
+
+</h4>
+
+<p>
+
+Exchange rates may change without prior notice.
+
+</p>
+
+<small>
+
+2 days ago
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+    
+    <!-- ================= SUPPORT PAGE ================= -->
+
+<section id="supportPage" class="dashboard-page hidden">
+
+    <div class="profile-card">
+
+        <h2>
+            <i class="fas fa-headset"></i>
+            Support Center
+        </h2>
+
+        <p>
+            Need help? Contact the Cashify support team.
+        </p>
+
+        <form id="supportForm">
+
+            <div class="form-group">
+
+                <label>Subject</label>
+
+                <input
+                    type="text"
+                    id="supportSubject"
+                    placeholder="Enter subject"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Message</label>
+
+                <textarea
+                    id="supportMessage"
+                    rows="6"
+                    placeholder="Describe your issue..."
+                    required></textarea>
+
+            </div>
+
+            <button
+                type="submit"
+                class="auth-btn">
+
+                <i class="fas fa-paper-plane"></i>
+
+                Submit Ticket
+
+            </button>
+
+        </form>
+
+        <hr class="mt-4">
+
+        <h3>Quick Contact</h3>
+
+        <p>
+            <i class="fab fa-whatsapp"></i>
+            WhatsApp: +234 9035614658
+        </p>
+
+        <p>
+            <i class="fas fa-envelope"></i>
+            Email: support@cashify.com
+        </p>
+
+        <p>
+            <i class="fas fa-clock"></i>
+            Support Hours: Monday – Saturday, 8:00 AM – 6:00 PM
+        </p>
+
+    </div>
+
+</section>
+
+    <!-- ================= TRUST & SECURITY ================= -->
+
+<section id="securityPage" class="dashboard-page hidden">
+
+<div class="profile-card">
+
+<h2>
+
+<i class="fas fa-shield-halved"></i>
+
+Trust & Security
+
+</h2>
+
+<p>
+
+Keep your Cashify account safe and monitor your security status.
+
+</p>
+
+<!-- Security Status -->
+
+<div class="security-grid">
+
+<div class="security-item">
+
+<i class="fas fa-user-check"></i>
+
+<h4>Account Status</h4>
+
+<p class="success">
+
+Verified
+
+</p>
+
+</div>
+
+<div class="security-item">
+
+<i class="fas fa-envelope-circle-check"></i>
+
+<h4>Email</h4>
+
+<p>
+
+Verified
+
+</p>
+
+</div>
+
+<div class="security-item">
+
+<i class="fas fa-mobile-screen-button"></i>
+
+<h4>Phone</h4>
+
+<p>
+
+Verified
+
+</p>
+
+</div>
+
+<div class="security-item">
+
+<i class="fas fa-lock"></i>
+
+<h4>Password</h4>
+
+<p>
+
+Strong
+
+</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<h3>
+
+Recent Login Activity
+
+</h3>
+
+<div class="activity-list">
+
+<div class="activity-item success">
+
+<i class="fas fa-check-circle"></i>
+
+<div>
+
+<h4>
+
+Current Device
+
+</h4>
+
+<p>
+
+TECNO Android • Nigeria
+
+</p>
+
+<small>
+
+Active Now
+
+</small>
+
+</div>
+
+</div>
+
+<div class="activity-item">
+
+<i class="fas fa-clock"></i>
+
+<div>
+
+<h4>
+
+Previous Login
+
+</h4>
+
+<p>
+
+Lagos, Nigeria
+
+</p>
+
+<small>
+
+Yesterday • 8:45 PM
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<h3>
+
+Security Actions
+
+</h3>
+
+<div class="security-actions">
+
+<button class="auth-btn" id="changePasswordBtn">
+
+<i class="fas fa-key"></i>
+
+Change Password
+
+</button>
+
+<button class="auth-btn" id="logoutAllBtn">
+
+<i class="fas fa-right-from-bracket"></i>
+
+Logout All Devices
+
+</button>
+
+<button class="auth-btn" id="enable2faBtn">
+
+<i class="fas fa-user-shield"></i>
+
+Enable 2FA (Coming Soon)
+
+</button>
+
+</div>
+
+<hr>
+
+<h3>
+
+Security Tips
+
+</h3>
+
+<ul class="security-tips">
+
+<li>
+
+✅ Never share your password with anyone.
+
+</li>
+
+<li>
+
+✅ Verify your bank account before requesting withdrawals.
+
+</li>
+
+<li>
+
+✅ Use a strong password with letters, numbers and symbols.
+
+</li>
+
+<li>
+
+✅ Log out of shared devices after use.
+
+</li>
+
+<li>
+
+✅ Contact support immediately if you notice suspicious activity.
+
+</li>
+
+</ul>
+
+</div>
+
+</section>
+    
     <!-- ================= SETTINGS PAGE ================= -->
 
 <section id="settingsPage" class="dashboard-page hidden">
