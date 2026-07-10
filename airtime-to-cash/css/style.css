@@ -2058,3 +2058,336 @@ table td{
 }
 
 }
+
+/* ==========================================
+   AIRTIME2CASH - STYLE.CSS
+   PART 6
+   Admin + Utilities + Responsive
+========================================== */
+
+/* ========= ADMIN DASHBOARD ========= */
+
+.admin-dashboard{
+    display:flex;
+    min-height:100vh;
+}
+
+.admin-sidebar{
+    width:270px;
+    background:#081320;
+    padding:30px 20px;
+    border-right:1px solid rgba(255,255,255,.08);
+}
+
+.admin-sidebar h2{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.admin-sidebar ul{
+    list-style:none;
+}
+
+.admin-sidebar li{
+    margin-bottom:12px;
+}
+
+.admin-sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border-radius:12px;
+    color:var(--gray);
+    transition:var(--transition);
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active{
+    background:rgba(37,99,235,.15);
+    color:#fff;
+}
+
+.admin-content{
+    flex:1;
+    padding:35px;
+}
+
+.admin-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.admin-card{
+    background:var(--card);
+    padding:25px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.08);
+    transition:.3s;
+}
+
+.admin-card:hover{
+    transform:translateY(-8px);
+}
+
+.admin-card h3{
+    margin-bottom:12px;
+}
+
+.admin-card p{
+    color:var(--gray);
+}
+
+/* ========= TABLE ========= */
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+/* ========= BADGES ========= */
+
+.badge{
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+.badge.success{
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+}
+
+.badge.warning{
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
+}
+
+.badge.danger{
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+}
+
+/* ========= MODAL ========= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.6);
+    z-index:9999;
+}
+
+.modal-content{
+    width:90%;
+    max-width:500px;
+    background:var(--dark2);
+    border-radius:18px;
+    padding:30px;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+/* ========= TOAST ========= */
+
+.toast{
+    position:fixed;
+    top:25px;
+    right:25px;
+    background:var(--success);
+    color:#fff;
+    padding:15px 22px;
+    border-radius:10px;
+    display:none;
+    z-index:99999;
+}
+
+/* ========= SPACING ========= */
+
+.mt-1{margin-top:10px;}
+.mt-2{margin-top:20px;}
+.mt-3{margin-top:30px;}
+.mt-4{margin-top:40px;}
+
+.mb-1{margin-bottom:10px;}
+.mb-2{margin-bottom:20px;}
+.mb-3{margin-bottom:30px;}
+.mb-4{margin-bottom:40px;}
+
+.text-center{
+    text-align:center;
+}
+
+.hidden{
+    display:none;
+}
+
+/* ========= BUTTON ========= */
+
+.primary-button{
+    display:inline-block;
+    padding:14px 28px;
+    border-radius:12px;
+    background:linear-gradient(45deg,var(--primary),var(--secondary));
+    color:#fff;
+    transition:.3s;
+}
+
+.primary-button:hover{
+    transform:translateY(-4px);
+}
+
+/* ========= INPUT ========= */
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    outline:none;
+
+    border:1px solid var(--secondary);
+
+}
+
+/* ========= FADE ========= */
+
+.fade-in{
+
+    animation:fadeIn .7s ease;
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* ========= RESPONSIVE ========= */
+
+@media(max-width:992px){
+
+.admin-dashboard{
+
+display:block;
+
+}
+
+.admin-sidebar{
+
+width:100%;
+
+}
+
+.admin-content{
+
+padding:20px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.nav-links{
+
+display:none;
+
+}
+
+.menu-btn{
+
+display:block;
+
+}
+
+.hero h1{
+
+font-size:40px;
+
+}
+
+.hero p{
+
+font-size:16px;
+
+}
+
+.hero-buttons{
+
+flex-direction:column;
+
+}
+
+.rate-container,
+
+.feature-grid,
+
+.step-grid,
+
+.stats,
+
+.dashboard-cards,
+
+.admin-cards{
+
+grid-template-columns:1fr;
+
+}
+
+section{
+
+padding:70px 20px;
+
+}
+
+}
+
+@media(max-width:500px){
+
+.hero h1{
+
+font-size:32px;
+
+}
+
+section h2{
+
+font-size:30px;
+
+}
+
+.logo{
+
+font-size:22px;
+
+}
+
+.btn,
+
+.primary-btn,
+
+.secondary-btn{
+
+width:100%;
+
+text-align:center;
+
+}
+
+}
