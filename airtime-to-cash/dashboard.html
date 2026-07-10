@@ -1,1 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | Cashify</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<i class="fas fa-wallet"></i>
+
+<span>Cashify</span>
+
+</div>
+
+<ul>
+
+<li>
+
+<a href="#" class="active" data-page="home">
+
+<i class="fas fa-home"></i>
+
+<span>Dashboard</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" data-page="convert">
+
+<i class="fas fa-exchange-alt"></i>
+
+<span>Convert Airtime</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" data-page="transactions">
+
+<i class="fas fa-list"></i>
+
+<span>Transactions</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" data-page="wallet">
+
+<i class="fas fa-wallet"></i>
+
+<span>Wallet</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" data-page="referrals">
+
+<i class="fas fa-gift"></i>
+
+<span>Referrals</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" data-page="profile">
+
+<i class="fas fa-user"></i>
+
+<span>Profile</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" data-page="settings">
+
+<i class="fas fa-cog"></i>
+
+<span>Settings</span>
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" id="logoutBtn">
+
+<i class="fas fa-sign-out-alt"></i>
+
+<span>Logout</span>
+
+</a>
+
+</li>
+
+</ul>
+
+</aside>
+
+<!-- Main Content -->
+
+<main class="main-content">
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>
+
+Welcome back 👋
+
+</h1>
+
+<p>
+
+Manage your Cashify account.
+
+</p>
+
+</div>
+
+<div class="user-box">
+
+<img
+src="images/avatar.png"
+alt="Profile">
+
+<div>
+
+<h3 id="userName">
+
+Loading...
+
+</h3>
+
+<p>
+
+Verified User
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= DASHBOARD HOME ================= -->
+
+<section id="homePage" class="dashboard-page">
+
+    <!-- Summary Cards -->
+
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card" data-aos="fade-up">
+
+            <i class="fas fa-wallet"></i>
+
+            <h2 id="walletBalance">
+
+                ₦0.00
+
+            </h2>
+
+            <p>Wallet Balance</p>
+
+        </div>
+
+        <div class="dashboard-card" data-aos="fade-up" data-aos-delay="100">
+
+            <i class="fas fa-clock"></i>
+
+            <h2 id="pendingTransactions">
+
+                0
+
+            </h2>
+
+            <p>Pending Conversions</p>
+
+        </div>
+
+        <div class="dashboard-card" data-aos="fade-up" data-aos-delay="200">
+
+            <i class="fas fa-check-circle"></i>
+
+            <h2 id="completedTransactions">
+
+                0
+
+            </h2>
+
+            <p>Completed Transactions</p>
+
+        </div>
+
+        <div class="dashboard-card" data-aos="fade-up" data-aos-delay="300">
+
+            <i class="fas fa-gift"></i>
+
+            <h2 id="referralEarnings">
+
+                ₦0.00
+
+            </h2>
+
+            <p>Referral Earnings</p>
+
+        </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+
+    <div class="convert-box">
+
+        <h2>
+
+            Quick Actions
+
+        </h2>
+
+        <form id="quickConvertForm">
+
+            <select id="network" required>
+
+                <option value="">Select Network</option>
+
+                <option value="MTN">MTN</option>
+
+                <option value="Airtel">Airtel</option>
+
+                <option value="Glo">Glo</option>
+
+                <option value="9mobile">9mobile</option>
+
+            </select>
+
+            <input
+                type="number"
+                id="airtimeAmount"
+                placeholder="Enter Airtime Amount"
+                required>
+
+            <button type="submit">
+
+                <i class="fas fa-paper-plane"></i>
+
+                Convert Now
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Recent Transactions -->
+
+    <div class="table-box">
+
+        <h2>
+
+            Recent Transactions
+
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Network</th>
+
+                    <th>Amount</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="recentTransactions">
+
+                <tr>
+
+                    <td colspan="4" style="text-align:center;">
+
+                        No transactions yet.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+  </section>
