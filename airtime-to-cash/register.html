@@ -1,1 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Register | Cashify</title>
+
+<!-- Google Font -->
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<!-- AOS -->
+
+<link rel="stylesheet"
+href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+<!-- CSS -->
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+<div class="logo">
+
+<i class="fas fa-wallet"></i>
+
+Cashify
+
+</div>
+
+<ul class="nav-links">
+
+<li>
+
+<a href="index.html">
+
+Home
+
+</a>
+
+</li>
+
+<li>
+
+<a href="login.html">
+
+Login
+
+</a>
+
+</li>
+
+</ul>
+
+<div class="menu-btn">
+
+<i class="fas fa-bars"></i>
+
+</div>
+
+</nav>
+
+<!-- ================= REGISTER ================= -->
+
+<section class="auth-section">
+
+<div class="auth-card fade-in"
+data-aos="zoom-in">
+
+<h2>
+
+Create Your Account
+
+</h2>
+
+<p>
+
+Join Cashify and convert your airtime into cash in minutes.
+
+</p>
+
+<form id="registerForm">
+
+<div class="form-group">
+
+<label>
+
+Full Name
+
+</label>
+
+<input
+
+type="text"
+
+id="fullName"
+
+placeholder="Enter Full Name"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Username
+
+</label>
+
+<input
+
+type="text"
+
+id="username"
+
+placeholder="Choose Username"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Email Address
+
+</label>
+
+<input
+
+type="email"
+
+id="email"
+
+placeholder="Enter Email"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Phone Number
+
+</label>
+
+<input
+
+type="tel"
+
+id="phone"
+
+placeholder="08012345678"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Referral Code (Optional)
+
+</label>
+
+<input
+
+type="text"
+
+id="referralCode"
+
+placeholder="Enter Referral Code">
+
+  </div>
+
+<!-- Password -->
+
+<div class="form-group">
+
+<label>Password</label>
+
+<div class="password-box">
+
+<input
+type="password"
+id="password"
+placeholder="Create Password"
+required>
+
+<i class="fas fa-eye"
+id="togglePassword"></i>
+
+</div>
+
+<div class="password-strength">
+
+<span id="strengthBar"></span>
+
+</div>
+
+</div>
+
+<!-- Confirm Password -->
+
+<div class="form-group">
+
+<label>Confirm Password</label>
+
+<div class="password-box">
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm Password"
+required>
+
+<i class="fas fa-eye"
+id="toggleConfirmPassword"></i>
+
+</div>
+
+</div>
+
+<!-- Terms -->
+
+<div class="checkbox">
+
+<input
+type="checkbox"
+id="terms"
+required>
+
+<label for="terms">
+
+I agree to the
+
+<a href="terms.html">
+
+Terms & Conditions
+
+</a>
+
+</label>
+
+</div>
+
+<!-- Register Button -->
+
+<button
+type="submit"
+class="auth-btn">
+
+<i class="fas fa-user-plus"></i>
+
+Create Account
+
+</button>
+
+<div class="auth-links">
+
+<p>
+
+Already have an account?
+
+<a href="login.html">
+
+Login
+
+</a>
+
+</p>
+
+</div>
+
+</form>
+
+</div>
+
+</section>
+
+<!-- Toast -->
+
+<div class="toast"></div>
+
+<!-- Loader -->
+
+<div class="loader" id="loader" style="display:none;"></div>
+
+<!-- WhatsApp -->
+
+<a
+href="https://wa.me/2348000000000"
+target="_blank"
+class="whatsapp">
+
+<i class="fab fa-whatsapp"></i>
+
+</a>
+
+<!-- Back To Top -->
+
+<button class="back-to-top">
+
+<i class="fas fa-arrow-up"></i>
+
+</button>
+
+<!-- Footer -->
+
+<footer>
+
+<p>
+
+© 2026 Cashify.
+
+All Rights Reserved.
+
+</p>
+
+</footer>
+
+<!-- AOS -->
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+
+AOS.init({
+
+duration:800,
+
+once:true
+
+});
+
+</script>
+
+<!-- Main JS -->
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
