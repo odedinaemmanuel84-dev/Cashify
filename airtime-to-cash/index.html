@@ -1,1 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashify | Convert Airtime to Cash Instantly</title>
 
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- AOS Animation -->
+    <link rel="stylesheet"
+    href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+<div class="logo">
+<i class="fas fa-wallet"></i>
+Airtime2Cash
+</div>
+
+<ul class="nav-links">
+<li><a href="#">Home</a></li>
+<li><a href="#rates">Rates</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="login.html">Login</a></li>
+<li><a href="register.html" class="btn">Register</a></li>
+</ul>
+
+<div class="menu-btn">
+<i class="fas fa-bars"></i>
+</div>
+
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<div class="hero-content" data-aos="fade-up">
+
+<h1>Convert Airtime to Cash Instantly</h1>
+
+<p>
+Fast, Secure and Trusted Airtime Conversion Platform.
+Receive payment directly into your bank account.
+</p>
+
+<div class="hero-buttons">
+
+<a href="register.html" class="primary-btn">
+Get Started
+</a>
+
+<a href="#calculator" class="secondary-btn">
+Calculate
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CALCULATOR ================= -->
+
+<section id="calculator" class="calculator">
+
+<h2>Calculate Your Cash</h2>
+
+<div class="calculator-box">
+
+<select id="network">
+
+<option>MTN</option>
+<option>Airtel</option>
+<option>Glo</option>
+<option>9mobile</option>
+
+</select>
+
+<input
+type="number"
+id="amount"
+placeholder="Enter Airtime Amount">
+
+<button id="calculateBtn">
+Calculate
+</button>
+
+<h3 id="result">
+You'll Receive ₦0
+</h3>
+
+</div>
+
+</section>
+
+<!-- ================= RATES ================= -->
+
+<section id="rates">
+
+<h2>Today's Exchange Rates</h2>
+
+<div class="rate-container">
+
+<div class="rate-card">
+<h3>MTN</h3>
+<p>82%</p>
+</div>
+
+<div class="rate-card">
+<h3>Airtel</h3>
+<p>80%</p>
+</div>
+
+<div class="rate-card">
+<h3>Glo</h3>
+<p>75%</p>
+</div>
+
+<div class="rate-card">
+<h3>9mobile</h3>
+<p>73%</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
+
+<h2>Why Choose Us?</h2>
+
+<div class="feature-grid">
+
+<div class="feature">
+<i class="fas fa-bolt"></i>
+<h3>Fast Payment</h3>
+<p>Receive payment within minutes.</p>
+</div>
+
+<div class="feature">
+<i class="fas fa-lock"></i>
+<h3>Secure</h3>
+<p>Your transactions are protected.</p>
+</div>
+
+<div class="feature">
+<i class="fas fa-headset"></i>
+<h3>24/7 Support</h3>
+<p>We're always available.</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="steps">
+
+<h2>How It Works</h2>
+
+<div class="step-grid">
+
+<div>
+<h3>1</h3>
+<p>Register an account.</p>
+</div>
+
+<div>
+<h3>2</h3>
+<p>Submit your airtime.</p>
+</div>
+
+<div>
+<h3>3</h3>
+<p>We verify it.</p>
+</div>
+
+<div>
+<h3>4</h3>
+<p>Receive payment instantly.</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+
+<section class="testimonials">
+
+<h2>Testimonials</h2>
+
+<div class="testimonial">
+
+<p>
+"Very fast payment! Highly recommended."
+</p>
+
+<h4>- Emmanuel</h4>
+
+</div>
+
+</section>
+
+<!-- ================= FAQ ================= -->
+
+<section id="faq">
+
+<h2>Frequently Asked Questions</h2>
+
+<div class="faq-item">
+
+<h3>How long does payment take?</h3>
+
+<p>Usually within 5-10 minutes.</p>
+
+</div>
+
+<div class="faq-item">
+
+<h3>Is it safe?</h3>
+
+<p>Yes, your transactions are secure.</p>
+
+</div>
+
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact">
+
+<h2>Contact Us</h2>
+
+<form>
+
+<input type="text" placeholder="Your Name">
+
+<input type="email" placeholder="Email">
+
+<textarea placeholder="Message"></textarea>
+
+<button>
+Send Message
+</button>
+
+</form>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<p>
+
+© 2026 Cashify.
+
+All Rights Reserved.
+
+</p>
+
+</footer>
+
+<!-- JavaScript -->
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+
+AOS.init();
+
+</script>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
