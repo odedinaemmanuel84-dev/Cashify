@@ -1,1 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | Cashify</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="admin-dashboard">
+
+<!-- Sidebar -->
+
+<aside class="admin-sidebar">
+
+<h2>
+
+Cashify Admin
+
+</h2>
+
+<ul>
+
+<li>
+
+<a href="#"
+class="active"
+data-page="dashboard">
+
+<i class="fas fa-chart-line"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#"
+data-page="users">
+
+<i class="fas fa-users"></i>
+
+Users
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#"
+data-page="transactions">
+
+<i class="fas fa-money-check-alt"></i>
+
+Conversions
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#"
+data-page="withdrawals">
+
+<i class="fas fa-wallet"></i>
+
+Withdrawals
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#"
+data-page="rates">
+
+<i class="fas fa-percentage"></i>
+
+Exchange Rates
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#"
+data-page="notifications">
+
+<i class="fas fa-bell"></i>
+
+Notifications
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#"
+id="adminLogout">
+
+<i class="fas fa-sign-out-alt"></i>
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</aside>
+
+<!-- Main -->
+
+<main class="admin-content">
+
+<h1>
+
+Admin Dashboard
+
+</h1>
+
+<p>
+
+Welcome back, Administrator.
+
+</p>
+
+<div class="admin-cards">
+
+<div class="admin-card">
+
+<h3>
+
+Total Users
+
+</h3>
+
+<h2 id="totalUsers">
+
+0
+
+</h2>
+
+</div>
+
+<div class="admin-card">
+
+<h3>
+
+Today's Requests
+
+</h3>
+
+<h2 id="todayRequests">
+
+0
+
+</h2>
+
+</div>
+
+<div class="admin-card">
+
+<h3>
+
+Pending Requests
+
+</h3>
+
+<h2 id="pendingRequests">
+
+0
+
+</h2>
+
+</div>
+
+<div class="admin-card">
+
+<h3>
+
+Total Revenue
+
+</h3>
+
+<h2 id="adminRevenue">
+
+₦0.00
+
+</h2>
+
+</div>
+
+<!-- ================= USERS ================= -->
+
+<section class="mt-4">
+
+    <h2>Registered Users</h2>
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Email</th>
+
+                    <th>Phone</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="usersTable">
+
+                <tr>
+
+                    <td colspan="5" style="text-align:center;">
+
+                        No users found.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<!-- ================= CONVERSION REQUESTS ================= -->
+
+<section class="mt-4">
+
+    <h2>Airtime Conversion Requests</h2>
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Transaction ID</th>
+
+                    <th>User</th>
+
+                    <th>Network</th>
+
+                    <th>Amount</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="conversionTable">
+
+                <tr>
+
+                    <td colspan="6" style="text-align:center;">
+
+                        No requests available.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<!-- ================= WITHDRAWALS ================= -->
+
+<section class="mt-4">
+
+    <h2>Withdrawal Requests</h2>
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>User</th>
+
+                    <th>Amount</th>
+
+                    <th>Bank</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="withdrawTable">
+
+                <tr>
+
+                    <td colspan="5" style="text-align:center;">
+
+                        No withdrawal requests.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<!-- ================= EXCHANGE RATES ================= -->
+
+<section class="mt-4">
+
+    <div class="profile-card">
+
+        <h2>Update Exchange Rates</h2>
+
+        <form id="rateForm">
+
+            <div class="form-group">
+
+                <label>MTN (%)</label>
+
+                <input type="number" id="mtnRate" value="82">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Airtel (%)</label>
+
+                <input type="number" id="airtelRate" value="80">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Glo (%)</label>
+
+                <input type="number" id="gloRate" value="75">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>9mobile (%)</label>
+
+                <input type="number" id="mobile9Rate" value="73">
+
+            </div>
+
+            <button type="submit" class="auth-btn">
+
+                Save Rates
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- ================= SEND NOTIFICATION ================= -->
+
+<section class="mt-4">
+
+    <div class="profile-card">
+
+        <h2>Send Notification</h2>
+
+        <form id="notificationForm">
+
+            <div class="form-group">
+
+                <label>Title</label>
+
+                <input
+                    type="text"
+                    id="notificationTitle"
+                    placeholder="Notification title">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Message</label>
+
+                <textarea
+                    id="notificationMessage"
+                    placeholder="Write your message..."></textarea>
+
+            </div>
+
+            <button
+                type="submit"
+                class="auth-btn">
+
+                Send Notification
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+<!-- Toast -->
+
+<div class="toast"></div>
+
+<!-- Loader -->
+
+<div
+class="loader"
+id="loader"
+style="display:none;">
+</div>
+
+<!-- Footer -->
+
+<footer>
+
+<p>
+
+© 2026 Cashify. All Rights Reserved.
+
+</p>
+
+</footer>
+
+<!-- AOS -->
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+
+AOS.init({
+
+duration:800,
+
+once:true
+
+});
+
+</script>
+
+<!-- Main JavaScript -->
+
+<script src="js/script.js"></script>
+
+</body>
+
+</html>                
