@@ -824,3 +824,333 @@ section h2{
     }
 
 }
+
+/* ==========================================
+   AIRTIME2CASH - STYLE.CSS
+   PART 3
+   Testimonials + FAQ + Contact + Footer
+========================================== */
+
+/* ========= TESTIMONIALS ========= */
+
+.testimonials{
+
+    text-align:center;
+
+}
+
+.testimonial{
+
+    max-width:750px;
+
+    margin:auto;
+
+    padding:40px;
+
+}
+
+.testimonial p{
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    color:var(--gray);
+
+    margin-bottom:25px;
+
+    font-style:italic;
+
+}
+
+.testimonial h4{
+
+    color:var(--secondary);
+
+    font-size:20px;
+
+}
+
+/* ========= FAQ ========= */
+
+#faq{
+
+    max-width:900px;
+
+    margin:auto;
+
+}
+
+.faq-item{
+
+    margin-bottom:20px;
+
+    padding:25px;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.faq-item:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.faq-item h3{
+
+    font-size:20px;
+
+    margin-bottom:15px;
+
+}
+
+.faq-item p{
+
+    color:var(--gray);
+
+    line-height:1.8;
+
+}
+
+/* ========= CONTACT ========= */
+
+.contact{
+
+    text-align:center;
+
+}
+
+.contact form{
+
+    max-width:700px;
+
+    margin:auto;
+
+    padding:40px;
+
+}
+
+.contact input,
+.contact textarea{
+
+    width:100%;
+
+    padding:16px;
+
+    margin-bottom:20px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+
+    color:#fff;
+
+    font-size:16px;
+
+}
+
+.contact input::placeholder,
+.contact textarea::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+.contact textarea{
+
+    min-height:180px;
+
+    resize:vertical;
+
+}
+
+.contact button{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    color:#fff;
+
+    background:linear-gradient(45deg,var(--primary),var(--secondary));
+
+    transition:var(--transition);
+
+}
+
+.contact button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 30px rgba(37,99,235,.35);
+
+}
+
+/* ========= FOOTER ========= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:35px 8%;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    text-align:center;
+
+    color:var(--gray);
+
+}
+
+/* ========= WHATSAPP BUTTON ========= */
+
+.whatsapp{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:90px;
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#25D366;
+
+    color:#fff;
+
+    font-size:28px;
+
+    box-shadow:0 15px 35px rgba(37,211,102,.4);
+
+    z-index:999;
+
+    transition:var(--transition);
+
+}
+
+.whatsapp:hover{
+
+    transform:scale(1.1);
+
+}
+
+/* ========= BACK TO TOP ========= */
+
+.back-to-top{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:20px;
+
+    width:50px;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(45deg,var(--primary),var(--secondary));
+
+    color:#fff;
+
+    font-size:20px;
+
+    box-shadow:var(--shadow);
+
+    transition:var(--transition);
+
+    z-index:999;
+
+}
+
+.back-to-top:hover{
+
+    transform:translateY(-5px);
+
+}
+
+/* ========= LOADING SPINNER ========= */
+
+.loader{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:var(--dark);
+
+    z-index:9999;
+
+}
+
+.loader::after{
+
+    content:"";
+
+    width:60px;
+
+    height:60px;
+
+    border:6px solid rgba(255,255,255,.15);
+
+    border-top:6px solid var(--secondary);
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
