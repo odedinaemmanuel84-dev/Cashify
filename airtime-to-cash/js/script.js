@@ -743,7 +743,7 @@ if (enable2faBtn) {
 // ==========================================
 
 // Change this when you deploy your backend
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://cashify-backend-pvxb.onrender.com";
 
 // ==========================================
 // GET TOKEN
