@@ -746,22 +746,47 @@ function getToken() {
 
 }
 
-// ==========================================
+// ===========================
 // MOBILE MENU
-// ==========================================
+// ===========================
 
-const menuToggle = document.getElementById("menuToggle");
-const navLinks = document.getElementById("navLinks");
+const menuBtn = document.querySelector(".menu-btn");
+const navLinks = document.querySelector(".nav-links");
 
-if (menuToggle && navLinks) {
+if (menuBtn && navLinks) {
 
-    menuToggle.addEventListener("click", () => {
+    menuBtn.addEventListener("click", () => {
 
         navLinks.classList.toggle("active");
+
+        const icon = menuBtn.querySelector("i");
+
+        if (navLinks.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-times");
+        } else {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+        }
 
     });
 
 }
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        navLinks.classList.remove("active");
+
+        const icon = menuBtn.querySelector("i");
+
+        icon.classList.remove("fa-times");
+        icon.classList.add("fa-bars");
+
+    });
+
+});
 
 // ==========================================
 // API REQUEST HELPER
