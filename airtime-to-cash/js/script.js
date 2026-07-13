@@ -486,47 +486,28 @@ if (convertForm) {
 // LIVE CALCULATOR
 // ==========================================
 
-const amountInput = document.getElementById("convertAmount");
-const networkSelect = document.getElementById("convertNetwork");
+const network = document.getElementById("network");
+const amount = document.getElementById("amount");
+const calculateBtn = document.getElementById("calculateBtn");
+const result = document.querySelector("#result span");
 
-const receiveAmount = document.getElementById("receiveAmount");
-const currentRate = document.getElementById("currentRate");
+if (network && amount && calculateBtn && result) {
 
-const rates = {
-    MTN: 82,
-    Airtel: 80,
-    Glo: 75,
-    "9mobile": 73
-};
+    calculateBtn.addEventListener("click", () => {
 
-function updateCalculator() {
+        const airtime = Number(amount.value);
+        const rate = Number(network.value);
 
-    if (!amountInput || !networkSelect) return;
+        if (airtime <= 0) {
+            result.textContent = "₦0";
+            return;
+        }
 
-    const amount = Number(amountInput.value);
+        const receive = (airtime * rate) / 100;
 
-    const network = networkSelect.value;
+        result.textContent = "₦" + receive.toLocaleString();
 
-    if (!network || !amount) return;
-
-    const rate = rates[network];
-
-    currentRate.textContent = rate + "%";
-
-    receiveAmount.textContent =
-        "₦" + ((amount * rate) / 100).toLocaleString();
-
-}
-
-if (amountInput) {
-
-    amountInput.addEventListener("input", updateCalculator);
-
-}
-
-if (networkSelect) {
-
-    networkSelect.addEventListener("change", updateCalculator);
+    });
 
 }
 
