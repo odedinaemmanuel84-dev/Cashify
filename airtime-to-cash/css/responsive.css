@@ -1,1 +1,348 @@
+/* ==========================================
+   CASHIFY RESPONSIVE.CSS
+   Mobile • Tablet • Desktop
+========================================== */
 
+/* ==========================
+   LARGE TABLETS
+========================== */
+@media (max-width:1200px){
+
+.dashboard-grid{
+grid-template-columns:1fr;
+}
+
+.stats-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.cards-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+/* ==========================
+   TABLETS
+========================== */
+@media (max-width:992px){
+
+.main-content{
+padding:25px;
+}
+
+.wallet-card{
+flex-direction:column;
+align-items:flex-start;
+gap:20px;
+}
+
+.quick-actions{
+grid-template-columns:repeat(2,1fr);
+}
+
+.cards-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.statistics{
+grid-template-columns:repeat(2,1fr);
+}
+
+.table-box{
+overflow-x:auto;
+}
+
+table{
+min-width:700px;
+}
+
+}
+
+/* ==========================
+   MOBILE
+========================== */
+@media (max-width:768px){
+
+body{
+padding-bottom:90px;
+}
+
+.mobile-header{
+display:flex;
+}
+
+.sidebar{
+
+position:fixed;
+
+left:-270px;
+
+top:0;
+
+width:260px;
+
+height:100vh;
+
+transition:.35s;
+
+z-index:2000;
+
+}
+
+.sidebar.active{
+
+left:0;
+
+}
+
+.main-content{
+
+margin-left:0;
+
+padding:18px;
+
+margin-top:70px;
+
+}
+
+.dashboard-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:15px;
+
+}
+
+.dashboard-header h1{
+
+font-size:26px;
+
+}
+
+.wallet-card{
+
+padding:22px;
+
+}
+
+.wallet-card h2{
+
+font-size:32px;
+
+}
+
+.quick-actions{
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+}
+
+.action-card{
+
+padding:18px;
+
+}
+
+.statistics{
+
+grid-template-columns:1fr;
+
+}
+
+.cards-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.activity-list{
+
+gap:15px;
+
+}
+
+.activity-item{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.notification-item{
+
+flex-direction:column;
+
+}
+
+.security-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.security-actions{
+
+grid-template-columns:1fr;
+
+}
+
+.profile-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.bottom-nav{
+
+display:flex;
+
+}
+
+.back-to-top{
+
+bottom:95px;
+
+}
+
+.whatsapp{
+
+bottom:160px;
+
+}
+
+}
+
+/* ==========================
+   SMALL PHONES
+========================== */
+@media (max-width:480px){
+
+.main-content{
+
+padding:15px;
+
+}
+
+.dashboard-header h1{
+
+font-size:22px;
+
+}
+
+.wallet-card{
+
+padding:18px;
+
+}
+
+.wallet-card h2{
+
+font-size:28px;
+
+}
+
+.quick-actions{
+
+grid-template-columns:1fr 1fr;
+
+gap:12px;
+
+}
+
+.action-card{
+
+padding:15px;
+
+}
+
+.action-card i{
+
+font-size:22px;
+
+}
+
+.dashboard-card{
+
+padding:18px;
+
+}
+
+.profile-card,
+
+.convert-box,
+
+.table-box,
+
+.activity-card,
+
+.referral-card{
+
+padding:18px;
+
+}
+
+.auth-btn{
+
+font-size:15px;
+
+padding:14px;
+
+}
+
+}
+
+/* ==========================
+   EXTRA SMALL DEVICES
+========================== */
+@media (max-width:360px){
+
+.dashboard-header h1{
+
+font-size:20px;
+
+}
+
+.wallet-card h2{
+
+font-size:24px;
+
+}
+
+.quick-actions{
+
+grid-template-columns:1fr;
+
+}
+
+.action-card{
+
+padding:16px;
+
+}
+
+}
+
+/* ==========================
+   DESKTOP
+========================== */
+@media (min-width:769px){
+
+.mobile-header{
+
+display:none;
+
+}
+
+.bottom-nav{
+
+display:none;
+
+}
+
+}
