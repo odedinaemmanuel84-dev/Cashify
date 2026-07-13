@@ -483,7 +483,7 @@ if (convertForm) {
 }
 
 // ==========================================
-// LIVE CALCULATOR
+// LIVE CALCULATOR (HOMEPAGE)
 // ==========================================
 
 const network = document.getElementById("network");
@@ -491,24 +491,34 @@ const amount = document.getElementById("amount");
 const calculateBtn = document.getElementById("calculateBtn");
 const result = document.querySelector("#result span");
 
-if (network && amount && calculateBtn && result) {
+function calculateAirtime() {
 
-    calculateBtn.addEventListener("click", () => {
+    if (!network || !amount || !result) return;
 
-        const airtime = Number(amount.value);
-        const rate = Number(network.value);
+    const airtime = Number(amount.value);
+    const rate = Number(network.value);
 
-        if (airtime <= 0) {
-            result.textContent = "₦0";
-            return;
-        }
+    if (airtime <= 0) {
+        result.textContent = "₦0";
+        return;
+    }
 
-        const receive = (airtime * rate) / 100;
+    const receive = (airtime * rate) / 100;
 
-        result.textContent = "₦" + receive.toLocaleString();
+    result.textContent = "₦" + receive.toLocaleString();
 
-    });
+}
 
+if (calculateBtn) {
+    calculateBtn.addEventListener("click", calculateAirtime);
+}
+
+if (amount) {
+    amount.addEventListener("input", calculateAirtime);
+}
+
+if (network) {
+    network.addEventListener("change", calculateAirtime);
 }
 
 // ==========================================
