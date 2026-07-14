@@ -374,14 +374,6 @@ MOBILE HEADER
     flex-shrink:0;
 }
 
-.mobile-header .logo span{
-    font-size:28px;
-    font-weight:700;
-    color:var(--primary);
-    line-height:1;
-    white-space:nowrap;
-}
-
 .header-actions{
 
     display:flex;
