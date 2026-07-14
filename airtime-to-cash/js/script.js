@@ -962,6 +962,62 @@ async function loadUser() {
 }
 
 // ==========================================
+// LOAD DASHBOARD
+// ==========================================
+
+async function loadDashboard() {
+
+    const result = await apiRequest("/api/dashboard");
+
+    if (!result || !result.success) return;
+
+    const data = result.dashboard;
+
+    const walletBalance =
+        document.getElementById("walletBalance");
+
+    const totalEarned =
+        document.getElementById("totalEarned");
+
+    const totalTransactions =
+        document.getElementById("totalTransactions");
+
+    const pendingTransactions =
+        document.getElementById("pendingTransactions");
+
+    const completedTransactions =
+        document.getElementById("completedTransactions");
+
+    const totalWithdrawals =
+        document.getElementById("totalWithdrawals");
+
+    if (walletBalance)
+        walletBalance.textContent =
+            "₦" + Number(data.walletBalance).toLocaleString();
+
+    if (totalEarned)
+        totalEarned.textContent =
+            "₦" + Number(data.totalEarned).toLocaleString();
+
+    if (totalTransactions)
+        totalTransactions.textContent =
+            data.totalTransactions;
+
+    if (pendingTransactions)
+        pendingTransactions.textContent =
+            data.pendingTransactions;
+
+    if (completedTransactions)
+        completedTransactions.textContent =
+            data.completedTransactions;
+
+    if (totalWithdrawals)
+        totalWithdrawals.textContent =
+            data.totalWithdrawals;
+
+}
+
+// ==========================================
 // NOTIFICATION BADGE
 // ==========================================
 
@@ -997,4 +1053,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 loadUser();
 
+loadDashboard();
+    
 });
