@@ -204,39 +204,73 @@ const registerForm = document.getElementById("registerForm");
 
 if (registerForm) {
 
-    registerForm.addEventListener("submit", function (e) {
+    registerForm.addEventListener("submit", async function (e) {
 
         e.preventDefault();
 
-        showLoader();
-
         const fullName = document.getElementById("fullName").value.trim();
+        const username = document.getElementById("username").value.trim();
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const referralCode = document.getElementById("referralCode").value.trim();
 
-        if (!fullName || !email || !phone) {
-
-            hideLoader();
-
-            showToast("Please fill in all required fields.", "error");
-
+        if (
+            !fullName ||
+            !username ||
+            !email ||
+            !phone ||
+            !password
+        ) {
+            showToast("Please fill all required fields.", "error");
             return;
+        }
+
+        if (password !== confirmPassword) {
+            showToast("Passwords do not match.", "error");
+            return;
+        }
+
+        showLoader();
+
+        const result = await apiRequest("/api/auth/register", "POST", {
+
+            fullName,
+            username,
+            email,
+            phone,
+            password,
+            referralCode
+
+        });
+
+        hideLoader();
+
+        if (!result) return;
+
+        if (result.success) {
+
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("user", JSON.stringify(result.user));
+
+            showToast(result.message);
+
+            setTimeout(() => {
+
+                window.location.href = "dashboard.html";
+
+            }, 1200);
+
+        } else {
+
+            showToast(result.message, "error");
 
         }
 
-        setTimeout(() => {
-
-            hideLoader();
-
-            showToast("Registration successful!", "success");
-
-            // Backend endpoint later:
-            // POST /api/auth/register
-
-        }, 1200);
-
     });
 
+    
 }
 
 // ==========================================
