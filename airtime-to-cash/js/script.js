@@ -967,6 +967,32 @@ function loadUser() {
 loadUser();
 
 // ==========================================
+// NOTIFICATION BADGE
+// ==========================================
+
+function updateNotificationBadge(count){
+
+    const badge = document.getElementById("notificationCount");
+
+    if(!badge) return;
+
+    if(count <= 0){
+
+        badge.style.display = "none";
+
+    }else{
+
+        badge.style.display = "flex";
+        badge.textContent = count;
+
+    }
+
+}
+
+// Demo
+updateNotificationBadge(3);
+
+// ==========================================
 // APP INITIALIZATION
 // ==========================================
 
