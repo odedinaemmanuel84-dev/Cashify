@@ -635,6 +635,46 @@ if (menuToggle && sidebar) {
 }
 
 // ==========================================
+// CLOSE SIDEBAR AFTER CLICKING A MENU
+// ==========================================
+
+const sidebarLinks = document.querySelectorAll(".sidebar a");
+
+sidebarLinks.forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        if (window.innerWidth <= 992) {
+
+            sidebar.classList.remove("show");
+
+        }
+
+    });
+
+});
+
+// ==========================================
+// CLOSE SIDEBAR WHEN CLICKING OUTSIDE
+// ==========================================
+
+document.addEventListener("click", function(e){
+
+    if(window.innerWidth <= 992){
+
+        if(
+            sidebar.classList.contains("show") &&
+            !sidebar.contains(e.target) &&
+            !menuToggle.contains(e.target)
+        ){
+            sidebar.classList.remove("show");
+        }
+
+    }
+
+});
+
+// ==========================================
 // PROFILE IMAGE PREVIEW
 // ==========================================
 
