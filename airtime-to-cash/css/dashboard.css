@@ -359,29 +359,23 @@ MOBILE HEADER
 
 }
 
-.mobile-header .logo{
+.header-left{
     display:flex;
     align-items:center;
-    justify-content:center;
-    flex:1;
-    gap:12px;
+    gap:6px;
 }
 
-.mobile-header .logo-img{
-    width:46px;
-    height:46px;
-    object-fit:contain;
-    flex-shrink:0;
+.header-left .logo-img{
+    width:44px;
+    height:44px;
+    object-fit:cover;
+    border-radius:12px;
 }
 
 .header-actions{
-
     display:flex;
-
     align-items:center;
-
     gap:12px;
-
 }
 
 .icon-btn{
