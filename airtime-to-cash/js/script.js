@@ -933,38 +933,33 @@ function logout() {
 }
 
 // ==========================================
-// LOAD USER DETAILS
+// LOAD USER FROM BACKEND
 // ==========================================
 
-function loadUser() {
+async function loadUser() {
 
-    const user = JSON.parse(
+    const result = await apiRequest("/api/auth/profile");
 
-        localStorage.getItem("user")
+    if (!result || !result.success) {
+        return;
+    }
 
-    );
+    const user = result.user;
 
-    if (!user) return;
+    // Save latest user locally
+    localStorage.setItem("user", JSON.stringify(user));
 
     const userName = document.getElementById("userName");
-
     const profileFullName = document.getElementById("profileFullName");
-
     const profileEmail = document.getElementById("profileEmail");
-
     const profilePhone = document.getElementById("profilePhone");
 
     if (userName) userName.textContent = user.fullName || "";
-
     if (profileFullName) profileFullName.value = user.fullName || "";
-
     if (profileEmail) profileEmail.value = user.email || "";
-
     if (profilePhone) profilePhone.value = user.phone || "";
 
 }
-
-loadUser();
 
 // ==========================================
 // NOTIFICATION BADGE
@@ -999,5 +994,7 @@ updateNotificationBadge(3);
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("🚀 Cashify Version 1.0 Loaded");
+
+loadUser();
 
 });
