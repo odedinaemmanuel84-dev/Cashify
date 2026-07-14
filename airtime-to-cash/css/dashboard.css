@@ -404,6 +404,36 @@ SECTION CARD
     cursor:pointer;
 }
 
+/* Notification Badge */
+
+.notification-btn{
+    position:relative;
+}
+
+.notification-badge{
+    position:absolute;
+    top:-3px;
+    right:-3px;
+
+    min-width:20px;
+    height:20px;
+    padding:0 5px;
+
+    background:#EF4444;
+    color:#fff;
+
+    border-radius:50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:11px;
+    font-weight:700;
+
+    border:2px solid #fff;
+}
+
 /* Profile */
 
 .header-avatar{
