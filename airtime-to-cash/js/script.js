@@ -129,7 +129,9 @@ window.addEventListener("load", () => {
 // AUTHENTICATION
 // ==========================================
 
-// Show / Hide Password
+// ==========================================
+// SHOW / HIDE PASSWORD
+// ==========================================
 
 document.querySelectorAll(".toggle-password").forEach(button => {
 
@@ -143,13 +145,15 @@ document.querySelectorAll(".toggle-password").forEach(button => {
 
             input.type = "text";
 
-            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            this.classList.remove("fa-eye");
+            this.classList.add("fa-eye-slash");
 
         } else {
 
             input.type = "password";
 
-            this.innerHTML = '<i class="fas fa-eye"></i>';
+            this.classList.remove("fa-eye-slash");
+            this.classList.add("fa-eye");
 
         }
 
@@ -194,9 +198,7 @@ if (passwordInput && strengthBar) {
 
 // ==========================================
 // REGISTER FORM
-// ==========================================
-
-const registerForm = document.getElementById("registerForm");
+// ==========================getElementById("registerForm");
 
 if (registerForm) {
 
