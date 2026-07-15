@@ -162,35 +162,31 @@ document.querySelectorAll("toggle-password").forEach(button => {
 // ==========================================
 
 const passwordInput = document.getElementById("password");
-const strengthText = document.getElementById("passwordStrength");
+const strengthBar = document.getElementById("strengthBar");
 
-if (passwordInput && strengthText) {
+if (passwordInput && strengthBar) {
 
     passwordInput.addEventListener("input", () => {
 
         const password = passwordInput.value;
 
-        let strength = "Weak";
-        let color = "#ff4d4d";
+        let width = "20%";
+        let color = "#ef4444";
 
         if (
             password.length >= 8 &&
             /[A-Z]/.test(password) &&
             /[0-9]/.test(password)
         ) {
-
-            strength = "Strong";
-            color = "#00d084";
-
+            width = "100%";
+            color = "#22c55e";
         } else if (password.length >= 6) {
-
-            strength = "Medium";
-            color = "#ffb400";
-
+            width = "60%";
+            color = "#f59e0b";
         }
 
-        strengthText.textContent = "Password Strength: " + strength;
-        strengthText.style.color = color;
+        strengthBar.style.width = width;
+        strengthBar.style.background = color;
 
     });
 
