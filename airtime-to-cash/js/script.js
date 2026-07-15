@@ -198,7 +198,9 @@ if (passwordInput && strengthBar) {
 
 // ==========================================
 // REGISTER FORM
-// ==========================getElementById("registerForm");
+// ==========================================
+
+const registerForm = document.getElementById("registerForm");
 
 if (registerForm) {
 
