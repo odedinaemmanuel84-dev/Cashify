@@ -1296,7 +1296,7 @@ footer{
 
 /* ========= PASSWORD STRENGTH ========= */
 
-.passwordStrength{
+.strengthBar{
 
     height:6px;
 
@@ -1310,7 +1310,7 @@ footer{
 
 }
 
-.passwordStrength span{
+.strengthBar span{
 
     display:block;
 
