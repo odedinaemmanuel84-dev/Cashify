@@ -131,7 +131,7 @@ window.addEventListener("load", () => {
 
 // Show / Hide Password
 
-document.querySelectorAll("toggle-password").forEach(button => {
+document.querySelectorAll(".toggle-password").forEach(button => {
 
     button.addEventListener("click", function () {
 
