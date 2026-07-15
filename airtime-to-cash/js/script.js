@@ -131,7 +131,7 @@ window.addEventListener("load", () => {
 
 // Show / Hide Password
 
-document.querySelectorAll(".toggle-password").forEach(button => {
+document.querySelectorAll(".togglepassword").forEach(button => {
 
     button.addEventListener("click", function () {
 
@@ -162,7 +162,7 @@ document.querySelectorAll(".toggle-password").forEach(button => {
 // ==========================================
 
 const passwordInput = document.getElementById("password");
-const strengthText = document.getElementById("passwordStrength");
+const strengthText = document.getElementById("strengthBar");
 
 if (passwordInput && strengthText) {
 
