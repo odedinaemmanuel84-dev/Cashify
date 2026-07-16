@@ -1317,6 +1317,52 @@ footer{
 
 }
 
+/* Password Checklist */
+
+.password-checklist{
+
+    margin-top:15px;
+    padding-left:0;
+    list-style:none;
+
+}
+
+.password-checklist li{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:8px;
+
+    color:#9CA3AF;
+
+    font-size:14px;
+
+    transition:.3s;
+
+}
+
+.password-checklist li.valid{
+
+    color:#22C55E;
+
+}
+
+.password-checklist li.valid i{
+
+    color:#22C55E;
+
+}
+
+.password-checklist li i{
+
+    width:18px;
+
+    color:#EF4444;
+
+}
+
 /* ========= CHECKBOX ========= */
 
 .checkbox{
