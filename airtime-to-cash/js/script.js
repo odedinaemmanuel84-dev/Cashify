@@ -1085,7 +1085,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("🚀 Cashify Version 1.0 Loaded");
 
-loadUser();
+if (document.getElementById("userName")) {
+    loadUser();
+}
 
 loadDashboard();
     
