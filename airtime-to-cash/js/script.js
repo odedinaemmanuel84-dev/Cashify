@@ -174,6 +174,50 @@ if (passwordInput && strengthBar) {
 
         const password = passwordInput.value;
 
+        const checks = {
+
+    length: password.length >= 8,
+
+    upper: /[A-Z]/.test(password),
+
+    lower: /[a-z]/.test(password),
+
+    number: /[0-9]/.test(password),
+
+    special: /[^A-Za-z0-9]/.test(password)
+
+};
+
+function updateCheck(id, passed){
+
+    const item = document.getElementById(id);
+
+    if(!item) return;
+
+    if(passed){
+
+        item.classList.add("valid");
+
+        item.querySelector("i").className =
+        "fas fa-check";
+
+    }else{
+
+        item.classList.remove("valid");
+
+        item.querySelector("i").className =
+        "fas fa-times";
+
+    }
+
+}
+
+updateCheck("checkLength", checks.length);
+updateCheck("checkUpper", checks.upper);
+updateCheck("checkLower", checks.lower);
+updateCheck("checkNumber", checks.number);
+updateCheck("checkSpecial", checks.special);
+        
         let score = 0;
 
         if (password.length >= 8) score++;
