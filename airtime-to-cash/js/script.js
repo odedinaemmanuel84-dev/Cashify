@@ -174,23 +174,47 @@ if (passwordInput && strengthBar) {
 
         const password = passwordInput.value;
 
-        let width = "20%";
-        let color = "#ef4444";
+        let score = 0;
 
-        if (
-            password.length >= 8 &&
-            /[A-Z]/.test(password) &&
-            /[0-9]/.test(password)
-        ) {
-            width = "100%";
-            color = "#22c55e";
-        } else if (password.length >= 6) {
-            width = "60%";
-            color = "#f59e0b";
+        if (password.length >= 8) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+
+        switch (score) {
+
+            case 0:
+            case 1:
+                strengthBar.style.width = "20%";
+                strengthBar.style.background = "#ef4444";
+                break;
+
+            case 2:
+                strengthBar.style.width = "40%";
+                strengthBar.style.background = "#f97316";
+                break;
+
+            case 3:
+                strengthBar.style.width = "60%";
+                strengthBar.style.background = "#eab308";
+                break;
+
+            case 4:
+                strengthBar.style.width = "80%";
+                strengthBar.style.background = "#22c55e";
+                break;
+
+            case 5:
+                strengthBar.style.width = "100%";
+                strengthBar.style.background = "#16a34a";
+                break;
+
+            default:
+                strengthBar.style.width = "0%";
+                strengthBar.style.background = "#ef4444";
+
         }
-
-        strengthBar.style.width = width;
-        strengthBar.style.background = color;
 
     });
 
