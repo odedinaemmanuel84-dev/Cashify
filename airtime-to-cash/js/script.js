@@ -1048,6 +1048,52 @@ async function apiRequest(endpoint, method = "GET", data = null) {
 }
 
 // ==========================================
+// API REQUEST WITH FILE
+// ==========================================
+
+async function apiUpload(endpoint, formData) {
+
+    const token = getToken();
+
+    try {
+
+        showLoader();
+
+        const response = await fetch(BASE_URL + endpoint, {
+
+            method: "POST",
+
+            headers: {
+
+                Authorization: `Bearer ${token}`
+
+            },
+
+            body: formData
+
+        });
+
+        const result = await response.json();
+
+        hideLoader();
+
+        return result;
+
+    } catch (error) {
+
+        hideLoader();
+
+        console.error(error);
+
+        showToast("Network error. Please try again.", "error");
+
+        return null;
+
+    }
+
+}
+
+// ==========================================
 // PROTECTED PAGE CHECK
 // ==========================================
 
