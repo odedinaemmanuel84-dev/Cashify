@@ -374,41 +374,53 @@ const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
 
-    loginForm.addEventListener("submit", function (e) {
+    loginForm.addEventListener("submit", async function (e) {
 
         e.preventDefault();
-
-        showLoader();
 
         const email = document.getElementById("loginEmail").value.trim();
         const password = document.getElementById("loginPassword").value;
 
         if (!email || !password) {
 
-            hideLoader();
-
-            showToast("Enter your email and password.", "error");
-
+            showToast("Please enter your email and password.", "error");
             return;
 
         }
 
-        setTimeout(() => {
+        const result = await apiRequest(
+            "/api/auth/login",
+            "POST",
+            {
+                email,
+                password
+            }
+        );
 
-            hideLoader();
+        if (!result) return;
 
-            showToast("Login successful!", "success");
+        if (result.success) {
 
-            // Backend endpoint later:
-            // POST /api/auth/login
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("user", JSON.stringify(result.user));
 
-            window.location.href = "dashboard.html";
+            showToast(result.message || "Login successful.");
 
-        }, 1200);
+            setTimeout(() => {
+
+                window.location.href = "dashboard.html";
+
+            }, 1200);
+
+        } else {
+
+            showToast(result.message || "Invalid email or password.", "error");
+
+        }
 
     });
 
-}
+ }
 
 // ==========================================
 // REFERRAL CODE FROM URL
