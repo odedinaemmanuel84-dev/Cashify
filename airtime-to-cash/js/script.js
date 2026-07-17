@@ -925,6 +925,28 @@ function getToken() {
 
 }
 
+// ==========================================
+// PROTECT PAGES
+// ==========================================
+
+function protectPage() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+
+        showToast("Please login first.", "error");
+
+        setTimeout(() => {
+
+            window.location.href = "login.html";
+
+        }, 1000);
+
+    }
+
+}
+
 // ===========================
 // MOBILE MENU
 // ===========================
