@@ -300,6 +300,31 @@ if (registerForm) {
             return;
         }
 
+        // ==========================================
+// STRONG PASSWORD VALIDATION
+// ==========================================
+
+const checks = {
+    length: password.length >= 8,
+    upper: /[A-Z]/.test(password),
+    lower: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password)
+};
+
+const isStrongPassword = Object.values(checks).every(value => value);
+
+if (!isStrongPassword) {
+
+    showToast(
+        "Password is not strong enough. It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.",
+        "error"
+    );
+
+    return;
+
+}
+        
         showLoader();
 
         const result = await apiRequest("/api/auth/register", "POST", {
