@@ -674,9 +674,12 @@ if (convertForm) {
         const screenshot = document.getElementById("screenshot").files[0];
 
         // Get the current exchange rate
-        const currentRate = document.getElementById("currentRate").textContent
-            .replace("%", "")
-            .trim();
+        const exchangeRate = Number(
+    document.getElementById("currentRate")
+        .textContent
+        .replace("%", "")
+        .trim()
+);
 
         if (!network || !airtimeAmount || !phoneNumber) {
 
@@ -690,7 +693,7 @@ if (convertForm) {
         formData.append("network", network);
         formData.append("phoneNumber", phoneNumber);
         formData.append("airtimeAmount", airtimeAmount);
-        formData.append("exchangeRate", currentRate);
+        formData.append("exchangeRate", exchangeRate);
         formData.append("note", note);
 
         if (screenshot) {
