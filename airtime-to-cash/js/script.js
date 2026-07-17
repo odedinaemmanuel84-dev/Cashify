@@ -593,29 +593,126 @@ if (userName) {
 }
 
 // ==========================================
-// AIRTIME CONVERSION
+// LOAD EXCHANGE RATE
+// ==========================================
+
+async function loadExchangeRate() {
+
+    const networkSelect = document.getElementById("convertNetwork");
+    const amountInput = document.getElementById("convertAmount");
+    const currentRate = document.getElementById("currentRate");
+    const receiveAmount = document.getElementById("receiveAmount");
+
+    if (!networkSelect) return;
+
+    async function calculate() {
+
+        const network = networkSelect.value;
+
+        if (!network) {
+
+            currentRate.textContent = "--";
+            receiveAmount.textContent = "₦0.00";
+            return;
+
+        }
+
+        const result = await apiRequest(
+            `/api/exchange-rates/${network}`
+        );
+
+        if (!result || !result.success) return;
+
+        const rate = Number(result.rate.rate);
+
+        currentRate.textContent = rate + "%";
+
+        const airtime = Number(amountInput.value) || 0;
+
+        const receive = (airtime * rate) / 100;
+
+        receiveAmount.textContent =
+            "₦" + receive.toLocaleString();
+
+    }
+
+    networkSelect.addEventListener("change", calculate);
+
+    amountInput.addEventListener("input", calculate);
+
+}
+
+// ==========================================
+// CONVERT AIRTIME
 // ==========================================
 
 const convertForm = document.getElementById("convertForm");
 
 if (convertForm) {
 
-    convertForm.addEventListener("submit", function (e) {
+    convertForm.addEventListener("submit", async function (e) {
 
         e.preventDefault();
 
         const network = document.getElementById("convertNetwork").value;
-        const amount = Number(document.getElementById("convertAmount").value);
+        const airtimeAmount = document.getElementById("convertAmount").value;
+        const phoneNumber = document.getElementById("phoneNumber").value.trim();
+        const note = document.getElementById("conversionNote").value.trim();
+        const screenshot = document.getElementById("screenshot").files[0];
 
-        if (!network || amount <= 0) {
-            showToast("Enter a valid network and amount.", "error");
+        // Get the current exchange rate
+        const currentRate = document.getElementById("currentRate").textContent
+            .replace("%", "")
+            .trim();
+
+        if (!network || !airtimeAmount || !phoneNumber) {
+
+            showToast("Please fill all required fields.", "error");
             return;
+
         }
 
-        // Backend:
-        // POST /api/airtime/convert
+        const formData = new FormData();
 
-        showToast("Conversion request created successfully.");
+        formData.append("network", network);
+        formData.append("phoneNumber", phoneNumber);
+        formData.append("airtimeAmount", airtimeAmount);
+        formData.append("exchangeRate", currentRate);
+        formData.append("note", note);
+
+        if (screenshot) {
+            formData.append("screenshot", screenshot);
+        }
+
+        const result = await apiUpload(
+            "/api/transaction/create",
+            formData
+        );
+
+        if (!result) return;
+
+        if (result.success) {
+
+            showToast(result.message);
+
+            convertForm.reset();
+
+            document.getElementById("receiveAmount").textContent = "₦0.00";
+
+            const preview = document.getElementById("screenshotPreview");
+
+            if (preview) {
+
+                preview.src = "";
+                preview.style.display = "none";
+
+            }
+
+        } else {
+
+            showToast(result.message, "error");
+
+        }
 
     });
 
