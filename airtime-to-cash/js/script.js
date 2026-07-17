@@ -593,7 +593,7 @@ if (userName) {
 }
 
 // ==========================================
-// LOAD EXCHANGE RATE
+// LOAD EXCHANGE RATES
 // ==========================================
 
 async function loadExchangeRate() {
@@ -605,9 +605,21 @@ async function loadExchangeRate() {
 
     if (!networkSelect) return;
 
-    async function calculate() {
+    let exchangeRates = [];
+
+    const response = await apiRequest("/api/exchange-rates");
+
+    if (response && response.success) {
+
+        exchangeRates = response.rates;
+
+    }
+
+    function calculate() {
 
         const network = networkSelect.value;
+
+        const airtime = Number(amountInput.value) || 0;
 
         if (!network) {
 
@@ -617,22 +629,23 @@ async function loadExchangeRate() {
 
         }
 
-        const result = await apiRequest(
-            `/api/exchange-rates/${network}`
-        );
+        const rateData = exchangeRates.find(r => r.network === network);
 
-        if (!result || !result.success) return;
+        if (!rateData) {
 
-        const rate = Number(result.rate.rate);
+            currentRate.textContent = "--";
+            receiveAmount.textContent = "₦0.00";
+            return;
+
+        }
+
+        const rate = Number(rateData.rate);
 
         currentRate.textContent = rate + "%";
 
-        const airtime = Number(amountInput.value) || 0;
-
         const receive = (airtime * rate) / 100;
 
-        receiveAmount.textContent =
-            "₦" + receive.toLocaleString();
+        receiveAmount.textContent = "₦" + receive.toLocaleString();
 
     }
 
