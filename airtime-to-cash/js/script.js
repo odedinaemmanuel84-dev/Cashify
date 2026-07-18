@@ -733,6 +733,8 @@ if (convertForm) {
 
             }
 
+            loadTransactions();
+            
         } else {
 
             showToast(result.message, "error");
