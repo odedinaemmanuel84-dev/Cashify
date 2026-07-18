@@ -744,6 +744,70 @@ if (convertForm) {
 }
 
 // ==========================================
+// LOAD TRANSACTIONS
+// ==========================================
+
+async function loadTransactions() {
+
+    const table = document.getElementById("transactionTable");
+
+    if (!table) return;
+
+    table.innerHTML = `
+        <tr>
+            <td colspan="5" style="text-align:center;">
+                Loading...
+            </td>
+        </tr>
+    `;
+
+    const result = await apiRequest("/api/transaction/history");
+
+    if (!result || !result.success) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center;">
+                    Failed to load transactions.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    if (result.transactions.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center;">
+                    No transactions yet.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML = "";
+
+    result.transactions.forEach(transaction => {
+
+        table.innerHTML += `
+            <tr>
+                <td>${transaction.transactionId}</td>
+                <td>${transaction.network}</td>
+                <td>₦${Number(transaction.airtimeAmount).toLocaleString()}</td>
+                <td>${transaction.status}</td>
+                <td>${new Date(transaction.createdAt).toLocaleDateString()}</td>
+            </tr>
+        `;
+
+    });
+
+}
+
+// ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
 // ==========================================
 
