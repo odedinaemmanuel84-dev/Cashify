@@ -698,14 +698,14 @@
 
     <div class="filter-bar">
 
-        <select>
+        <select id="transactionFilter">
 
             <option>All Transactions</option>
 
             <option>Pending</option>
 
             <option>Completed</option>
-
+            
             <option>Rejected</option>
 
         </select>
@@ -1313,7 +1313,8 @@ AOS.init({
 <script>
     protectPage();
     loadUser();
-
+    loadTransactions();
+    
 if (document.getElementById("convertForm")) {
     loadExchangeRate();
 }
