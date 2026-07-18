@@ -609,6 +609,8 @@ async function loadExchangeRate() {
 
     const response = await apiRequest("/api/exchange-rates");
 
+    console.log(response);
+    
     if (response && response.success) {
 
         exchangeRates = response.rates;
@@ -674,13 +676,19 @@ if (convertForm) {
         const screenshot = document.getElementById("screenshot").files[0];
 
         // Get the current exchange rate
-        const exchangeRate = Number(
+       const exchangeRate = parseFloat(
     document.getElementById("currentRate")
         .textContent
         .replace("%", "")
-        .trim()
 );
 
+        const amountToReceive = parseFloat(
+    document.getElementById("receiveAmount")
+        .textContent
+        .replace("₦", "")
+        .replace(/,/g, "")
+);
+        
         if (!network || !airtimeAmount || !phoneNumber) {
 
             showToast("Please fill all required fields.", "error");
@@ -694,6 +702,7 @@ if (convertForm) {
         formData.append("phoneNumber", phoneNumber);
         formData.append("airtimeAmount", airtimeAmount);
         formData.append("exchangeRate", exchangeRate);
+        formData.append("amountToReceive", amountToReceive);
         formData.append("note", note);
 
         if (screenshot) {
