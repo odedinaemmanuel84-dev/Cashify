@@ -694,67 +694,58 @@
 
     </div>
 
-    <!-- Filter -->
+    <!-- Search -->
 
-    <div class="filter-bar">
+<div class="history-search">
 
-        <select id="transactionFilter">
+    <i class="fas fa-search"></i>
 
-            <option>All Transactions</option>
+    <input
+        type="text"
+        id="transactionSearch"
+        placeholder="Search by ID, network or amount">
 
-            <option>Pending</option>
+</div>
 
-            <option>Completed</option>
-            
-            <option>Rejected</option>
+<!-- Status Filter -->
 
-        </select>
+<div class="history-filter">
 
-    </div>
+    <button class="active" data-filter="All">
+        All
+    </button>
 
-    <!-- Transaction Table -->
+    <button data-filter="Pending">
+        Pending
+    </button>
 
-    <div class="table-responsive">
+    <button data-filter="Approved">
+        Approved
+    </button>
 
-        <table class="transaction-table">
+    <button data-filter="Completed">
+        Completed
+    </button>
 
-            <thead>
+    <button data-filter="Rejected">
+        Rejected
+    </button>
 
-                <tr>
+</div>
 
-                    <th>ID</th>
+<!-- Transaction List -->
 
-                    <th>Network</th>
+<div id="transactionList">
 
-                    <th>Amount</th>
+    <div class="empty-history">
 
-                    <th>Status</th>
+        <i class="fas fa-history"></i>
 
-                    <th>Date</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="transactionTable">
-
-                <tr>
-
-                    <td colspan="5" style="text-align:center;">
-
-                        No transactions yet.
-
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
+        <p>No transactions yet.</p>
 
     </div>
 
-    </section>
+</div>
 
  <!-- ================= REFERRALS PAGE ================= -->
 
