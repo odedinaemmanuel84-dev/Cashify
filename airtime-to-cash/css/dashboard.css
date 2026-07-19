@@ -2127,385 +2127,350 @@ RESPONSIVE
 
 }
 
-/*==================================================
-  TRANSACTION HISTORY (OPAY STYLE)
-==================================================*/
-
-/* PAGE SPACING */
-
-#transactionsPage{
-
-padding-bottom:100px;
-
+/*==================================================  
+  PART 3B-2  
+  TRANSACTIONS PAGE  
+==================================================*/  
+  
+/*==========================  
+FILTER BAR  
+==========================*/  
+  
+.filter-bar{  
+  
+    display:flex;  
+    justify-content:flex-end;  
+    align-items:center;  
+  
+    margin-bottom:25px;  
+  
+}  
+  
+.filter-bar select{  
+  
+    min-width:220px;  
+  
+    padding:14px 18px;  
+  
+    border:1px solid #E2E8F0;  
+  
+    border-radius:14px;  
+  
+    background:#fff;  
+  
+    font-size:15px;  
+  
+    color:#334155;  
+  
+    transition:.3s;  
+  
+}  
+  
+.filter-bar select:focus{  
+  
+    outline:none;  
+  
+    border-color:#00C853;  
+  
+    box-shadow:0 0 0 4px rgba(0,200,83,.12);  
+  
+}  
+  
+/*==========================  
+TABLE CONTAINER  
+==========================*/  
+  
+.table-responsive{  
+  
+    width:100%;  
+  
+    overflow-x:auto;  
+  
+    border-radius:20px;  
+  
+}  
+  
+.transaction-table{  
+  
+    width:100%;  
+  
+    min-width:760px;  
+  
+    border-collapse:collapse;  
+  
+    background:#fff;  
+  
+}  
+  
+.transaction-table thead{  
+  
+    background:#F8FAFC;  
+  
+}  
+  
+.transaction-table th{  
+  
+    padding:18px;  
+  
+    text-align:left;  
+  
+    font-size:14px;  
+  
+    font-weight:600;  
+  
+    color:#475569;  
+  
+    border-bottom:2px solid #E2E8F0;  
+  
+}  
+  
+.transaction-table td{  
+  
+    padding:18px;  
+  
+    color:#334155;  
+  
+    border-bottom:1px solid #EDF2F7;  
+  
+}  
+  
+.transaction-table tbody tr{  
+  
+    transition:.3s;  
+  
+}  
+  
+.transaction-table tbody tr:hover{  
+  
+    background:#F8FAFC;  
+  
+}  
+  
+/*==========================  
+STATUS  
+==========================*/  
+  
+.status{  
+  
+    display:inline-flex;  
+  
+    align-items:center;  
+  
+    justify-content:center;  
+  
+    padding:7px 16px;  
+  
+    border-radius:50px;  
+  
+    font-size:13px;  
+  
+    font-weight:600;  
+  
+}  
+  
+.status.pending{  
+  
+    background:#FEF3C7;  
+  
+    color:#B45309;  
+  
+}  
+  
+.status.completed{  
+  
+    background:#DCFCE7;  
+  
+    color:#15803D;  
+  
+}  
+  
+.status.rejected,  
+  
+.status.failed{  
+  
+    background:#FEE2E2;  
+  
+    color:#B91C1C;  
+  
+}  
+  
+/*==========================  
+EMPTY STATE  
+==========================*/  
+  
+#transactionTable td[colspan]{  
+  
+    padding:45px;  
+  
+    color:#94A3B8;  
+  
+    font-size:15px;  
+  
+    text-align:center;  
+  
+}  
+  
+/*==========================  
+ROW HOVER  
+==========================*/  
+  
+.transaction-table tbody tr:hover td:first-child{  
+  
+    color:#00C853;  
+  
+    font-weight:600;  
+  
+}  
+  
+/*==========================  
+RESPONSIVE TABLE  
+==========================*/  
+  
+@media(max-width:768px){  
+  
+.table-responsive{  
+  
+    overflow:visible;  
+  
+}  
+  
+.transaction-table,  
+.transaction-table thead,  
+.transaction-table tbody,  
+.transaction-table tr,  
+.transaction-table td{  
+  
+    display:block;  
+  
+    width:100%;  
+  
+}  
+  
+.transaction-table{  
+  
+    min-width:100%;  
+  
+    background:transparent;  
+  
+}  
+  
+.transaction-table thead{  
+  
+    display:none;  
+  
+}  
+  
+.transaction-table tr{  
+  
+    background:#fff;  
+  
+    border-radius:18px;  
+  
+    margin-bottom:18px;  
+  
+    box-shadow:0 10px 25px rgba(15,23,42,.08);  
+  
+    padding:12px;  
+  
+}  
+  
+.transaction-table td{  
+  
+    border:none;  
+  
+    display:flex;  
+  
+    justify-content:space-between;  
+  
+    align-items:center;  
+  
+    padding:14px 12px;  
+  
+    border-bottom:1px solid #F1F5F9;  
+  
+}  
+  
+.transaction-table td:last-child{  
+  
+    border-bottom:none;  
+  
+}  
+  
+.transaction-table td::before{  
+  
+    font-weight:600;  
+  
+    color:#64748B;  
+  
+}  
+  
+.transaction-table td:nth-child(1)::before{  
+  
+    content:"ID";  
+  
+}  
+  
+.transaction-table td:nth-child(2)::before{  
+  
+    content:"Network";  
+  
+}  
+  
+.transaction-table td:nth-child(3)::before{  
+  
+    content:"Amount";  
+  
+}  
+  
+.transaction-table td:nth-child(4)::before{  
+  
+    content:"Status";  
+  
+}  
+  
+.transaction-table td:nth-child(5)::before{  
+  
+    content:"Date";  
+  
+}  
+  
+.filter-bar{  
+  
+    justify-content:stretch;  
+  
+}  
+  
+.filter-bar select{  
+  
+    width:100%;  
+  
+}  
+  
+}  
+  
+@media(max-width:480px){  
+  
+.transaction-table tr{  
+  
+    padding:10px;  
+  
+}  
+  
+.transaction-table td{  
+  
+    font-size:14px;  
+  
+    padding:12px 10px;  
+  
+}  
+  
+.filter-bar{  
+  
+    margin-bottom:18px;  
+  
+}  
+  
 }
-
-/* SEARCH */
-
-.history-search{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-background:#fff;
-
-padding:15px 18px;
-
-border-radius:18px;
-
-margin-bottom:18px;
-
-box-shadow:0 8px 25px rgba(15,23,42,.06);
-
-}
-
-.history-search i{
-
-font-size:18px;
-
-color:#94A3B8;
-
-}
-
-.history-search input{
-
-width:100%;
-
-border:none;
-
-outline:none;
-
-background:none;
-
-font-size:15px;
-
-color:#334155;
-
-}
-
-.history-search input::placeholder{
-
-color:#94A3B8;
-
-}
-
-/* FILTER */
-
-.history-filter{
-
-display:flex;
-
-gap:10px;
-
-overflow-x:auto;
-
-padding-bottom:6px;
-
-margin-bottom:20px;
-
-scrollbar-width:none;
-
--ms-overflow-style:none;
-
-}
-
-.history-filter::-webkit-scrollbar{
-
-display:none;
-
-}
-
-.history-filter button{
-
-border:none;
-
-padding:10px 18px;
-
-border-radius:50px;
-
-background:#E2E8F0;
-
-font-size:14px;
-
-font-weight:600;
-
-cursor:pointer;
-
-white-space:nowrap;
-
-transition:.3s;
-
-}
-
-.history-filter button.active{
-
-background:#00C853;
-
-color:#fff;
-
-}
-
-/* TRANSACTION CARD */
-
-.transaction-item{
-
-background:#fff;
-
-border-radius:20px;
-
-padding:18px;
-
-margin-bottom:15px;
-
-box-shadow:0 10px 30px rgba(15,23,42,.05);
-
-cursor:pointer;
-
-transition:.25s;
-
-}
-
-.transaction-item:hover{
-
-transform:translateY(-2px);
-
-}
-
-/* TOP */
-
-.transaction-top{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:flex-start;
-
-gap:10px;
-
-}
-
-.transaction-title{
-
-font-size:16px;
-
-font-weight:700;
-
-color:#1E293B;
-
-}
-
-.transaction-id{
-
-font-size:12px;
-
-margin-top:4px;
-
-color:#94A3B8;
-
-}
-
-/* MIDDLE */
-
-.transaction-date{
-
-font-size:13px;
-
-color:#64748B;
-
-margin-top:12px;
-
-}
-
-/* BOTTOM */
-
-.transaction-bottom{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-top:15px;
-
-}
-
-.transaction-amount{
-
-font-size:20px;
-
-font-weight:700;
-
-color:#00C853;
-
-}
-
-/* STATUS */
-
-.status{
-
-display:inline-flex;
-
-align-items:center;
-
-justify-content:center;
-
-padding:6px 14px;
-
-border-radius:50px;
-
-font-size:12px;
-
-font-weight:700;
-
-text-transform:capitalize;
-
-}
-
-.status.pending{
-
-background:#FFF8E1;
-
-color:#F59E0B;
-
-}
-
-.status.approved{
-
-background:#E0F2FE;
-
-color:#0284C7;
-
-}
-
-.status.completed{
-
-background:#DCFCE7;
-
-color:#16A34A;
-
-}
-
-.status.rejected{
-
-background:#FEE2E2;
-
-color:#DC2626;
-
-}
-
-/* EMPTY */
-
-.empty-history{
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-justify-content:center;
-
-padding:60px 20px;
-
-text-align:center;
-
-color:#94A3B8;
-
-}
-
-.empty-history i{
-
-font-size:60px;
-
-opacity:.3;
-
-margin-bottom:15px;
-
-}
-
-.empty-history p{
-
-font-size:15px;
-
-}
-
-/* LOADING */
-
-.loading-history{
-
-text-align:center;
-
-padding:40px;
-
-font-size:15px;
-
-color:#64748B;
-
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.history-search{
-
-padding:13px 15px;
-
-}
-
-.transaction-item{
-
-padding:16px;
-
-border-radius:18px;
-
-}
-
-.transaction-title{
-
-font-size:15px;
-
-}
-
-.transaction-amount{
-
-font-size:18px;
-
-}
-
-.history-filter button{
-
-padding:9px 16px;
-
-font-size:13px;
-
-}
-
-}
-
-@media(max-width:480px){
-
-.transaction-bottom{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-gap:10px;
-
-}
-
-.transaction-amount{
-
-font-size:17px;
-
-}
-
-  }
     
 /*==================================================
   PART 4A
