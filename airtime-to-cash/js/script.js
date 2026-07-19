@@ -1370,7 +1370,7 @@ async function loadDashboard() {
     const data = result.dashboard;
 
     const walletBalance =
-        document.getElementById("availableBalance");
+        document.getElementById("walletBalance");
 
     const totalEarned =
         document.getElementById("totalEarned");
@@ -1389,7 +1389,7 @@ async function loadDashboard() {
 
     if (walletBalance)
         walletBalance.textContent =
-            "₦" + Number(data.availableBalance).toLocaleString();
+            "₦" + Number(data.walletBalance).toLocaleString();
 
     if (totalEarned)
         totalEarned.textContent =
