@@ -696,63 +696,40 @@
   
     <!-- Filter -->  
   
-    <div class="filter-bar">  
-  
-        <select id="transactionFilter">  
-  
-            <option>All Transactions</option>  
-  
-            <option>Pending</option>  
-  
-            <option>Completed</option>  
-              
-            <option>Rejected</option>  
-  
-        </select>  
-  
-    </div>  
+    <div class="history-top">
+
+    <div class="history-search">
+
+        <i class="fas fa-search"></i>
+
+        <input
+            type="text"
+            id="transactionSearch"
+            placeholder="Search transaction...">
+
+    </div>
+
+    <select id="transactionFilter">
+
+        <option value="All">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Completed">Completed</option>
+        <option value="Rejected">Rejected</option>
+
+    </select>
+
+    </div>
   
     <!-- Transaction Table -->  
   
-    <div class="table-responsive">  
-  
-        <table class="transaction-table">  
-  
-            <thead>  
-  
-                <tr>  
-  
-                    <th>ID</th>  
-  
-                    <th>Network</th>  
-  
-                    <th>Amount</th>  
-  
-                    <th>Status</th>  
-  
-                    <th>Date</th>  
-  
-                </tr>  
-  
-            </thead>  
-  
-            <tbody id="transactionTable">  
-  
-                <tr>  
-  
-                    <td colspan="5" style="text-align:center;">  
-  
-                        No transactions yet.  
-  
-                    </td>  
-  
-                </tr>  
-  
-            </tbody>  
-  
-        </table>  
-  
-    </div>  
+    <div id="transactionList">
+
+    <div class="empty-history">
+
+        Loading transactions...
+
+    </div>
   
 </section>
 
