@@ -732,8 +732,9 @@ if (convertForm) {
                 preview.style.display = "none";
 
             }
-
+            
             loadTransactions();
+            loadDashboard();
             
         } else {
 
@@ -1369,7 +1370,7 @@ async function loadDashboard() {
     const data = result.dashboard;
 
     const walletBalance =
-        document.getElementById("walletBalance");
+        document.getElementById("availableBalance");
 
     const totalEarned =
         document.getElementById("totalEarned");
@@ -1388,7 +1389,7 @@ async function loadDashboard() {
 
     if (walletBalance)
         walletBalance.textContent =
-            "₦" + Number(data.walletBalance).toLocaleString();
+            "₦" + Number(data.availableBalance).toLocaleString();
 
     if (totalEarned)
         totalEarned.textContent =
