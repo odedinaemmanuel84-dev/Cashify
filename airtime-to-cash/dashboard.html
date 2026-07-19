@@ -672,80 +672,89 @@
 
 </section>
 
-<!-- ================= TRANSACTIONS PAGE ================= -->
-
-<section id="transactionsPage" class="dashboard-page hidden">
-
-    <div class="page-header">
-
-        <h2>
-
-            <i class="fas fa-list"></i>
-
-            Transactions
-
-        </h2>
-
-        <p>
-
-            Your complete transaction history.
-
-        </p>
-
-    </div>
-
-    <!-- Search -->
-
-<div class="history-search">
-
-    <i class="fas fa-search"></i>
-
-    <input
-        type="text"
-        id="transactionSearch"
-        placeholder="Search by ID, network or amount">
-
-</div>
-
-<!-- Status Filter -->
-
-<div class="history-filter">
-
-    <button class="active" data-filter="All">
-        All
-    </button>
-
-    <button data-filter="Pending">
-        Pending
-    </button>
-
-    <button data-filter="Approved">
-        Approved
-    </button>
-
-    <button data-filter="Completed">
-        Completed
-    </button>
-
-    <button data-filter="Rejected">
-        Rejected
-    </button>
-
-</div>
-
-<!-- Transaction List -->
-
-<div id="transactionList">
-
-    <div class="empty-history">
-
-        <i class="fas fa-history"></i>
-
-        <p>No transactions yet.</p>
-
-    </div>
-
-</div>
+<!-- ================= TRANSACTIONS PAGE ================= -->  
+  
+<section id="transactionsPage" class="dashboard-page hidden">  
+  
+    <div class="page-header">  
+  
+        <h2>  
+  
+            <i class="fas fa-list"></i>  
+  
+            Transactions  
+  
+        </h2>  
+  
+        <p>  
+  
+            Your complete transaction history.  
+  
+        </p>  
+  
+    </div>  
+  
+    <!-- Filter -->  
+  
+    <div class="filter-bar">  
+  
+        <select id="transactionFilter">  
+  
+            <option>All Transactions</option>  
+  
+            <option>Pending</option>  
+  
+            <option>Completed</option>  
+              
+            <option>Rejected</option>  
+  
+        </select>  
+  
+    </div>  
+  
+    <!-- Transaction Table -->  
+  
+    <div class="table-responsive">  
+  
+        <table class="transaction-table">  
+  
+            <thead>  
+  
+                <tr>  
+  
+                    <th>ID</th>  
+  
+                    <th>Network</th>  
+  
+                    <th>Amount</th>  
+  
+                    <th>Status</th>  
+  
+                    <th>Date</th>  
+  
+                </tr>  
+  
+            </thead>  
+  
+            <tbody id="transactionTable">  
+  
+                <tr>  
+  
+                    <td colspan="5" style="text-align:center;">  
+  
+                        No transactions yet.  
+  
+                    </td>  
+  
+                </tr>  
+  
+            </tbody>  
+  
+        </table>  
+  
+    </div>  
+  
+</section>
 
  <!-- ================= REFERRALS PAGE ================= -->
 
