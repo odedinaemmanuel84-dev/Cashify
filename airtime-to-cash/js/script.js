@@ -747,66 +747,170 @@ if (convertForm) {
 }
 
 // ==========================================
-// LOAD TRANSACTIONS
+// LOAD TRANSACTIONS (OPAY STYLE)
 // ==========================================
+
+let allTransactions = [];
 
 async function loadTransactions() {
 
-    const table = document.getElementById("transactionTable");
+    const transactionList =
+        document.getElementById("transactionList");
 
-    if (!table) return;
+    if (!transactionList) return;
 
-    table.innerHTML = `
-        <tr>
-            <td colspan="5" style="text-align:center;">
-                Loading...
-            </td>
-        </tr>
+    transactionList.innerHTML = `
+        <div class="loading-history">
+            Loading transactions...
+        </div>
     `;
 
     const result = await apiRequest("/api/transaction/history");
 
     if (!result || !result.success) {
 
-        table.innerHTML = `
-            <tr>
-                <td colspan="5" style="text-align:center;">
-                    Failed to load transactions.
-                </td>
-            </tr>
+        transactionList.innerHTML = `
+            <div class="empty-history">
+                <i class="fas fa-times-circle"></i>
+                <p>Unable to load transactions.</p>
+            </div>
         `;
 
         return;
+
     }
 
-    if (result.transactions.length === 0) {
+    allTransactions = result.transactions;
 
-        table.innerHTML = `
-            <tr>
-                <td colspan="5" style="text-align:center;">
-                    No transactions yet.
-                </td>
-            </tr>
+    renderTransactions(allTransactions);
+
+}
+
+// ==========================================
+// RENDER TRANSACTIONS
+// ==========================================
+
+function renderTransactions(transactions) {
+
+    const transactionList =
+        document.getElementById("transactionList");
+
+    if (!transactionList) return;
+
+    if (transactions.length === 0) {
+
+        transactionList.innerHTML = `
+            <div class="empty-history">
+                <i class="fas fa-history"></i>
+                <p>No transactions yet.</p>
+            </div>
         `;
 
         return;
+
     }
 
-    table.innerHTML = "";
+    transactionList.innerHTML = "";
 
-    result.transactions.forEach(transaction => {
+    transactions.forEach(transaction => {
 
-        table.innerHTML += `
-            <tr>
-                <td>${transaction.transactionId}</td>
-                <td>${transaction.network}</td>
-                <td>₦${Number(transaction.airtimeAmount).toLocaleString()}</td>
-                <td>${transaction.status}</td>
-                <td>${new Date(transaction.createdAt).toLocaleDateString()}</td>
-            </tr>
+        const date = new Date(transaction.createdAt);
+
+        const status =
+            transaction.status.toLowerCase();
+
+        transactionList.innerHTML += `
+
+        <div class="transaction-item">
+
+            <div class="transaction-top">
+
+                <div>
+
+                    <div class="transaction-title">
+
+                        ${transaction.network} Airtime
+
+                    </div>
+
+                    <div class="transaction-id">
+
+                        ${transaction.transactionId}
+
+                    </div>
+
+                </div>
+
+                <span class="status ${status}">
+
+                    ${transaction.status}
+
+                </span>
+
+            </div>
+
+            <div class="transaction-date">
+
+                ${date.toLocaleDateString()} •
+                ${date.toLocaleTimeString([],{
+                    hour:"2-digit",
+                    minute:"2-digit"
+                })}
+
+            </div>
+
+            <div class="transaction-bottom">
+
+                <div class="transaction-amount">
+
+                    ₦${Number(transaction.amountToReceive).toLocaleString()}
+
+                </div>
+
+                <i class="fas fa-chevron-right"></i>
+
+            </div>
+
+        </div>
+
         `;
 
     });
+
+}
+
+// ==========================================
+// SEARCH TRANSACTIONS
+// ==========================================
+
+const transactionSearch =
+document.getElementById("transactionSearch");
+
+if (transactionSearch){
+
+transactionSearch.addEventListener("input",()=>{
+
+const keyword=
+transactionSearch.value.toLowerCase();
+
+const filtered=
+allTransactions.filter(transaction=>{
+
+return(
+
+transaction.transactionId.toLowerCase().includes(keyword)||
+
+transaction.network.toLowerCase().includes(keyword)||
+
+String(transaction.airtimeAmount).includes(keyword)
+
+);
+
+});
+
+renderTransactions(filtered);
+
+});
 
 }
 
