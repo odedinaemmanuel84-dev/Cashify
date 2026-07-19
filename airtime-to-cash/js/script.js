@@ -747,59 +747,30 @@ if (convertForm) {
 }
 
 // ==========================================
-// LOAD TRANSACTIONS (OPAY STYLE)
+// LOAD TRANSACTIONS
 // ==========================================
-
-let allTransactions = [];
 
 async function loadTransactions() {
 
-    const transactionList =
-        document.getElementById("transactionList");
+    const list = document.getElementById("transactionList");
 
-    if (!transactionList) return;
+    if (!list) return;
 
-    transactionList.innerHTML = `
-        <div class="loading-history">
-            Loading transactions...
-        </div>
-    `;
+    list.innerHTML = `<p style="text-align:center;">Loading...</p>`;
 
     const result = await apiRequest("/api/transaction/history");
 
     if (!result || !result.success) {
 
-        transactionList.innerHTML = `
-            <div class="empty-history">
-                <i class="fas fa-times-circle"></i>
-                <p>Unable to load transactions.</p>
-            </div>
-        `;
+        list.innerHTML = `<p style="text-align:center;">Failed to load transactions.</p>`;
 
         return;
 
     }
 
-    allTransactions = result.transactions;
+    if (result.transactions.length === 0) {
 
-    renderTransactions(allTransactions);
-
-}
-
-// ==========================================
-// RENDER TRANSACTIONS
-// ==========================================
-
-function renderTransactions(transactions) {
-
-    const transactionList =
-        document.getElementById("transactionList");
-
-    if (!transactionList) return;
-
-    if (transactions.length === 0) {
-
-        transactionList.innerHTML = `
+        list.innerHTML = `
             <div class="empty-history">
                 <i class="fas fa-history"></i>
                 <p>No transactions yet.</p>
@@ -810,107 +781,49 @@ function renderTransactions(transactions) {
 
     }
 
-    transactionList.innerHTML = "";
+    list.innerHTML = "";
 
-    transactions.forEach(transaction => {
+    result.transactions.forEach(transaction => {
 
-        const date = new Date(transaction.createdAt);
+        list.innerHTML += `
+            <div class="transaction-item">
 
-        const status =
-            transaction.status.toLowerCase();
+                <div class="transaction-top">
 
-        transactionList.innerHTML += `
+                    <div>
 
-        <div class="transaction-item">
+                        <div class="transaction-title">
+                            ${transaction.network} Airtime
+                        </div>
 
-            <div class="transaction-top">
-
-                <div>
-
-                    <div class="transaction-title">
-
-                        ${transaction.network} Airtime
+                        <div class="transaction-id">
+                            ${transaction.transactionId}
+                        </div>
 
                     </div>
 
-                    <div class="transaction-id">
+                    <span class="status ${transaction.status}">
+                        ${transaction.status}
+                    </span>
 
-                        ${transaction.transactionId}
+                </div>
 
+                <div class="transaction-bottom">
+
+                    <div class="transaction-date">
+                        ${new Date(transaction.createdAt).toLocaleString()}
+                    </div>
+
+                    <div class="transaction-amount">
+                        ₦${Number(transaction.airtimeAmount).toLocaleString()}
                     </div>
 
                 </div>
 
-                <span class="status ${status}">
-
-                    ${transaction.status}
-
-                </span>
-
             </div>
-
-            <div class="transaction-date">
-
-                ${date.toLocaleDateString()} •
-                ${date.toLocaleTimeString([],{
-                    hour:"2-digit",
-                    minute:"2-digit"
-                })}
-
-            </div>
-
-            <div class="transaction-bottom">
-
-                <div class="transaction-amount">
-
-                    ₦${Number(transaction.amountToReceive).toLocaleString()}
-
-                </div>
-
-                <i class="fas fa-chevron-right"></i>
-
-            </div>
-
-        </div>
-
         `;
 
     });
-
-}
-
-// ==========================================
-// SEARCH TRANSACTIONS
-// ==========================================
-
-const transactionSearch =
-document.getElementById("transactionSearch");
-
-if (transactionSearch){
-
-transactionSearch.addEventListener("input",()=>{
-
-const keyword=
-transactionSearch.value.toLowerCase();
-
-const filtered=
-allTransactions.filter(transaction=>{
-
-return(
-
-transaction.transactionId.toLowerCase().includes(keyword)||
-
-transaction.network.toLowerCase().includes(keyword)||
-
-String(transaction.airtimeAmount).includes(keyword)
-
-);
-
-});
-
-renderTransactions(filtered);
-
-});
 
 }
 
