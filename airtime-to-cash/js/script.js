@@ -746,69 +746,121 @@ if (convertForm) {
 
 }
 
-// ==========================================  
-// LOAD TRANSACTIONS  
-// ==========================================  
-  
-async function loadTransactions() {  
-  
-    const table = document.getElementById("transactionTable");  
-  
-    if (!table) return;  
-  
-    table.innerHTML = `  
-        <tr>  
-            <td colspan="5" style="text-align:center;">  
-                Loading...  
-            </td>  
-        </tr>  
-    `;  
-  
-    const result = await apiRequest("/api/transaction/history");  
-  
-    if (!result || !result.success) {  
-  
-        table.innerHTML = `  
-            <tr>  
-                <td colspan="5" style="text-align:center;">  
-                    Failed to load transactions.  
-                </td>  
-            </tr>  
-        `;  
-  
-        return;  
-    }  
-  
-    if (result.transactions.length === 0) {  
-  
-        table.innerHTML = `  
-            <tr>  
-                <td colspan="5" style="text-align:center;">  
-                    No transactions yet.  
-                </td>  
-            </tr>  
-        `;  
-  
-        return;  
-    }  
-  
-    table.innerHTML = "";  
-  
-    result.transactions.forEach(transaction => {  
-  
-        table.innerHTML += `  
-            <tr>  
-                <td>${transaction.transactionId}</td>  
-                <td>${transaction.network}</td>  
-                <td>₦${Number(transaction.airtimeAmount).toLocaleString()}</td>  
-                <td>${transaction.status}</td>  
-                <td>${new Date(transaction.createdAt).toLocaleDateString()}</td>  
-            </tr>  
-        `;  
-  
-    });  
-  
-}
+// ==========================================
+// LOAD TRANSACTIONS
+// ==========================================
+
+async function loadTransactions() {
+
+    const list = document.getElementById("transactionList");
+
+    if (!list) return;
+
+    list.innerHTML = `
+        <div class="empty-history">
+            Loading transactions...
+        </div>
+    `;
+
+    const result = await apiRequest("/api/transaction/history");
+
+    if (!result || !result.success) {
+
+        list.innerHTML = `
+            <div class="empty-history">
+                Failed to load transactions.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    if (result.transactions.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-history">
+                No transactions yet.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    list.innerHTML = "";
+
+    result.transactions.forEach(transaction => {
+
+        const date = new Date(transaction.createdAt);
+
+        const formattedDate =
+            date.toLocaleDateString();
+
+        const formattedTime =
+            date.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+
+        let statusClass = "pending";
+
+        if (transaction.status === "Completed")
+            statusClass = "completed";
+
+        if (transaction.status === "Approved")
+            statusClass = "approved";
+
+        if (transaction.status === "Rejected")
+            statusClass = "rejected";
+
+        list.innerHTML += `
+
+<div class="history-card">
+
+<div class="history-left">
+
+<div class="history-icon">
+
+<i class="fas fa-sim-card"></i>
+
+</div>
+
+<div class="history-info">
+
+<h4>${transaction.network} Airtime</h4>
+
+<p>${formattedDate} • ${formattedTime}</p>
+
+<small>${transaction.transactionId}</small>
+
+</div>
+
+</div>
+
+<div class="history-right">
+
+<h3>
+
+₦${Number(transaction.airtimeAmount).toLocaleString()}
+
+</h3>
+
+<span class="${statusClass}">
+
+${transaction.status}
+
+</span>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+            }
 
 // ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
