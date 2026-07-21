@@ -1284,6 +1284,86 @@ AOS.init({
     once: true
 });
 
+<!-- ================= TRANSACTION DETAILS MODAL ================= -->
+
+<div id="transactionModal" class="transaction-modal hidden">
+
+    <div class="transaction-modal-content">
+
+        <div class="transaction-modal-header">
+
+            <h3>Transaction Details</h3>
+
+            <button id="closeTransactionModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+        </div>
+
+        <div class="transaction-modal-body">
+
+            <div class="detail-item">
+                <span>Transaction ID</span>
+                <strong id="detailTransactionId"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Network</span>
+                <strong id="detailNetwork"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Phone Number</span>
+                <strong id="detailPhone"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Airtime Amount</span>
+                <strong id="detailAirtime"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Exchange Rate</span>
+                <strong id="detailRate"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Amount To Receive</span>
+                <strong id="detailReceive"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Status</span>
+                <strong id="detailStatus"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Date & Time</span>
+                <strong id="detailDate"></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Note</span>
+                <strong id="detailNote"></strong>
+            </div>
+
+            <div id="detailImageBox" class="hidden">
+
+                <p><strong>Screenshot</strong></p>
+
+                <img
+                    id="detailScreenshot"
+                    src=""
+                    alt="Transaction Screenshot">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    
 </script>
 
 <script src="js/script.js"></script>
