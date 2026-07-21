@@ -863,61 +863,6 @@ ${transaction.status}
             }
 
 // ==========================================
-// SHOW TRANSACTION DETAILS
-// ==========================================
-
-function showTransactionDetails(transaction){
-
-    document.getElementById("detailTransactionId").textContent =
-        transaction.transactionId;
-
-    document.getElementById("detailNetwork").textContent =
-        transaction.network;
-
-    document.getElementById("detailPhone").textContent =
-        transaction.phoneNumber;
-
-    document.getElementById("detailAirtime").textContent =
-        "₦" + Number(transaction.airtimeAmount).toLocaleString();
-
-    document.getElementById("detailRate").textContent =
-        transaction.exchangeRate + "%";
-
-    document.getElementById("detailReceive").textContent =
-        "₦" + Number(transaction.amountToReceive).toLocaleString();
-
-    document.getElementById("detailStatus").textContent =
-        transaction.status;
-
-    document.getElementById("detailDate").textContent =
-        new Date(transaction.createdAt).toLocaleString();
-
-    document.getElementById("detailNote").textContent =
-        transaction.note || "No note";
-
-    const imageBox = document.getElementById("detailImageBox");
-
-    const image = document.getElementById("detailScreenshot");
-
-    if(transaction.screenshot){
-
-        image.src = "/uploads/screenshots/" + transaction.screenshot;
-
-        imageBox.classList.remove("hidden");
-
-    }else{
-
-        imageBox.classList.add("hidden");
-
-    }
-
-    document
-        .getElementById("transactionModal")
-        .classList.remove("hidden");
-
-}
-
-// ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
 // ==========================================
 
