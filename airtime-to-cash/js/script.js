@@ -732,7 +732,8 @@ if (convertForm) {
                 preview.style.display = "none";
 
             }
-           
+
+            loadTransaction();
             loadDashboard();
             
         } else {
