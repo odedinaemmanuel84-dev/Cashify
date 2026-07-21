@@ -790,47 +790,7 @@ async function loadTransactions() {
 
     list.innerHTML = "";
 
-    table.innerHTML += `
-<div class="history-card">
-
-    <div class="history-left">
-
-        <div class="history-icon">
-            <i class="fas fa-mobile-alt"></i>
-        </div>
-
-        <div class="history-info">
-
-            <h4>${transaction.network}</h4>
-
-            <p>₦${Number(transaction.airtimeAmount).toLocaleString()}</p>
-
-            <small>${new Date(transaction.createdAt).toLocaleString()}</small>
-
-        </div>
-
-    </div>
-
-    <div class="history-right">
-
-        <h3>₦${Number(transaction.amountToReceive).toLocaleString()}</h3>
-
-        <span class="${transaction.status.toLowerCase()}">
-            ${transaction.status}
-        </span>
-
-    </div>
-
-</div>
-`;
-
-const card = table.lastElementChild;
-
-card.addEventListener("click", () => {
-
-    showTransactionDetails(transaction);
-
-});
+    result.transactions.forEach(transaction => {
 
         const date = new Date(transaction.createdAt);
 
