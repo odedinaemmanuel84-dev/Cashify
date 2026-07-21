@@ -1599,7 +1599,5 @@ if (document.getElementById("userName")) {
 }
 
 loadDashboard();
-
-loadTransactions();
        
 });
