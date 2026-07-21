@@ -1599,9 +1599,9 @@ if (document.getElementById("userName")) {
 }
 
 loadDashboard();
-    
-});
 
+loadTransactions();
+    
 const closeModal = document.getElementById("closeTransactionModal");
 
 if(closeModal){
@@ -1615,3 +1615,5 @@ if(closeModal){
     });
 
 }
+    
+});
