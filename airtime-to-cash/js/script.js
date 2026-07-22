@@ -1440,8 +1440,7 @@ async function loadDashboard() {
         document.getElementById("totalWithdrawals");
 
     if (walletBalance)
-        walletBalance.textContent =
-            "₦" + Number(data.walletBalance).toLocaleString();
+        walletBalance.textContent = formatNaira(data.walletBalance);
 
     if (totalEarned)
         totalEarned.textContent =
