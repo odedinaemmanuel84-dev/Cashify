@@ -733,7 +733,7 @@ if (convertForm) {
 
             }
 
-            loadTransaction();
+            loadTransactions();
             loadDashboard();
             
         } else {
