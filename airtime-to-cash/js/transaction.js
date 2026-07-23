@@ -113,3 +113,17 @@ ${transaction.status}
     });
 
             }
+
+// ==========================================
+// TRANSACTION INITIALIZATION
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    if (document.getElementById("transactionsPage")) {
+
+        loadTransactions();
+
+    }
+
+});
