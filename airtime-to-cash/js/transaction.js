@@ -1,5 +1,3 @@
-const BASE_URL = "https://cashify-backend-pvxb.onrender.com";
-
 // ==========================================
 // LOAD TRANSACTIONS
 // ==========================================
@@ -111,16 +109,6 @@ ${transaction.status}
 </div>
 
 `;
-
-const lastCard = list.lastElementChild;
-
-lastCard.addEventListener("click", () => {
-
-    console.log("Card clicked");
-    
-    showTransactionDetails(transaction);
-
-});
 
 });
 
