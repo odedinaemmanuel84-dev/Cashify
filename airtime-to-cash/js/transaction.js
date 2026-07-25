@@ -139,6 +139,59 @@ function searchTransactions() {
 }
 
 // ==========================================
+// FILTER TRANSACTIONS
+// ==========================================
+
+function filterTransactions() {
+
+    const filter =
+        document.getElementById("transactionFilter").value;
+
+    const search =
+        document.getElementById("transactionSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    let filtered = allTransactions;
+
+    // Filter by status
+    if (filter !== "All") {
+
+        filtered = filtered.filter(transaction =>
+            transaction.status === filter
+        );
+
+    }
+
+    // Search inside filtered results
+    if (search !== "") {
+
+        filtered = filtered.filter(transaction =>
+
+            transaction.transactionId.toLowerCase().includes(search)
+
+            ||
+
+            transaction.network.toLowerCase().includes(search)
+
+            ||
+
+            transaction.status.toLowerCase().includes(search)
+
+            ||
+
+            String(transaction.airtimeAmount).includes(search)
+
+        );
+
+    }
+
+    filterTransactions();
+
+}
+
+// ==========================================
 // LOAD TRANSACTIONS
 // ==========================================
 
@@ -207,4 +260,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+const filter =
+    document.getElementById("transactionFilter");
+
+if (filter) {
+
+    filter.addEventListener("change", filterTransactions);
+
+}
+    
 });
