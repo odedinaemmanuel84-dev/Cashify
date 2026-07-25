@@ -1,3 +1,5 @@
+const BASE_URL = "https://cashify-backend-pvxb.onrender.com";
+
 // ==========================================
 // LOAD TRANSACTIONS
 // ==========================================
