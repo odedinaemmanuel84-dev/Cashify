@@ -116,6 +116,8 @@ const lastCard = list.lastElementChild;
 
 lastCard.addEventListener("click", () => {
 
+    console.log("Card clicked");
+    
     showTransactionDetails(transaction);
 
 });
