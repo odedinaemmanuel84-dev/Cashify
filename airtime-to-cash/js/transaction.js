@@ -126,6 +126,9 @@ lastCard.addEventListener("click", () => {
 
 function showTransactionDetails(transaction) {
 
+alert("Transaction clicked");
+    
+    
     document.getElementById("detailTransactionId").textContent =
         transaction.transactionId || "-";
 
