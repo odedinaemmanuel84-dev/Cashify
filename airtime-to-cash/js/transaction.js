@@ -101,6 +101,44 @@ ${transaction.status}
 }
 
 // ==========================================
+// SEARCH TRANSACTIONS
+// ==========================================
+
+function searchTransactions() {
+
+    const search = document
+        .getElementById("transactionSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered = allTransactions.filter(transaction => {
+
+        return (
+
+            transaction.transactionId.toLowerCase().includes(search)
+
+            ||
+
+            transaction.network.toLowerCase().includes(search)
+
+            ||
+
+            transaction.status.toLowerCase().includes(search)
+
+            ||
+
+            String(transaction.airtimeAmount).includes(search)
+
+        );
+
+    });
+
+    renderTransactions(filtered);
+
+}
+
+// ==========================================
 // LOAD TRANSACTIONS
 // ==========================================
 
@@ -157,6 +195,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("transactionsPage")) {
 
         loadTransactions();
+
+    }
+
+    const searchInput =
+        document.getElementById("transactionSearch");
+
+    if (searchInput) {
+
+        searchInput.addEventListener("input", searchTransactions);
 
     }
 
