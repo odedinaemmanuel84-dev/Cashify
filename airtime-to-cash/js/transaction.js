@@ -110,9 +110,17 @@ ${transaction.status}
 
 `;
 
-    });
+const lastCard = list.lastElementChild;
 
-            }
+lastCard.addEventListener("click", () => {
+
+    showTransactionDetails(transaction);
+
+});
+
+});
+
+}            
 
 // ==========================================
 // SHOW TRANSACTION DETAILS
