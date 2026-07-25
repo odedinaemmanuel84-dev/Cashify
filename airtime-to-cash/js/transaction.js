@@ -1,38 +1,24 @@
 // ==========================================
-// LOAD TRANSACTIONS
+// GLOBAL TRANSACTION STORE
 // ==========================================
 
-async function loadTransactions() {
+let allTransactions = [];
+
+// ==========================================
+// RENDER TRANSACTIONS
+// ==========================================
+
+function renderTransactions(transactions) {
 
     const list = document.getElementById("transactionList");
 
     if (!list) return;
 
-    list.innerHTML = `
-        <div class="empty-history">
-            Loading transactions...
-        </div>
-    `;
-
-    const result = await apiRequest("/api/transaction/history");
-
-    if (!result || !result.success) {
+    if (transactions.length === 0) {
 
         list.innerHTML = `
             <div class="empty-history">
-                Failed to load transactions.
-            </div>
-        `;
-
-        return;
-
-    }
-
-    if (result.transactions.length === 0) {
-
-        list.innerHTML = `
-            <div class="empty-history">
-                No transactions yet.
+                No transactions found.
             </div>
         `;
 
@@ -42,7 +28,7 @@ async function loadTransactions() {
 
     list.innerHTML = "";
 
-    result.transactions.forEach(transaction => {
+    transactions.forEach(transaction => {
 
         const date = new Date(transaction.createdAt);
 
@@ -50,20 +36,20 @@ async function loadTransactions() {
             date.toLocaleDateString();
 
         const formattedTime =
-            date.toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit"
+            date.toLocaleTimeString([],{
+                hour:"2-digit",
+                minute:"2-digit"
             });
 
         let statusClass = "pending";
 
-        if (transaction.status === "Completed")
+        if(transaction.status === "Completed")
             statusClass = "completed";
 
-        if (transaction.status === "Approved")
+        if(transaction.status === "Approved")
             statusClass = "approved";
 
-        if (transaction.status === "Rejected")
+        if(transaction.status === "Rejected")
             statusClass = "rejected";
 
         list.innerHTML += `
@@ -110,7 +96,55 @@ ${transaction.status}
 
 `;
 
-});
+    });
+
+}
+
+// ==========================================
+// LOAD TRANSACTIONS
+// ==========================================
+
+async function loadTransactions() {
+
+    const list = document.getElementById("transactionList");
+
+    if (!list) return;
+
+    list.innerHTML = `
+        <div class="empty-history">
+            Loading transactions...
+        </div>
+    `;
+
+    const result = await apiRequest("/api/transaction/history");
+
+    if (!result || !result.success) {
+
+        list.innerHTML = `
+            <div class="empty-history">
+                Failed to load transactions.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    if (result.transactions.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-history">
+                No transactions yet.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    allTransactions = result.transactions;
+
+renderTransactions(allTransactions);
 
 }
 
