@@ -102,6 +102,79 @@ ${transaction.status}
 }
 
 // ==========================================
+// SHOW TRANSACTION DETAILS
+// ==========================================
+
+function showTransactionDetails(transactionId) {
+
+    const transaction = allTransactions.find(
+        t => t.transactionId === transactionId
+    );
+
+    if (!transaction) return;
+
+    document.getElementById("detailTransactionId").textContent =
+        transaction.transactionId;
+
+    document.getElementById("detailNetwork").textContent =
+        transaction.network;
+
+    document.getElementById("detailPhone").textContent =
+        transaction.phoneNumber || "Not Available";
+
+    document.getElementById("detailAirtime").textContent =
+        "₦" + Number(transaction.airtimeAmount).toLocaleString();
+
+    document.getElementById("detailRate").textContent =
+        transaction.exchangeRate + "%";
+
+    document.getElementById("detailReceive").textContent =
+        "₦" + Number(transaction.amountToReceive).toLocaleString();
+
+    document.getElementById("detailStatus").textContent =
+        transaction.status;
+
+    document.getElementById("detailDate").textContent =
+        new Date(transaction.createdAt).toLocaleString();
+
+    document.getElementById("detailNote").textContent =
+        transaction.note || "No note";
+
+    const imageBox =
+        document.getElementById("detailImageBox");
+
+    const image =
+        document.getElementById("detailScreenshot");
+
+    if (transaction.screenshot) {
+
+        image.src = transaction.screenshot;
+
+        imageBox.classList.remove("hidden");
+
+    } else {
+
+        imageBox.classList.add("hidden");
+
+    }
+
+    document
+        .getElementById("transactionModal")
+        .classList.remove("hidden");
+
+}
+
+document
+.getElementById("closeTransactionModal")
+.addEventListener("click", () => {
+
+    document
+    .getElementById("transactionModal")
+    .classList.add("hidden");
+
+});
+    
+// ==========================================
 // SEARCH TRANSACTIONS
 // ==========================================
 
