@@ -107,21 +107,22 @@ ${transaction.status}
 
 function showTransactionDetails(transactionId) {
 
-    console.log(allTransactions);
-
     const transaction = allTransactions.find(
         t => t.transactionId === transactionId
     );
 
-    alert("Found transaction: " + JSON.stringify(transaction));
-
     if (!transaction) return;
 
-    document.getElementById("detailTransactionId").textContent =
-        transaction.transactionId;
-
-    document.getElementById("transactionModal")
-        .classList.remove("hidden");
+    alert(document.getElementById("detailTransactionId"));
+    alert(document.getElementById("detailNetwork"));
+    alert(document.getElementById("detailPhone"));
+    alert(document.getElementById("detailAirtime"));
+    alert(document.getElementById("detailRate"));
+    alert(document.getElementById("detailReceive"));
+    alert(document.getElementById("detailStatus"));
+    alert(document.getElementById("detailDate"));
+    alert(document.getElementById("detailNote"));
+    alert(document.getElementById("transactionModal"));
 
 }
     
