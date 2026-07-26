@@ -107,9 +107,13 @@ ${transaction.status}
 
 function showTransactionDetails(transactionId) {
 
+    console.log(allTransactions);
+
     const transaction = allTransactions.find(
         t => t.transactionId === transactionId
     );
+
+    alert("Found transaction: " + JSON.stringify(transaction));
 
     if (!transaction) return;
 
