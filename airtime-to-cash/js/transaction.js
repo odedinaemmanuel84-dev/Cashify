@@ -107,7 +107,17 @@ ${transaction.status}
 
 function showTransactionDetails(transactionId) {
 
-    alert(transactionId);
+    const transaction = allTransactions.find(
+        t => t.transactionId === transactionId
+    );
+
+    if (!transaction) return;
+
+    document.getElementById("detailTransactionId").textContent =
+        transaction.transactionId;
+
+    document.getElementById("transactionModal")
+        .classList.remove("hidden");
 
 }
     
