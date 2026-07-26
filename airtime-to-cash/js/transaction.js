@@ -104,7 +104,6 @@ ${transaction.status}
 // ==========================================
 // SHOW TRANSACTION DETAILS
 // ==========================================
-
 function showTransactionDetails(transactionId) {
 
     const transaction = allTransactions.find(
@@ -113,18 +112,53 @@ function showTransactionDetails(transactionId) {
 
     if (!transaction) return;
 
-    alert(document.getElementById("detailTransactionId"));
-    alert(document.getElementById("detailNetwork"));
-    alert(document.getElementById("detailPhone"));
-    alert(document.getElementById("detailAirtime"));
-    alert(document.getElementById("detailRate"));
-    alert(document.getElementById("detailReceive"));
-    alert(document.getElementById("detailStatus"));
-    alert(document.getElementById("detailDate"));
-    alert(document.getElementById("detailNote"));
-    alert(document.getElementById("transactionModal"));
+    document.getElementById("detailTransactionId").textContent =
+        transaction.transactionId || "-";
 
+    document.getElementById("detailNetwork").textContent =
+        transaction.network || "-";
+
+    document.getElementById("detailPhone").textContent =
+        transaction.phoneNumber || "Not Available";
+
+    document.getElementById("detailAirtime").textContent =
+        "₦" + Number(transaction.airtimeAmount || 0).toLocaleString();
+
+    document.getElementById("detailRate").textContent =
+        (transaction.exchangeRate ?? "N/A");
+
+    document.getElementById("detailReceive").textContent =
+        "₦" + Number(transaction.amountToReceive || 0).toLocaleString();
+
+    document.getElementById("detailStatus").textContent =
+        transaction.status || "-";
+
+    document.getElementById("detailDate").textContent =
+        new Date(transaction.createdAt).toLocaleString();
+
+    document.getElementById("detailNote").textContent =
+        transaction.note || "No note";
+
+    const imageBox = document.getElementById("detailImageBox");
+    const image = document.getElementById("detailScreenshot");
+
+    if (transaction.screenshot) {
+        image.src = transaction.screenshot;
+        imageBox.classList.remove("hidden");
+    } else {
+        imageBox.classList.add("hidden");
+    }
+
+    document.getElementById("transactionModal")
+        .classList.remove("hidden");
 }
+
+document.getElementById("closeTransactionModal")
+.addEventListener("click", () => {
+   
+    document.getElementById("transactionModal")
+        .classList.add("hidden");
+});
     
 // ==========================================
 // SEARCH TRANSACTIONS
