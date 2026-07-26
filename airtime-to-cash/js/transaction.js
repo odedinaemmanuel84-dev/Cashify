@@ -54,7 +54,7 @@ function renderTransactions(transactions) {
 
         list.innerHTML += `
 
-<div class="history-card">
+<div class="history-card"
 onclick="showTransactionDetails('${transaction.transactionId}')">
 
 <div class="history-left">
