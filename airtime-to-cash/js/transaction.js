@@ -332,8 +332,7 @@ if (filter) {
     
 });
 
-// Auto refresh transactions every 10 seconds
-setInterval(() => {
+// Auto refresh transactions
 
     loadTransactions();
 
