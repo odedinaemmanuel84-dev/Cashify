@@ -723,6 +723,9 @@ if (convertForm) {
             await loadTransactions();
 
             await loadDashboard();
+
+            const dashboardResult = await apiRequest("/api/dashboard");
+console.log(dashboardResult);
             
             convertForm.reset();
 
