@@ -144,9 +144,6 @@ function showTransactionDetails(transactionId) {
 
     if (transaction.screenshot) {
         
-        console.log(transaction.screenshot);
-alert(transaction.screenshot);
-        
         image.src = transaction.screenshot;
         imageBox.classList.remove("hidden");
     } else {
