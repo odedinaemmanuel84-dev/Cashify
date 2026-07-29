@@ -723,10 +723,6 @@ if (convertForm) {
             await loadTransactions();
 
             await loadDashboard();
-
-            const dashboardResult = await apiRequest("/api/dashboard");
-
-            alert("Pending: " + dashboardResult.dashboard.pendingTransactions);
             
             convertForm.reset();
 
@@ -1206,6 +1202,8 @@ async function apiUpload(endpoint, formData) {
         });
 
         const result = await response.json();
+
+        alert(JSON.stringify(result));
 
         hideLoader();
 
