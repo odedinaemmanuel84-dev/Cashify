@@ -331,9 +331,3 @@ if (filter) {
 }
     
 });
-
-// Auto refresh transactions
-
-    loadTransactions();
-
-}
