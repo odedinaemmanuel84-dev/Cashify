@@ -272,6 +272,8 @@ async function loadTransactions() {
 
     if (!result || !result.success) {
 
+      await loadTransactions();
+        
         list.innerHTML = `
             <div class="empty-history">
                 Failed to load transactions.
