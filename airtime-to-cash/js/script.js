@@ -720,6 +720,8 @@ if (convertForm) {
 
             showToast(result.message);
 
+            await loadTransactions();
+            
             convertForm.reset();
 
             document.getElementById("receiveAmount").textContent = "₦0.00";
