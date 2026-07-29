@@ -337,4 +337,4 @@ setInterval(() => {
 
     loadTransactions();
 
-}, 10000);
+}
