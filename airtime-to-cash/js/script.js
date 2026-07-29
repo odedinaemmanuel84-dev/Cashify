@@ -725,7 +725,9 @@ if (convertForm) {
             await loadDashboard();
 
             const dashboardResult = await apiRequest("/api/dashboard");
-console.log(dashboardResult);
+            alert(
+    "Pending: " + dashboardResult.dashboard.pendingTransactions
+);
             
             convertForm.reset();
 
