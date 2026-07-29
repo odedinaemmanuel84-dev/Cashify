@@ -721,6 +721,8 @@ if (convertForm) {
             showToast(result.message);
 
             await loadTransactions();
+
+            await loadDashboard();
             
             convertForm.reset();
 
