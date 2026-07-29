@@ -271,8 +271,6 @@ async function loadTransactions() {
     const result = await apiRequest("/api/transaction/history");
 
     if (!result || !result.success) {
-
-      await loadTransactions();
         
         list.innerHTML = `
             <div class="empty-history">
