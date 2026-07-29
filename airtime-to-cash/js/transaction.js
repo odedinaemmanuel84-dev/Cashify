@@ -331,3 +331,10 @@ if (filter) {
 }
     
 });
+
+// Auto refresh transactions every 10 seconds
+setInterval(() => {
+
+    loadTransactions();
+
+}, 10000);
