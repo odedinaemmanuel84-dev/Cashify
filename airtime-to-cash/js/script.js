@@ -720,9 +720,23 @@ if (convertForm) {
 
             showToast(result.message);
 
-            await loadTransactions();
+            try {
 
-            await loadDashboard();
+    alert("Before loadTransactions");
+
+    await loadTransactions();
+
+    alert("After loadTransactions");
+
+    await loadDashboard();
+
+    alert("After loadDashboard");
+
+} catch (err) {
+
+    alert("ERROR: " + err.message);
+
+            }
             
             convertForm.reset();
 
