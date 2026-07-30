@@ -719,25 +719,11 @@ if (convertForm) {
         if (result.success) {
 
             showToast(result.message);
-
-            try {
-
-    alert("Before loadTransactions");
-
-    await loadTransactions();
-
-    alert("After loadTransactions");
-
-    await loadDashboard();
-
-    alert("After loadDashboard");
-
-} catch (err) {
-
-    alert("ERROR: " + err.message);
-
-            }
             
+            await loadTransactions();
+
+            await loadDashboard();
+
             convertForm.reset();
 
             document.getElementById("receiveAmount").textContent = "₦0.00";
