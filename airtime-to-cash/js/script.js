@@ -1343,12 +1343,19 @@ async function loadDashboard() {
         document.getElementById("totalWithdrawals");
 
     if (walletBalance)
-        walletBalance.textContent = formatNaira(data.walletBalance);
+        walletBalance.textContent =
+        "₦" + Number(data.walletBalance || 0).toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 
     if (totalEarned)
-        totalEarned.textContent =
-            "₦" + Number(data.totalEarned).toLocaleString();
-
+    totalEarned.textContent =
+        "₦" + Number(data.totalEarned || 0).toLocaleString("en-NG", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    
     if (totalTransactions)
         totalTransactions.textContent =
             data.totalTransactions;
