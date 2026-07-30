@@ -1203,8 +1203,6 @@ async function apiUpload(endpoint, formData) {
 
         const result = await response.json();
 
-        alert(JSON.stringify(result));
-
         hideLoader();
 
         return result;
