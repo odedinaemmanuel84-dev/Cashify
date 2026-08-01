@@ -1,1 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Cashify Admin Panel</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+<div class="logo">
+
+<h2>Cashify</h2>
+
+<p>Admin Panel</p>
+
+</div>
+
+<ul>
+
+<li class="active" data-page="dashboard">
+
+<i class="fas fa-chart-line"></i>
+
+Dashboard
+
+</li>
+
+<li data-page="transactions">
+
+<i class="fas fa-money-check"></i>
+
+Transactions
+
+</li>
+
+<li data-page="users">
+
+<i class="fas fa-users"></i>
+
+Users
+
+</li>
+
+<li data-page="withdrawals">
+
+<i class="fas fa-wallet"></i>
+
+Withdrawals
+
+</li>
+
+<li data-page="support">
+
+<i class="fas fa-headset"></i>
+
+Support
+
+</li>
+
+<li id="logoutBtn">
+
+<i class="fas fa-sign-out-alt"></i>
+
+Logout
+
+</li>
+
+</ul>
+
+</aside>
+
+<!-- Main -->
+
+<main class="content">
+
+<header>
+
+<h1>Dashboard</h1>
+
+<div class="admin-profile">
+
+<i class="fas fa-user-shield"></i>
+
+</div>
+
+</header>
+
+<!-- Stats -->
+
+<section class="stats">
+
+<div class="card">
+
+<h3>Total Users</h3>
+
+<h2 id="totalUsers">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Transactions</h3>
+
+<h2 id="totalTransactions">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Pending</h3>
+
+<h2 id="pendingTransactions">0</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Wallet</h3>
+
+<h2 id="walletTotal">₦0.00</h2>
+
+</div>
+
+</section>
+
+<!-- Transactions -->
+
+<section id="transactionsSection">
+
+<h2>Pending Transactions</h2>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>User</th>
+
+<th>Network</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+<th>Screenshot</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="transactionTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- Users -->
+
+<section id="usersSection" style="display:none">
+
+<h2>Users</h2>
+
+<div id="userTable"></div>
+
+</section>
+
+<!-- Withdrawals -->
+
+<section id="withdrawalsSection" style="display:none">
+
+<h2>Withdrawals</h2>
+
+<div id="withdrawalTable"></div>
+
+</section>
+
+<!-- Support -->
+
+<section id="supportSection" style="display:none">
+
+<h2>Support Tickets</h2>
+
+<div id="supportTable"></div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="js/admin.js"></script>
+
+</body>
+  </html>
