@@ -77,13 +77,14 @@ async function loadTransactions() {
 
     result.transactions.forEach(transaction => {
 
-        tbody.innerHTML += `
+
+tbody.innerHTML += `
 
 <tr>
 
 <td>${transaction.transactionId}</td>
 
-<td>${transaction.fullName || "-"}</td>
+<td>${transaction.user?.fullName || "-"}</td>
 
 <td>${transaction.network}</td>
 
@@ -101,21 +102,39 @@ ${transaction.status}
 
 <td>
 
-<button class="action approve-btn"
+<img
+src="${transaction.screenshot}"
+alt="Screenshot"
+style="
+width:70px;
+height:70px;
+object-fit:cover;
+border-radius:10px;
+cursor:pointer;"
+onclick="openImageModal('${transaction.screenshot}')">
+
+</td>
+
+<td>
+
+<button
+class="action approve-btn"
 onclick="approveTransaction('${transaction._id}')">
 
 Approve
 
 </button>
 
-<button class="action reject-btn"
+<button
+class="action reject-btn"
 onclick="rejectTransaction('${transaction._id}')">
 
 Reject
 
 </button>
 
-<button class="action complete-btn"
+<button
+class="action complete-btn"
 onclick="completeTransaction('${transaction._id}')">
 
 Complete
@@ -127,27 +146,31 @@ Complete
 </tr>
 
 `;
-
-    });
-
-}
-
+        
 // ==========================================
 // APPROVE
 // ==========================================
 
-async function approveTransaction(id){
+async function approveTransaction(id) {
 
     const result = await apiRequest(
         `/api/transaction/approve/${id}`,
         "PATCH"
     );
 
-    alert(result.message);
+    if (result.success) {
 
-    loadDashboard();
+        alert(result.message);
 
-    loadTransactions();
+        await loadDashboard();
+
+        await loadTransactions();
+
+    } else {
+
+        alert(result.message);
+
+    }
 
 }
 
@@ -155,18 +178,26 @@ async function approveTransaction(id){
 // REJECT
 // ==========================================
 
-async function rejectTransaction(id){
+async function rejectTransaction(id) {
 
     const result = await apiRequest(
         `/api/transaction/reject/${id}`,
         "PATCH"
     );
 
-    alert(result.message);
+    if (result.success) {
 
-    loadDashboard();
+        alert(result.message);
 
-    loadTransactions();
+        await loadDashboard();
+
+        await loadTransactions();
+
+    } else {
+
+        alert(result.message);
+
+    }
 
 }
 
@@ -174,21 +205,29 @@ async function rejectTransaction(id){
 // COMPLETE
 // ==========================================
 
-async function completeTransaction(id){
+async function completeTransaction(id) {
 
     const result = await apiRequest(
         `/api/transaction/complete/${id}`,
         "PATCH"
     );
 
-    alert(result.message);
+    if (result.success) {
 
-    loadDashboard();
+        alert(result.message);
 
-    loadTransactions();
+        await loadDashboard();
+
+        await loadTransactions();
+
+    } else {
+
+        alert(result.message);
+
+    }
 
 }
-
+        
 // ==========================================
 // LOGOUT
 // ==========================================
@@ -208,3 +247,67 @@ function logout(){
 loadDashboard();
 
 loadTransactions();
+
+ function openImageModal(imageUrl) {
+
+    document.getElementById("modalImage").src = imageUrl;
+
+    document.getElementById("imageModal").style.display = "flex";
+
+}
+
+function closeImageModal() {
+
+    document.getElementById("imageModal").style.display = "none";
+
+}   
+
+// ==========================================
+// LIVE SEARCH
+// ==========================================
+
+document.getElementById("searchInput")?.addEventListener("keyup", function () {
+
+    const value = this.value.toLowerCase();
+
+    const rows = document.querySelectorAll("#transactionTable tr");
+
+    rows.forEach(row => {
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(value)
+                ? ""
+                : "none";
+
+    });
+
+});
+
+// ==========================================
+// STATUS FILTER
+// ==========================================
+
+document.getElementById("statusFilter")?.addEventListener("change", function () {
+
+    const status = this.value.toLowerCase();
+
+    const rows = document.querySelectorAll("#transactionTable tr");
+
+    rows.forEach(row => {
+
+        if (!status) {
+
+            row.style.display = "";
+
+            return;
+
+        }
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(status)
+                ? ""
+                : "none";
+
+    });
+
+});
