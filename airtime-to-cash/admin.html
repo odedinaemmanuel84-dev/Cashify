@@ -16,161 +16,278 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <body>
 
-<div class="admin-container">
+<div class="admin-layout">
 
-<!-- Sidebar -->
+    <!-- ========================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================= -->
 
-<aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
-<div class="logo">
+        <div class="logo-area">
 
-<h2>Cashify</h2>
+            <div class="logo-circle">
+                <i class="fas fa-wallet"></i>
+            </div>
 
-<p>Admin Panel</p>
+            <div>
+                <h2>Cashify</h2>
+                <span>Admin Panel</span>
+            </div>
 
-</div>
+        </div>
 
-<ul>
+        <ul class="sidebar-menu">
 
-<li class="active" data-page="dashboard">
+            <li class="active" data-page="dashboard">
+                <i class="fas fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </li>
 
-<i class="fas fa-chart-line"></i>
+            <li data-page="transactions">
+                <i class="fas fa-money-check-alt"></i>
+                <span>Transactions</span>
+            </li>
 
-Dashboard
+            <li data-page="users">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </li>
 
-</li>
+            <li data-page="withdrawals">
+                <i class="fas fa-wallet"></i>
+                <span>Withdrawals</span>
+            </li>
 
-<li data-page="transactions">
+            <li data-page="support">
+                <i class="fas fa-headset"></i>
+                <span>Support</span>
+            </li>
 
-<i class="fas fa-money-check"></i>
+            <li id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </li>
 
-Transactions
+        </ul>
 
-</li>
+    </aside>
 
-<li data-page="users">
+    <!-- ========================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================= -->
 
-<i class="fas fa-users"></i>
+    <main class="main-content">
 
-Users
+        <!-- TOP BAR -->
 
-</li>
+        <header class="topbar">
 
-<li data-page="withdrawals">
+            <div class="left-top">
 
-<i class="fas fa-wallet"></i>
+                <button id="menuToggle" class="menu-btn">
 
-Withdrawals
+                    <i class="fas fa-bars"></i>
 
-</li>
+                </button>
 
-<li data-page="support">
+                <div>
 
-<i class="fas fa-headset"></i>
+                    <h1>Dashboard</h1>
 
-Support
+                    <small>
+                        Welcome back, Administrator
+                    </small>
 
-</li>
+                </div>
 
-<li id="logoutBtn">
+            </div>
 
-<i class="fas fa-sign-out-alt"></i>
+            <div class="right-top">
 
-Logout
+                <div class="search-box">
 
-</li>
+                    <i class="fas fa-search"></i>
 
-</ul>
+                    <input
+                        type="text"
+                        placeholder="Search transaction..."
+                    >
 
-</aside>
+                </div>
 
-<!-- Main -->
+                <button class="notification-btn">
 
-<main class="content">
+                    <i class="fas fa-bell"></i>
 
-<header>
+                    <span class="notify-dot"></span>
 
-<h1>Dashboard</h1>
+                </button>
 
-<div class="admin-profile">
+                <div class="admin-profile">
 
-<i class="fas fa-user-shield"></i>
+                    <div class="avatar">
 
-</div>
+                        <i class="fas fa-user-shield"></i>
 
-</header>
+                    </div>
 
-<!-- Stats -->
+                    <div>
 
-<section class="stats">
+                        <h4>Administrator</h4>
 
-<div class="card">
+                        <small>Super Admin</small>
 
-<h3>Total Users</h3>
+                    </div>
 
-<h2 id="totalUsers">0</h2>
+                </div>
 
-</div>
+            </div>
 
-<div class="card">
+        </header>
 
-<h3>Transactions</h3>
+        <!-- ========================= -->
+        <!-- DASHBOARD CARDS -->
+        <!-- ========================= -->
 
-<h2 id="totalTransactions">0</h2>
+        <section class="dashboard-cards">
 
-</div>
+            <div class="dashboard-card green">
 
-<div class="card">
+                <div>
 
-<h3>Pending</h3>
+                    <p>Total Users</p>
 
-<h2 id="pendingTransactions">0</h2>
+                    <h2 id="totalUsers">0</h2>
 
-</div>
+                </div>
 
-<div class="card">
+                <div class="card-icon">
 
-<h3>Wallet</h3>
+                    <i class="fas fa-users"></i>
 
-<h2 id="walletTotal">₦0.00</h2>
+                </div>
 
-</div>
+            </div>
 
-</section>
+            <div class="dashboard-card blue">
 
-<!-- Transactions -->
+                <div>
 
-<section id="transactionsSection">
+                    <p>Transactions</p>
 
-<h2>Pending Transactions</h2>
+                    <h2 id="totalTransactions">0</h2>
 
-<div class="table-wrapper">
+                </div>
 
-<table>
+                <div class="card-icon">
+
+                    <i class="fas fa-money-check-alt"></i>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-card orange">
+
+                <div>
+
+                    <p>Pending</p>
+
+                    <h2 id="pendingTransactions">0</h2>
+
+                </div>
+
+                <div class="card-icon">
+
+                    <i class="fas fa-clock"></i>
+
+                </div>
+
+            </div>
+
+            <div class="dashboard-card purple">
+
+                <div>
+
+                    <p>Wallet Balance</p>
+
+                    <h2 id="walletTotal">₦0.00</h2>
+
+                </div>
+
+                <div class="card-icon">
+
+                    <i class="fas fa-wallet"></i>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- TRANSACTIONS SECTION -->
+        <!-- ========================= -->
+
+        <section
+            id="transactionsSection"
+            class="content-section"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>Pending Transactions</h2>
+
+                    <p>
+                        Review, approve or reject airtime submissions.
+                    </p>
+
+                </div>
+
+                <button class="refresh-btn">
+
+                    <i class="fas fa-rotate"></i>
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+            <div class="table-container">
+  
+<table class="transaction-table">
 
 <thead>
 
 <tr>
 
-<th>ID</th>
+<th>Screenshot</th>
+
+<th>Transaction ID</th>
 
 <th>User</th>
 
 <th>Network</th>
 
-<th>Amount</th>
+<th>Airtime</th>
+
+<th>Receive</th>
 
 <th>Status</th>
 
-<th>Screenshot</th>
-
-<th>Action</th>
+<th>Actions</th>
 
 </tr>
 
 </thead>
 
 <tbody id="transactionTable">
+
+<!-- Loaded from admin.js -->
 
 </tbody>
 
@@ -180,35 +297,317 @@ Logout
 
 </section>
 
-<!-- Users -->
+<!-- ========================= -->
+<!-- USERS SECTION -->
+<!-- ========================= -->
 
-<section id="usersSection" style="display:none">
+<section
+id="usersSection"
+class="content-section"
+style="display:none;">
 
-<h2>Users</h2>
+<div class="section-header">
 
-<div id="userTable"></div>
+<div>
+
+<h2>Users Management</h2>
+
+<p>Manage all registered Cashify users.</p>
+
+</div>
+
+</div>
+
+<div class="table-container">
+
+<table class="transaction-table">
+
+<thead>
+
+<tr>
+
+<th>Profile</th>
+
+<th>Full Name</th>
+
+<th>Email</th>
+
+<th>Phone</th>
+
+<th>Wallet</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="userTable">
+
+</tbody>
+
+</table>
+
+</div>
 
 </section>
 
-<!-- Withdrawals -->
+<!-- ========================= -->
+<!-- WITHDRAWALS -->
+<!-- ========================= -->
 
-<section id="withdrawalsSection" style="display:none">
+<section
+id="withdrawalsSection"
+class="content-section"
+style="display:none;">
+
+<div class="section-header">
+
+<div>
 
 <h2>Withdrawals</h2>
 
-<div id="withdrawalTable"></div>
+<p>Manage withdrawal requests.</p>
+
+</div>
+
+</div>
+
+<div class="table-container">
+
+<table class="transaction-table">
+
+<thead>
+
+<tr>
+
+<th>User</th>
+
+<th>Bank</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="withdrawalTable">
+
+</tbody>
+
+</table>
+
+</div>
 
 </section>
 
-<!-- Support -->
+<!-- ========================= -->
+<!-- SUPPORT -->
+<!-- ========================= -->
 
-<section id="supportSection" style="display:none">
+<section
+id="supportSection"
+class="content-section"
+style="display:none;">
+
+<div class="section-header">
+
+<div>
 
 <h2>Support Tickets</h2>
 
-<div id="supportTable"></div>
+<p>Customer complaints and enquiries.</p>
 
-</section>
+</div>
+
+</div>
+
+<div class="table-container">
+
+<table class="transaction-table">
+
+<thead>
+
+<tr>
+
+<th>User</th>
+
+<th>Subject</th>
+
+<th>Status</th>
+
+<th>Date</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="supportTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+  </section>
+
+      <!-- ========================= -->
+<!-- TRANSACTION DETAILS MODAL -->
+<!-- ========================= -->
+
+<div id="transactionModal" class="transaction-modal">
+
+    <div class="transaction-modal-content">
+
+        <div class="modal-header">
+
+            <h2>Transaction Details</h2>
+
+            <button
+                class="close-modal"
+                onclick="closeTransactionModal()">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="image-section">
+
+                <img
+                    id="modalScreenshot"
+                    src=""
+                    alt="Screenshot">
+
+            </div>
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+
+                    <label>Transaction ID</label>
+
+                    <p id="modalTransactionId"></p>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <label>User</label>
+
+                    <p id="modalUser"></p>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <label>Network</label>
+
+                    <p id="modalNetwork"></p>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <label>Phone Number</label>
+
+                    <p id="modalPhone"></p>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <label>Airtime Amount</label>
+
+                    <p id="modalAmount"></p>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <label>Receive Amount</label>
+
+                    <p id="modalReceive"></p>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <label>Status</label>
+
+                    <p id="modalStatus"></p>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <label>Date</label>
+
+                    <p id="modalDate"></p>
+
+                </div>
+
+                <div class="detail-item full">
+
+                    <label>Note</label>
+
+                    <p id="modalNote"></p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="approve-btn"
+                id="modalApproveBtn">
+
+                <i class="fas fa-check"></i>
+
+                Approve
+
+            </button>
+
+            <button
+                class="reject-btn"
+                id="modalRejectBtn">
+
+                <i class="fas fa-times"></i>
+
+                Reject
+
+            </button>
+
+            <button
+                class="complete-btn"
+                id="modalCompleteBtn">
+
+                <i class="fas fa-circle-check"></i>
+
+                Complete
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 </main>
 
@@ -217,4 +616,6 @@ Logout
 <script src="js/admin.js"></script>
 
 </body>
-  </html>
+
+</html>
+      
