@@ -424,8 +424,12 @@ setTimeout(() => {
 
     showToast(result.message || "Invalid email or password.", "error");
 
-}
+     }
 
+  });
+
+}
+        
 // ==========================================
 // REFERRAL CODE FROM URL
 // ==========================================
