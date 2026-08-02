@@ -402,25 +402,29 @@ if (loginForm) {
         if (result.success) {
 
             localStorage.setItem("token", result.token);
-            localStorage.setItem("user", JSON.stringify(result.user));
+localStorage.setItem("user", JSON.stringify(result.user));
 
-            showToast(result.message || "Login successful.");
+showToast(result.message || "Login successful.");
 
-            setTimeout(() => {
+setTimeout(() => {
 
-                window.location.href = "dashboard.html";
+    if (result.user.role === "admin") {
 
-            }, 1200);
+        window.location.href = "admin.html";
 
-        } else {
+    } else {
 
-            showToast(result.message || "Invalid email or password.", "error");
+        window.location.href = "dashboard.html";
 
-        }
+    }
 
-    });
+}, 1200);
 
- }
+} else {
+
+    showToast(result.message || "Invalid email or password.", "error");
+
+}
 
 // ==========================================
 // REFERRAL CODE FROM URL
