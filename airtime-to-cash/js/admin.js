@@ -519,3 +519,199 @@ View
     });
 
 }
+
+// ==========================================
+// APPROVE TRANSACTION
+// ==========================================
+
+async function approveTransaction(id){
+
+    if(!confirm("Approve this transaction?")) return;
+
+    const result=await apiRequest(
+
+        `/api/transaction/approve/${id}`,
+
+        "PATCH"
+
+    );
+
+    alert(result.message);
+
+    if(result.success){
+
+        loadDashboard();
+
+        loadTransactions();
+
+    }
+
+}
+
+// ==========================================
+// REJECT TRANSACTION
+// ==========================================
+
+async function rejectTransaction(id){
+
+    if(!confirm("Reject this transaction?")) return;
+
+    const result=await apiRequest(
+
+        `/api/transaction/reject/${id}`,
+
+        "PATCH"
+
+    );
+
+    alert(result.message);
+
+    if(result.success){
+
+        loadDashboard();
+
+        loadTransactions();
+
+    }
+
+}
+
+// ==========================================
+// COMPLETE TRANSACTION
+// ==========================================
+
+async function completeTransaction(id){
+
+    if(!confirm("Mark transaction as completed?")) return;
+
+    const result=await apiRequest(
+
+        `/api/transaction/complete/${id}`,
+
+        "PATCH"
+
+    );
+
+    alert(result.message);
+
+    if(result.success){
+
+        loadDashboard();
+
+        loadTransactions();
+
+    }
+
+}
+
+// ==========================================
+// ACTIVATE USER
+// ==========================================
+
+async function activateUser(id){
+
+    const result=await apiRequest(
+
+        `/api/admin/user/${id}/activate`,
+
+        "PATCH"
+
+    );
+
+    alert(result.message);
+
+    if(result.success){
+
+        loadUsers();
+
+    }
+
+}
+
+// ==========================================
+// SUSPEND USER
+// ==========================================
+
+async function suspendUser(id){
+
+    const result=await apiRequest(
+
+        `/api/admin/user/${id}/suspend`,
+
+        "PATCH"
+
+    );
+
+    alert(result.message);
+
+    if(result.success){
+
+        loadUsers();
+
+    }
+
+}
+
+// ==========================================
+// IMAGE MODAL
+// ==========================================
+
+function openImageModal(url){
+
+    const modal=document.getElementById("transactionModal");
+
+    const image=document.getElementById("modalScreenshot");
+
+    if(image){
+
+        image.src=url;
+
+    }
+
+    modal.classList.add("active");
+
+}
+
+function closeTransactionModal(){
+
+    document
+
+    .getElementById("transactionModal")
+
+    .classList.remove("active");
+
+}
+
+// ==========================================
+// SEARCH
+// ==========================================
+
+document.getElementById("searchInput")?.addEventListener("keyup",function(){
+
+    const value=this.value.toLowerCase();
+
+    renderTransactions(
+
+        allTransactions.filter(t=>
+
+            t.transactionId.toLowerCase().includes(value)||
+
+            t.user?.fullName?.toLowerCase().includes(value)||
+
+            t.network.toLowerCase().includes(value)
+
+        )
+
+    );
+
+});
+
+// ==========================================
+// START
+// ==========================================
+
+loadDashboard();
+
+loadTransactions();
+
+loadUsers();
