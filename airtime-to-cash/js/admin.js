@@ -1,7 +1,14 @@
 // ==========================================
-// CASHIFY ADMIN PANEL
-// PART 1
+// ADMIN AUTH CHECK
 // ==========================================
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user || user.role !== "admin") {
+
+    window.location.href = "login.html";
+
+}
 
 // ==========================================
 // CONFIG
@@ -11,24 +18,8 @@ const BASE_URL = "https://cashify-backend-pvxb.onrender.com";
 
 const token = localStorage.getItem("token");
 
-const user = JSON.parse(localStorage.getItem("user"));
-
-// ==========================================
-// AUTH CHECK
-// ==========================================
-
-if (!token || !user) {
-
+if (!token) {
     window.location.href = "login.html";
-
-}
-
-if (user.role !== "admin") {
-
-    alert("Access denied!");
-
-    window.location.href = "dashboard.html";
-
 }
 
 // ==========================================
@@ -37,142 +28,26 @@ if (user.role !== "admin") {
 
 async function apiRequest(endpoint, method = "GET", body = null) {
 
-    try {
-
-        const options = {
-
-            method,
-
-            headers: {
-
-                Authorization: `Bearer ${token}`,
-
-                "Content-Type": "application/json"
-
-            }
-
-        };
-
-        if (body) {
-
-            options.body = JSON.stringify(body);
-
+    const options = {
+        method,
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
         }
+    };
 
-        const response = await fetch(BASE_URL + endpoint, options);
-
-        const data = await response.json();
-
-        return data;
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Network Error");
-
-        return {
-
-            success: false
-
-        };
-
+    if (body) {
+        options.body = JSON.stringify(body);
     }
 
-}
+    const response = await fetch(BASE_URL + endpoint, options);
 
-// ==========================================
-// MOBILE SIDEBAR
-// ==========================================
-
-const menuToggle = document.getElementById("menuToggle");
-
-const sidebar = document.getElementById("sidebar");
-
-if (menuToggle) {
-
-    menuToggle.onclick = () => {
-
-        sidebar.classList.toggle("show");
-
-    };
+    return await response.json();
 
 }
 
 // ==========================================
-// PAGE SWITCHING
-// ==========================================
-
-const pages = {
-
-    transactions: document.getElementById("transactionsSection"),
-
-    users: document.getElementById("usersSection"),
-
-    withdrawals: document.getElementById("withdrawalsSection"),
-
-    support: document.getElementById("supportSection")
-
-};
-
-document.querySelectorAll(".sidebar-menu li[data-page]")
-
-.forEach(item => {
-
-    item.onclick = () => {
-
-        document
-
-        .querySelectorAll(".sidebar-menu li")
-
-        .forEach(li => li.classList.remove("active"));
-
-        item.classList.add("active");
-
-        Object.values(pages)
-
-        .forEach(section => {
-
-            if(section)
-
-            section.style.display="none";
-
-        });
-
-        const page=item.dataset.page;
-
-        if(page==="dashboard"){
-
-            pages.transactions.style.display="block";
-
-        }
-
-        else if(pages[page]){
-
-            pages[page].style.display="block";
-
-        }
-
-    };
-
-});
-
-// ==========================================
-// LOGOUT
-// ==========================================
-
-document.getElementById("logoutBtn").onclick=function(){
-
-localStorage.removeItem("token");
-
-localStorage.removeItem("user");
-
-window.location.href="login.html";
-
-};
-
-// ==========================================
-// LOAD DASHBOARD
+// LOAD ADMIN DASHBOARD
 // ==========================================
 
 async function loadDashboard() {
@@ -184,16 +59,17 @@ async function loadDashboard() {
     const data = result.dashboard;
 
     document.getElementById("totalUsers").textContent =
-        Number(data.totalUsers || 0).toLocaleString();
+        data.totalUsers;
 
     document.getElementById("totalTransactions").textContent =
-        Number(data.totalTransactions || 0).toLocaleString();
+        data.totalTransactions;
 
     document.getElementById("pendingTransactions").textContent =
-        Number(data.pendingTransactions || 0).toLocaleString();
+        data.pendingTransactions;
 
-    document.getElementById("walletTotal").textContent =
-        "₦" + Number(data.totalWallet || 0).toLocaleString();
+    document.getElementById("totalWallet").textContent =
+        "₦" +
+        Number(data.totalWallet).toLocaleString();
 
 }
 
@@ -201,46 +77,22 @@ async function loadDashboard() {
 // LOAD TRANSACTIONS
 // ==========================================
 
-let allTransactions = [];
-
 async function loadTransactions() {
 
     const result = await apiRequest("/api/admin/transactions");
 
     if (!result.success) return;
 
-    allTransactions = result.transactions;
+    const tbody = document.getElementById("transactionTable");
 
-    renderTransactions(allTransactions);
+    tbody.innerHTML = "";
 
-}
+    result.transactions.forEach(transaction => {
 
-// ==========================================
-// RENDER TRANSACTIONS
-// ==========================================
 
-function renderTransactions(transactions){
-
-    const tbody=document.getElementById("transactionTable");
-
-    if(!tbody) return;
-
-    tbody.innerHTML="";
-
-    transactions.forEach(transaction=>{
-
-        tbody.innerHTML+=`
+tbody.innerHTML += `
 
 <tr>
-
-<td>
-
-<img
-class="table-image"
-src="${transaction.screenshot || ''}"
-onclick="openImageModal('${transaction.screenshot || ''}')">
-
-</td>
 
 <td>${transaction.transactionId}</td>
 
@@ -248,17 +100,7 @@ onclick="openImageModal('${transaction.screenshot || ''}')">
 
 <td>${transaction.network}</td>
 
-<td>
-
-₦${Number(transaction.airtimeAmount).toLocaleString()}
-
-</td>
-
-<td>
-
-₦${Number(transaction.amountToReceive).toLocaleString()}
-
-</td>
+<td>₦${Number(transaction.airtimeAmount).toLocaleString()}</td>
 
 <td>
 
@@ -272,10 +114,23 @@ ${transaction.status}
 
 <td>
 
+<img
+src="${transaction.screenshot}"
+alt="Screenshot"
+style="
+width:70px;
+height:70px;
+object-fit:cover;
+border-radius:10px;
+cursor:pointer;"
+onclick="openImageModal('${transaction.screenshot}')">
+
+</td>
+
+<td>
+
 <button
-
 class="action approve-btn"
-
 onclick="approveTransaction('${transaction._id}')">
 
 Approve
@@ -283,9 +138,7 @@ Approve
 </button>
 
 <button
-
 class="action reject-btn"
-
 onclick="rejectTransaction('${transaction._id}')">
 
 Reject
@@ -293,9 +146,7 @@ Reject
 </button>
 
 <button
-
 class="action complete-btn"
-
 onclick="completeTransaction('${transaction._id}')">
 
 Complete
@@ -307,404 +158,99 @@ Complete
 </tr>
 
 `;
-
-    });
-
-        }
-
-
+        
 // ==========================================
-// LOAD USERS
+// APPROVE
 // ==========================================
 
-async function loadUsers() {
+async function approveTransaction(id) {
 
-    const result = await apiRequest("/api/admin/users");
-
-    if (!result.success) return;
-
-    renderUsers(result.users);
-
-}
-
-function renderUsers(users) {
-
-    const tbody = document.getElementById("userTable");
-
-    if (!tbody) return;
-
-    tbody.innerHTML = "";
-
-    users.forEach(user => {
-
-        tbody.innerHTML += `
-
-<tr>
-
-<td>
-
-<img
-class="table-image"
-src="${user.profileImage || 'https://via.placeholder.com/60'}">
-
-</td>
-
-<td>${user.fullName}</td>
-
-<td>${user.email}</td>
-
-<td>${user.phone}</td>
-
-<td>
-
-₦${Number(user.walletBalance).toLocaleString()}
-
-</td>
-
-<td>
-
-<span class="status ${user.status}">
-
-${user.status}
-
-</span>
-
-</td>
-
-<td>
-
-<button
-class="action approve-btn"
-onclick="activateUser('${user._id}')">
-
-Activate
-
-</button>
-
-<button
-class="action reject-btn"
-onclick="suspendUser('${user._id}')">
-
-Suspend
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-    });
-
-}
-
-// ==========================================
-// LOAD WITHDRAWALS
-// ==========================================
-
-async function loadWithdrawals() {
-
-    const result = await apiRequest("/api/admin/withdrawals");
-
-    if (!result.success) return;
-
-    const tbody = document.getElementById("withdrawalTable");
-
-    if (!tbody) return;
-
-    tbody.innerHTML = "";
-
-    result.withdrawals.forEach(item => {
-
-        tbody.innerHTML += `
-
-<tr>
-
-<td>${item.user?.fullName || "-"}</td>
-
-<td>${item.bank?.bankName || "-"}</td>
-
-<td>
-
-₦${Number(item.amount).toLocaleString()}
-
-</td>
-
-<td>
-
-<span class="status ${item.status.toLowerCase()}">
-
-${item.status}
-
-</span>
-
-</td>
-
-<td>
-
-<button
-class="action approve-btn">
-
-Approve
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-    });
-
-}
-
-// ==========================================
-// LOAD SUPPORT TICKETS
-// ==========================================
-
-async function loadSupportTickets() {
-
-    const result = await apiRequest("/api/admin/support");
-
-    if (!result.success) return;
-
-    const tbody = document.getElementById("supportTable");
-
-    if (!tbody) return;
-
-    tbody.innerHTML = "";
-
-    result.tickets.forEach(ticket => {
-
-        tbody.innerHTML += `
-
-<tr>
-
-<td>${ticket.user?.fullName || "-"}</td>
-
-<td>${ticket.subject}</td>
-
-<td>
-
-<span class="status ${ticket.status.toLowerCase()}">
-
-${ticket.status}
-
-</span>
-
-</td>
-
-<td>
-
-${new Date(ticket.createdAt).toLocaleDateString()}
-
-</td>
-
-<td>
-
-<button class="action view-btn">
-
-View
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-    });
-
-}
-
-// ==========================================
-// APPROVE TRANSACTION
-// ==========================================
-
-async function approveTransaction(id){
-
-    if(!confirm("Approve this transaction?")) return;
-
-    const result=await apiRequest(
-
+    const result = await apiRequest(
         `/api/transaction/approve/${id}`,
-
         "PATCH"
-
     );
 
-    alert(result.message);
+    if (result.success) {
 
-    if(result.success){
+        alert(result.message);
 
-        loadDashboard();
+        await loadDashboard();
 
-        loadTransactions();
+        await loadTransactions();
+
+    } else {
+
+        alert(result.message);
 
     }
 
 }
 
 // ==========================================
-// REJECT TRANSACTION
+// REJECT
 // ==========================================
 
-async function rejectTransaction(id){
+async function rejectTransaction(id) {
 
-    if(!confirm("Reject this transaction?")) return;
-
-    const result=await apiRequest(
-
+    const result = await apiRequest(
         `/api/transaction/reject/${id}`,
-
         "PATCH"
-
     );
 
-    alert(result.message);
+    if (result.success) {
 
-    if(result.success){
+        alert(result.message);
 
-        loadDashboard();
+        await loadDashboard();
 
-        loadTransactions();
+        await loadTransactions();
+
+    } else {
+
+        alert(result.message);
 
     }
 
 }
 
 // ==========================================
-// COMPLETE TRANSACTION
+// COMPLETE
 // ==========================================
 
-async function completeTransaction(id){
+async function completeTransaction(id) {
 
-    if(!confirm("Mark transaction as completed?")) return;
-
-    const result=await apiRequest(
-
+    const result = await apiRequest(
         `/api/transaction/complete/${id}`,
-
         "PATCH"
-
     );
 
-    alert(result.message);
+    if (result.success) {
 
-    if(result.success){
+        alert(result.message);
 
-        loadDashboard();
+        await loadDashboard();
 
-        loadTransactions();
+        await loadTransactions();
+
+    } else {
+
+        alert(result.message);
 
     }
 
 }
-
+        
 // ==========================================
-// ACTIVATE USER
+// LOGOUT
 // ==========================================
 
-async function activateUser(id){
+function logout(){
 
-    const result=await apiRequest(
+    localStorage.removeItem("token");
 
-        `/api/admin/user/${id}/activate`,
-
-        "PATCH"
-
-    );
-
-    alert(result.message);
-
-    if(result.success){
-
-        loadUsers();
-
-    }
+    window.location.href = "login.html";
 
 }
-
-// ==========================================
-// SUSPEND USER
-// ==========================================
-
-async function suspendUser(id){
-
-    const result=await apiRequest(
-
-        `/api/admin/user/${id}/suspend`,
-
-        "PATCH"
-
-    );
-
-    alert(result.message);
-
-    if(result.success){
-
-        loadUsers();
-
-    }
-
-}
-
-// ==========================================
-// IMAGE MODAL
-// ==========================================
-
-function openImageModal(url){
-
-    const modal=document.getElementById("transactionModal");
-
-    const image=document.getElementById("modalScreenshot");
-
-    if(image){
-
-        image.src=url;
-
-    }
-
-    modal.classList.add("active");
-
-}
-
-function closeTransactionModal(){
-
-    document
-
-    .getElementById("transactionModal")
-
-    .classList.remove("active");
-
-}
-
-// ==========================================
-// SEARCH
-// ==========================================
-
-document.getElementById("searchInput")?.addEventListener("keyup",function(){
-
-    const value=this.value.toLowerCase();
-
-    renderTransactions(
-
-        allTransactions.filter(t=>
-
-            t.transactionId.toLowerCase().includes(value)||
-
-            t.user?.fullName?.toLowerCase().includes(value)||
-
-            t.network.toLowerCase().includes(value)
-
-        )
-
-    );
-
-});
 
 // ==========================================
 // START
@@ -714,4 +260,66 @@ loadDashboard();
 
 loadTransactions();
 
-loadUsers();
+ function openImageModal(imageUrl) {
+
+    document.getElementById("modalImage").src = imageUrl;
+
+    document.getElementById("imageModal").style.display = "flex";
+
+}
+
+function closeImageModal() {
+
+    document.getElementById("imageModal").style.display = "none";
+
+}   
+
+// ==========================================
+// LIVE SEARCH
+// ==========================================
+
+document.getElementById("searchInput")?.addEventListener("keyup", function () {
+
+    const value = this.value.toLowerCase();
+
+    const rows = document.querySelectorAll("#transactionTable tr");
+
+    rows.forEach(row => {
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(value)
+                ? ""
+                : "none";
+
+    });
+
+});
+
+// ==========================================
+// STATUS FILTER
+// ==========================================
+
+document.getElementById("statusFilter")?.addEventListener("change", function () {
+
+    const status = this.value.toLowerCase();
+
+    const rows = document.querySelectorAll("#transactionTable tr");
+
+    rows.forEach(row => {
+
+        if (!status) {
+
+            row.style.display = "";
+
+            return;
+
+        }
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(status)
+                ? ""
+                : "none";
+
+    });
+
+});
