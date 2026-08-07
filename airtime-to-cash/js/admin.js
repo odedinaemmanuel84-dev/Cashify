@@ -81,113 +81,7 @@ async function apiRequest(endpoint, method = "GET", body = null) {
 
 }
 
-// ==========================================
-// MOBILE SIDEBAR
-// ==========================================
 
-const menuToggle = document.getElementById("menuToggle");
-
-const sidebar = document.getElementById("sidebar");
-
-if (menuToggle) {
-
-    menuToggle.onclick = () => {
-
-        sidebar.classList.toggle("show");
-
-    };
-
-}
-
-// ==========================================
-// SIDEBAR + PAGE SWITCHING
-// ==========================================
-
-const sidebar = document.getElementById("sidebar");
-const menuToggle = document.getElementById("menuToggle");
-
-const pages = {
-
-    dashboard: document.getElementById("dashboardSection"),
-
-    transactions: document.getElementById("transactionsSection"),
-
-    users: document.getElementById("usersSection"),
-
-    withdrawals: document.getElementById("withdrawalsSection"),
-
-    support: document.getElementById("supportSection")
-
-};
-
-
-// ==========================================
-// MENU BUTTON — OPEN / CLOSE SIDEBAR
-// ==========================================
-
-menuToggle.addEventListener("click", (event) => {
-
-    event.stopPropagation();
-
-    sidebar.classList.toggle("show");
-
-});
-
-// ==========================================
-// PAGE SWITCHING
-// ==========================================
-
-document
-.querySelectorAll(".sidebar-menu li[data-page]")
-.forEach(item => {
-
-    item.addEventListener("click", (event) => {
-
-        event.stopPropagation();
-
-
-        // Remove active from all menu items
-        document
-        .querySelectorAll(".sidebar-menu li")
-        .forEach(li => {
-
-            li.classList.remove("active");
-
-        });
-
-
-        // Add active to clicked item
-        item.classList.add("active");
-
-
-        // Hide all pages
-        Object.values(pages).forEach(section => {
-
-            if(section){
-
-                section.style.display = "none";
-
-            }
-
-        });
-
-
-        // Show selected page
-        const page = item.dataset.page;
-
-        if(pages[page]){
-
-            pages[page].style.display = "block";
-
-        }
-
-
-        // CLOSE SIDEBAR AUTOMATICALLY
-        sidebar.classList.remove("show");
-
-    });
-
-});
 
 
 // ==========================================
@@ -219,18 +113,128 @@ document.addEventListener("click", (event) => {
 
 });
 
+// ==========================================
+// MOBILE SIDEBAR
+// ==========================================
+
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+
 
 // ==========================================
-// ESC KEY — CLOSE SIDEBAR
+// OPEN / CLOSE SIDEBAR
 // ==========================================
 
-document.addEventListener("keydown", (event) => {
+if (menuToggle && sidebar) {
 
-    if(event.key === "Escape"){
+    menuToggle.addEventListener("click", (event) => {
 
-        sidebar.classList.remove("show");
+        event.stopPropagation();
 
-    }
+        sidebar.classList.toggle("show");
+
+    });
+
+
+    // ======================================
+    // CLOSE WHEN CLICKING OUTSIDE
+    // ======================================
+
+    document.addEventListener("click", (event) => {
+
+        if (window.innerWidth <= 768) {
+
+            if (
+                !sidebar.contains(event.target) &&
+                !menuToggle.contains(event.target)
+            ) {
+
+                sidebar.classList.remove("show");
+
+            }
+
+        }
+
+    });
+
+
+    // ======================================
+    // CLOSE WHEN CLICKING SIDEBAR ITEM
+    // ======================================
+
+    document
+        .querySelectorAll(".sidebar-menu li")
+        .forEach(item => {
+
+            item.addEventListener("click", () => {
+
+                sidebar.classList.remove("show");
+
+            });
+
+        });
+
+
+    // ======================================
+    // ESC KEY CLOSE
+    // ======================================
+
+    document.addEventListener("keydown", (event) => {
+
+        if (event.key === "Escape") {
+
+            sidebar.classList.remove("show");
+
+        }
+
+    });
+
+}
+
+// ==========================================
+// PAGE SWITCHING
+// ==========================================
+
+const pages = {
+
+    dashboard: document.getElementById("dashboardSection"),
+
+    transactions: document.getElementById("transactionsSection"),
+
+    users: document.getElementById("usersSection"),
+
+    withdrawals: document.getElementById("withdrawalsSection"),
+
+    support: document.getElementById("supportSection")
+
+};
+
+document.querySelectorAll(".sidebar-menu li[data-page]")
+.forEach(item => {
+
+    item.onclick = () => {
+
+        document
+            .querySelectorAll(".sidebar-menu li")
+            .forEach(li => li.classList.remove("active"));
+
+        item.classList.add("active");
+
+        Object.values(pages).forEach(section => {
+
+            if (section) {
+                section.style.display = "none";
+            }
+
+        });
+
+        const page = item.dataset.page;
+
+        if (pages[page]) {
+            pages[page].style.display = "block";
+        }
+
+    };
 
 });
 
