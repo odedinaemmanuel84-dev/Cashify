@@ -81,38 +81,6 @@ async function apiRequest(endpoint, method = "GET", body = null) {
 
 }
 
-
-
-
-// ==========================================
-// CLICK OUTSIDE SIDEBAR — CLOSE
-// ==========================================
-
-document.addEventListener("click", (event) => {
-
-    // Only apply this behavior on mobile
-    if(window.innerWidth <= 768){
-
-        const clickedInsideSidebar =
-            sidebar.contains(event.target);
-
-        const clickedMenuButton =
-            menuToggle.contains(event.target);
-
-
-        if(
-            !clickedInsideSidebar &&
-            !clickedMenuButton
-        ){
-
-            sidebar.classList.remove("show");
-
-        }
-
-    }
-
-});
-
 // ==========================================
 // MOBILE SIDEBAR
 // ==========================================
