@@ -177,32 +177,111 @@ const pages = {
 
 };
 
-document.querySelectorAll(".sidebar-menu li[data-page]")
+
+document
+.querySelectorAll(".sidebar-menu li[data-page]")
 .forEach(item => {
 
-    item.onclick = () => {
+    item.addEventListener("click", async () => {
+
+        // ======================================
+        // ACTIVE MENU
+        // ======================================
 
         document
-            .querySelectorAll(".sidebar-menu li")
-            .forEach(li => li.classList.remove("active"));
+        .querySelectorAll(".sidebar-menu li")
+        .forEach(li => {
+
+            li.classList.remove("active");
+
+        });
 
         item.classList.add("active");
+
+
+        // ======================================
+        // HIDE ALL PAGES
+        // ======================================
 
         Object.values(pages).forEach(section => {
 
             if (section) {
+
                 section.style.display = "none";
+
             }
 
         });
 
+
+        // ======================================
+        // GET SELECTED PAGE
+        // ======================================
+
         const page = item.dataset.page;
 
+
+        // ======================================
+        // SHOW SELECTED PAGE
+        // ======================================
+
         if (pages[page]) {
+
             pages[page].style.display = "block";
+
         }
 
-    };
+
+        // ======================================
+        // LOAD PAGE DATA
+        // ======================================
+
+        if (page === "dashboard") {
+
+            await loadDashboard();
+
+        }
+
+
+        if (page === "transactions") {
+
+            await loadTransactions();
+
+        }
+
+
+        if (page === "users") {
+
+            await loadUsers();
+
+        }
+
+
+        if (page === "withdrawals") {
+
+            await loadWithdrawals();
+
+        }
+
+
+        if (page === "support") {
+
+            await loadSupportTickets();
+
+        }
+
+
+        // ======================================
+        // CLOSE MOBILE SIDEBAR
+        // ======================================
+
+        if (sidebar) {
+
+            sidebar.classList.remove("show");
+
+        }
+
+    });
 
 });
 
@@ -760,7 +839,3 @@ document.getElementById("searchInput")?.addEventListener("keyup",function(){
 // ==========================================
 
 loadDashboard();
-
-loadTransactions();
-
-loadUsers();
