@@ -794,7 +794,25 @@ document.getElementById("searchInput")?.addEventListener("keyup",function(){
 });
 
 // ==========================================
-// START
+// START ADMIN PANEL
 // ==========================================
 
-loadDashboard();
+async function initializeAdminPanel() {
+
+    console.log("Initializing Cashify Admin Panel...");
+
+    await loadDashboard();
+
+    await loadTransactions();
+
+    await loadUsers();
+
+    await loadWithdrawals();
+
+    await loadSupportTickets();
+
+    console.log("Cashify Admin Panel loaded successfully.");
+
+}
+
+initializeAdminPanel();
