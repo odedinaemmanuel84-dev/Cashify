@@ -100,8 +100,11 @@ if (menuToggle) {
 }
 
 // ==========================================
-// PAGE SWITCHING
+// SIDEBAR + PAGE SWITCHING
 // ==========================================
+
+const sidebar = document.getElementById("sidebar");
+const menuToggle = document.getElementById("menuToggle");
 
 const pages = {
 
@@ -117,19 +120,51 @@ const pages = {
 
 };
 
-document.querySelectorAll(".sidebar-menu li[data-page]").forEach(item => {
 
-    item.onclick = () => {
+// ==========================================
+// MENU BUTTON — OPEN / CLOSE SIDEBAR
+// ==========================================
 
+menuToggle.addEventListener("click", (event) => {
+
+    event.stopPropagation();
+
+    sidebar.classList.toggle("show");
+
+});
+
+
+// ==========================================
+// PAGE SWITCHING
+// ==========================================
+
+document
+.querySelectorAll(".sidebar-menu li[data-page]")
+.forEach(item => {
+
+    item.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+
+        // Remove active from all menu items
         document
-            .querySelectorAll(".sidebar-menu li")
-            .forEach(li => li.classList.remove("active"));
+        .querySelectorAll(".sidebar-menu li")
+        .forEach(li => {
 
+            li.classList.remove("active");
+
+        });
+
+
+        // Add active to clicked item
         item.classList.add("active");
 
+
+        // Hide all pages
         Object.values(pages).forEach(section => {
 
-            if (section) {
+            if(section){
 
                 section.style.display = "none";
 
@@ -137,15 +172,66 @@ document.querySelectorAll(".sidebar-menu li[data-page]").forEach(item => {
 
         });
 
+
+        // Show selected page
         const page = item.dataset.page;
 
-        if (pages[page]) {
+        if(pages[page]){
 
             pages[page].style.display = "block";
 
         }
 
-    };
+
+        // CLOSE SIDEBAR AUTOMATICALLY
+        sidebar.classList.remove("show");
+
+    });
+
+});
+
+
+// ==========================================
+// CLICK OUTSIDE SIDEBAR — CLOSE
+// ==========================================
+
+document.addEventListener("click", (event) => {
+
+    // Only apply this behavior on mobile
+    if(window.innerWidth <= 768){
+
+        const clickedInsideSidebar =
+            sidebar.contains(event.target);
+
+        const clickedMenuButton =
+            menuToggle.contains(event.target);
+
+
+        if(
+            !clickedInsideSidebar &&
+            !clickedMenuButton
+        ){
+
+            sidebar.classList.remove("show");
+
+        }
+
+    }
+
+});
+
+
+// ==========================================
+// ESC KEY — CLOSE SIDEBAR
+// ==========================================
+
+document.addEventListener("keydown", (event) => {
+
+    if(event.key === "Escape"){
+
+        sidebar.classList.remove("show");
+
+    }
 
 });
 
