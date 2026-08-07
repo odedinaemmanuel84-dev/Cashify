@@ -164,126 +164,85 @@ if (menuToggle && sidebar) {
 // ==========================================
 
 const pages = {
-
     dashboard: document.getElementById("dashboardSection"),
-
     transactions: document.getElementById("transactionsSection"),
-
     users: document.getElementById("usersSection"),
-
     withdrawals: document.getElementById("withdrawalsSection"),
-
     support: document.getElementById("supportSection")
-
 };
 
+const sidebarItems = document.querySelectorAll(
+    ".sidebar-menu li[data-page]"
+);
 
-document
-.querySelectorAll(".sidebar-menu li[data-page]")
-.forEach(item => {
+function showPage(pageName) {
 
-    item.addEventListener("click", async () => {
+    // Hide every page
+    Object.values(pages).forEach(section => {
 
-        // ======================================
-        // ACTIVE MENU
-        // ======================================
+        if (section) {
+            section.style.display = "none";
+        }
 
-        document
-        .querySelectorAll(".sidebar-menu li")
-        .forEach(li => {
+    });
 
-            li.classList.remove("active");
+    // Show selected page
+    if (pages[pageName]) {
+        pages[pageName].style.display = "block";
+    }
 
-        });
+    // Update active sidebar item
+    sidebarItems.forEach(item => {
 
-        item.classList.add("active");
+        item.classList.remove("active");
+
+        if (item.dataset.page === pageName) {
+            item.classList.add("active");
+        }
+
+    });
+
+    // Load data when page is opened
+    if (pageName === "transactions") {
+        loadTransactions();
+    }
+
+    if (pageName === "users") {
+        loadUsers();
+    }
+
+    if (pageName === "withdrawals") {
+        loadWithdrawals();
+    }
+
+    if (pageName === "support") {
+        loadSupportTickets();
+    }
+
+}
 
 
-        // ======================================
-        // HIDE ALL PAGES
-        // ======================================
+// Sidebar click
+sidebarItems.forEach(item => {
 
-        Object.values(pages).forEach(section => {
-
-            if (section) {
-
-                section.style.display = "none";
-
-            }
-
-        });
-
-
-        // ======================================
-        // GET SELECTED PAGE
-        // ======================================
+    item.addEventListener("click", () => {
 
         const page = item.dataset.page;
 
+        showPage(page);
 
-        // ======================================
-        // SHOW SELECTED PAGE
-        // ======================================
-
-        if (pages[page]) {
-
-            pages[page].style.display = "block";
-
-        }
-
-
-        // ======================================
-        // LOAD PAGE DATA
-        // ======================================
-
-        if (page === "dashboard") {
-
-            await loadDashboard();
-
-        }
-
-
-        if (page === "transactions") {
-
-            await loadTransactions();
-
-        }
-
-
-        if (page === "users") {
-
-            await loadUsers();
-
-        }
-
-
-        if (page === "withdrawals") {
-
-            await loadWithdrawals();
-
-        }
-
-
-        if (page === "support") {
-
-            await loadSupportTickets();
-
-        }
-
-
-        // ======================================
-        // CLOSE MOBILE SIDEBAR
-        // ======================================
-
-        if (sidebar) {
-
+        // Close mobile sidebar
+        if (window.innerWidth <= 768 && sidebar) {
             sidebar.classList.remove("show");
-
         }
 
     });
 
 });
+
+
+// Start on dashboard
+showPage("dashboard");      
 
 // ==========================================
 // LOGOUT
