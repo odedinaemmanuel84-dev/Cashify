@@ -105,6 +105,8 @@ if (menuToggle) {
 
 const pages = {
 
+    dashboard: document.getElementById("dashboardSection"),
+
     transactions: document.getElementById("transactionsSection"),
 
     users: document.getElementById("usersSection"),
@@ -115,41 +117,31 @@ const pages = {
 
 };
 
-document.querySelectorAll(".sidebar-menu li[data-page]")
-
-.forEach(item => {
+document.querySelectorAll(".sidebar-menu li[data-page]").forEach(item => {
 
     item.onclick = () => {
 
         document
-
-        .querySelectorAll(".sidebar-menu li")
-
-        .forEach(li => li.classList.remove("active"));
+            .querySelectorAll(".sidebar-menu li")
+            .forEach(li => li.classList.remove("active"));
 
         item.classList.add("active");
 
-        Object.values(pages)
+        Object.values(pages).forEach(section => {
 
-        .forEach(section => {
+            if (section) {
 
-            if(section)
+                section.style.display = "none";
 
-            section.style.display="none";
+            }
 
         });
 
-        const page=item.dataset.page;
+        const page = item.dataset.page;
 
-        if(page==="dashboard"){
+        if (pages[page]) {
 
-            pages.transactions.style.display="block";
-
-        }
-
-        else if(pages[page]){
-
-            pages[page].style.display="block";
+            pages[page].style.display = "block";
 
         }
 
