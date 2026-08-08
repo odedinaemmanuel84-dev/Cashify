@@ -40,41 +40,61 @@ async function apiRequest(endpoint, method = "GET", body = null) {
     try {
 
         const options = {
-
             method,
-
             headers: {
-
                 Authorization: `Bearer ${token}`,
-
                 "Content-Type": "application/json"
-
             }
-
         };
 
         if (body) {
-
             options.body = JSON.stringify(body);
-
         }
+
+        console.log("API REQUEST:", method, BASE_URL + endpoint);
 
         const response = await fetch(BASE_URL + endpoint, options);
 
-        const data = await response.json();
+        const text = await response.text();
+
+        let data;
+
+        try {
+            data = JSON.parse(text);
+        } catch {
+            console.error("SERVER DID NOT RETURN JSON:", text);
+
+            return {
+                success: false,
+                message: `Server returned ${response.status}`
+            };
+        }
+
+        console.log(
+            "API RESPONSE:",
+            endpoint,
+            response.status,
+            data
+        );
+
+        if (!response.ok) {
+
+            console.error(
+                `API ERROR ${response.status}:`,
+                data
+            );
+
+        }
 
         return data;
 
     } catch (err) {
 
-        console.error(err);
-
-        alert("Network Error");
+        console.error("FETCH ERROR:", err);
 
         return {
-
-            success: false
-
+            success: false,
+            message: err.message
         };
 
     }
@@ -266,23 +286,53 @@ async function loadDashboard() {
 
     const result = await apiRequest("/api/admin/dashboard");
 
-    if (!result.success) return;
+    console.log("DASHBOARD RESULT:", result);
 
-    const data = result.dashboard;
+    if (!result.success) {
 
-    document.getElementById("totalUsers").textContent =
-        Number(data.totalUsers || 0).toLocaleString();
+        console.error(
+            "Dashboard failed:",
+            result.message
+        );
 
-    document.getElementById("totalTransactions").textContent =
-        Number(data.totalTransactions || 0).toLocaleString();
+        return;
+    }
 
-    document.getElementById("pendingTransactions").textContent =
-        Number(data.pendingTransactions || 0).toLocaleString();
+    const data = result.dashboard || {};
 
-    document.getElementById("walletTotal").textContent =
-        "₦" + Number(data.totalWallet || 0).toLocaleString();
+    const totalUsers =
+        document.getElementById("totalUsers");
 
-}
+    const totalTransactions =
+        document.getElementById("totalTransactions");
+
+    const pendingTransactions =
+        document.getElementById("pendingTransactions");
+
+    const walletTotal =
+        document.getElementById("walletTotal");
+
+    if (totalUsers) {
+        totalUsers.textContent =
+            Number(data.totalUsers || 0).toLocaleString();
+    }
+
+    if (totalTransactions) {
+        totalTransactions.textContent =
+            Number(data.totalTransactions || 0).toLocaleString();
+    }
+
+    if (pendingTransactions) {
+        pendingTransactions.textContent =
+            Number(data.pendingTransactions || 0).toLocaleString();
+    }
+
+    if (walletTotal) {
+        walletTotal.textContent =
+            "₦" + Number(data.totalWallet || 0).toLocaleString();
+    }
+
+                   }
 
 // ==========================================
 // LOAD TRANSACTIONS
