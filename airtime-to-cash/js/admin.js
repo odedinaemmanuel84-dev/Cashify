@@ -356,98 +356,133 @@ async function loadTransactions() {
 // RENDER TRANSACTIONS
 // ==========================================
 
-function renderTransactions(transactions){
+function renderTransactions(transactions) {
 
-    const tbody=document.getElementById("transactionTable");
+    const tbody =
+        document.getElementById("transactionTable");
 
-    if(!tbody) return;
+    if (!tbody) return;
 
-    tbody.innerHTML="";
+    tbody.innerHTML = "";
 
-    transactions.forEach(transaction=>{
+    if (!Array.isArray(transactions) || transactions.length === 0) {
 
-        tbody.innerHTML+=`
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="9" style="text-align:center;padding:30px;">
+                    No transactions found
+                </td>
+            </tr>
+        `;
 
-<tr>
+        return;
+    }
 
-<td>
+    transactions.forEach(transaction => {
 
-<img
-class="table-image"
-src="${transaction.screenshot || ''}"
-onclick="openImageModal('${transaction.screenshot || ''}')">
+        const screenshot =
+            transaction.screenshot || "";
 
-</td>
+        tbody.innerHTML += `
 
-<td>${transaction.transactionId}</td>
+            <tr>
 
-<td>${transaction.user?.fullName || "-"}</td>
+                <td>
 
-<td>${transaction.network}</td>
+                    ${
+                        screenshot
 
-<td>
+                        ? `
+                            <img
+                                class="table-image"
+                                src="${screenshot}"
+                                alt="Transaction screenshot"
+                                onclick="openImageModal('${screenshot}')"
+                            >
+                        `
 
-₦${Number(transaction.airtimeAmount).toLocaleString()}
+                        : `
+                            <span>No image</span>
+                        `
+                    }
 
-</td>
+                </td>
 
-<td>
+                <td>
+                    ${transaction.transactionId || "-"}
+                </td>
 
-₦${Number(transaction.amountToReceive).toLocaleString()}
+                <td>
+                    ${transaction.user?.fullName || "-"}
+                </td>
 
-</td>
+                <td>
+                    ${transaction.network || "-"}
+                </td>
 
-<td>
+                <td>
+                    ${transaction.phoneNumber || "-"}
+                </td>
 
-<span class="status ${transaction.status.toLowerCase()}">
+                <td>
+                    ₦${Number(
+                        transaction.airtimeAmount || 0
+                    ).toLocaleString()}
+                </td>
 
-${transaction.status}
+                <td>
+                    ₦${Number(
+                        transaction.amountToReceive || 0
+                    ).toLocaleString()}
+                </td>
 
-</span>
+                <td>
 
-</td>
+                    <span class="status ${String(
+                        transaction.status || ""
+                    ).toLowerCase()}">
 
-<td>
+                        ${transaction.status || "-"}
 
-<button
+                    </span>
 
-class="action approve-btn"
+                </td>
 
-onclick="approveTransaction('${transaction._id}')">
+                <td>
 
-Approve
+                    <button
+                        class="action approve-btn"
+                        onclick="approveTransaction('${transaction._id}')">
 
-</button>
+                        Approve
 
-<button
+                    </button>
 
-class="action reject-btn"
+                    <button
+                        class="action reject-btn"
+                        onclick="rejectTransaction('${transaction._id}')">
 
-onclick="rejectTransaction('${transaction._id}')">
+                        Reject
 
-Reject
+                    </button>
 
-</button>
+                    <button
+                        class="action complete-btn"
+                        onclick="completeTransaction('${transaction._id}')">
 
-<button
+                        Complete
 
-class="action complete-btn"
+                    </button>
 
-onclick="completeTransaction('${transaction._id}')">
+                </td>
 
-Complete
+            </tr>
 
-</button>
-
-</td>
-
-</tr>
-
-`;
+        `;
 
     });
 
-        }
+}
 
 
 // ==========================================
@@ -458,11 +493,26 @@ async function loadUsers() {
 
     const result = await apiRequest("/api/admin/users");
 
-    if (!result.success) return;
+    console.log("USERS RESULT:", result);
 
-    renderUsers(result.users);
+    if (!result.success) {
+
+        console.error(
+            "Users failed:",
+            result.message
+        );
+
+        return;
+    }
+
+    renderUsers(result.users || []);
 
 }
+
+
+// ==========================================
+// RENDER USERS
+// ==========================================
 
 function renderUsers(users) {
 
@@ -472,65 +522,101 @@ function renderUsers(users) {
 
     tbody.innerHTML = "";
 
+    if (!Array.isArray(users) || users.length === 0) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;padding:30px;">
+                    No users found
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
     users.forEach(user => {
 
         tbody.innerHTML += `
 
-<tr>
+            <tr>
 
-<td>
+                <!-- PROFILE -->
 
-<img
-class="table-image"
-src="${user.profileImage || 'https://via.placeholder.com/60'}">
+                <td>
 
-</td>
+                    <img
+                        class="table-image"
+                        src="${user.profileImage || 'https://via.placeholder.com/60'}"
+                        alt="User">
 
-<td>${user.fullName}</td>
+                </td>
 
-<td>${user.email}</td>
+                <!-- NAME -->
 
-<td>${user.phone}</td>
+                <td>
+                    ${user.fullName || "-"}
+                </td>
 
-<td>
+                <!-- EMAIL -->
 
-₦${Number(user.walletBalance).toLocaleString()}
+                <td>
+                    ${user.email || "-"}
+                </td>
 
-</td>
+                <!-- PHONE -->
 
-<td>
+                <td>
+                    ${user.phone || "-"}
+                </td>
 
-<span class="status ${user.status}">
+                <!-- WALLET -->
 
-${user.status}
+                <td>
+                    ₦${Number(
+                        user.walletBalance || 0
+                    ).toLocaleString()}
+                </td>
 
-</span>
+                <!-- STATUS -->
 
-</td>
+                <td>
 
-<td>
+                    <span class="status ${String(
+                        user.status || ""
+                    ).toLowerCase()}">
 
-<button
-class="action approve-btn"
-onclick="activateUser('${user._id}')">
+                        ${user.status || "Unknown"}
 
-Activate
+                    </span>
 
-</button>
+                </td>
 
-<button
-class="action reject-btn"
-onclick="suspendUser('${user._id}')">
+                <!-- ACTIONS -->
 
-Suspend
+                <td>
 
-</button>
+                    <button
+                        class="action approve-btn"
+                        onclick="activateUser('${user._id}')">
 
-</td>
+                        Activate
 
-</tr>
+                    </button>
 
-`;
+                    <button
+                        class="action reject-btn"
+                        onclick="suspendUser('${user._id}')">
+
+                        Suspend
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
 
     });
 
@@ -542,56 +628,101 @@ Suspend
 
 async function loadWithdrawals() {
 
-    const result = await apiRequest("/api/admin/withdrawals");
+    const result =
+        await apiRequest("/api/admin/withdrawals");
 
-    if (!result.success) return;
+    console.log("WITHDRAWALS RESULT:", result);
 
-    const tbody = document.getElementById("withdrawalTable");
+    if (!result.success) {
+
+        console.error(
+            "Withdrawals failed:",
+            result.message
+        );
+
+        return;
+    }
+
+    const tbody =
+        document.getElementById("withdrawalTable");
 
     if (!tbody) return;
 
     tbody.innerHTML = "";
 
-    result.withdrawals.forEach(item => {
+    const withdrawals = result.withdrawals || [];
+
+    if (withdrawals.length === 0) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align:center;padding:30px;">
+                    No withdrawal requests found
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    withdrawals.forEach(item => {
 
         tbody.innerHTML += `
 
-<tr>
+            <tr>
 
-<td>${item.user?.fullName || "-"}</td>
+                <td>
+                    ${item.withdrawalId || "-"}
+                </td>
 
-<td>${item.bank?.bankName || "-"}</td>
+                <td>
+                    ${item.user?.fullName || "-"}
+                </td>
 
-<td>
+                <td>
+                    ${item.bankName || "-"}
+                </td>
 
-₦${Number(item.amount).toLocaleString()}
+                <td>
+                    ${item.accountName || "-"}
+                </td>
 
-</td>
+                <td>
+                    ${item.accountNumber || "-"}
+                </td>
 
-<td>
+                <td>
+                    ₦${Number(
+                        item.amount || 0
+                    ).toLocaleString()}
+                </td>
 
-<span class="status ${item.status.toLowerCase()}">
+                <td>
 
-${item.status}
+                    <span class="status ${String(
+                        item.status || ""
+                    ).toLowerCase()}">
 
-</span>
+                        ${item.status || "-"}
 
-</td>
+                    </span>
 
-<td>
+                </td>
 
-<button
-class="action approve-btn">
+                <td>
 
-Approve
+                    <button
+                        class="action approve-btn">
 
-</button>
+                        Approve
 
-</td>
+                    </button>
 
-</tr>
+                </td>
 
-`;
+            </tr>
+
+        `;
 
     });
 
