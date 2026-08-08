@@ -397,7 +397,7 @@ function renderTransactions(transactions) {
                                 class="table-image"
                                 src="${screenshot}"
                                 alt="Transaction screenshot"
-                                onclick="openImageModal('${screenshot}')"
+                                onclick="openImageModal('${transaction._id}')"
                             >
                         `
 
@@ -920,20 +920,58 @@ async function suspendUser(id){
 // IMAGE MODAL
 // ==========================================
 
-function openImageModal(url){
+function openImageModal(id) {
 
-    const modal=document.getElementById("transactionModal");
+    const transaction = allTransactions.find(
+        t => t._id === id
+    );
 
-    const image=document.getElementById("modalScreenshot");
-
-    if(image){
-
-        image.src=url;
-
+    if (!transaction) {
+        console.error("Transaction not found:", id);
+        return;
     }
 
-    modal.classList.add("active");
+    const modal = document.getElementById("transactionModal");
 
+    // Screenshot
+    const image = document.getElementById("modalScreenshot");
+
+    if (image) {
+        image.src = transaction.screenshot || "";
+    }
+
+    // Transaction details
+    document.getElementById("modalTransactionId").textContent =
+        transaction.transactionId || "-";
+
+    document.getElementById("modalUser").textContent =
+        transaction.user?.fullName || "-";
+
+    document.getElementById("modalNetwork").textContent =
+        transaction.network || "-";
+
+    document.getElementById("modalPhone").textContent =
+        transaction.phoneNumber || "-";
+
+    document.getElementById("modalAmount").textContent =
+        "₦" + Number(transaction.airtimeAmount || 0).toLocaleString();
+
+    document.getElementById("modalReceive").textContent =
+        "₦" + Number(transaction.amountToReceive || 0).toLocaleString();
+
+    document.getElementById("modalStatus").textContent =
+        transaction.status || "-";
+
+    document.getElementById("modalDate").textContent =
+        transaction.createdAt
+            ? new Date(transaction.createdAt).toLocaleString()
+            : "-";
+
+    document.getElementById("modalNote").textContent =
+        transaction.note || "No note";
+
+    // Show modal
+    modal.classList.add("active");
 }
 
 function closeTransactionModal(){
