@@ -1045,6 +1045,31 @@ function openImageModal(id) {
 }
 
 // ==========================================
+// CLOSE TRANSACTION MODAL
+// ==========================================
+
+function closeTransactionModal() {
+
+    const modal = document.getElementById("transactionModal");
+
+    if (modal) {
+        modal.classList.remove("active");
+    }
+
+}
+
+document.getElementById("transactionModal")?.addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === this) {
+            closeTransactionModal();
+        }
+
+    }
+);
+
+// ==========================================
 // SEARCH
 // ==========================================
 
