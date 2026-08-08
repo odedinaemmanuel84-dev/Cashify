@@ -933,14 +933,20 @@ function openImageModal(id) {
 
     const modal = document.getElementById("transactionModal");
 
-    // Screenshot
+    // ==============================
+    // SCREENSHOT
+    // ==============================
+
     const image = document.getElementById("modalScreenshot");
 
     if (image) {
         image.src = transaction.screenshot || "";
     }
 
-    // Transaction details
+    // ==============================
+    // TRANSACTION DETAILS
+    // ==============================
+
     document.getElementById("modalTransactionId").textContent =
         transaction.transactionId || "-";
 
@@ -954,10 +960,12 @@ function openImageModal(id) {
         transaction.phoneNumber || "-";
 
     document.getElementById("modalAmount").textContent =
-        "₦" + Number(transaction.airtimeAmount || 0).toLocaleString();
+        "₦" +
+        Number(transaction.airtimeAmount || 0).toLocaleString();
 
     document.getElementById("modalReceive").textContent =
-        "₦" + Number(transaction.amountToReceive || 0).toLocaleString();
+        "₦" +
+        Number(transaction.amountToReceive || 0).toLocaleString();
 
     document.getElementById("modalStatus").textContent =
         transaction.status || "-";
@@ -970,18 +978,70 @@ function openImageModal(id) {
     document.getElementById("modalNote").textContent =
         transaction.note || "No note";
 
-    // Show modal
+    // ==============================
+    // MODAL ACTION BUTTONS
+    // ==============================
+
+    const approveBtn =
+        document.getElementById("modalApproveBtn");
+
+    const rejectBtn =
+        document.getElementById("modalRejectBtn");
+
+    const completeBtn =
+        document.getElementById("modalCompleteBtn");
+
+
+    // APPROVE
+
+    if (approveBtn) {
+
+        approveBtn.onclick = async function () {
+
+            await approveTransaction(id);
+
+            closeTransactionModal();
+
+        };
+
+    }
+
+
+    // REJECT
+
+    if (rejectBtn) {
+
+        rejectBtn.onclick = async function () {
+
+            await rejectTransaction(id);
+
+            closeTransactionModal();
+
+        };
+
+    }
+
+
+    // COMPLETE
+
+    if (completeBtn) {
+
+        completeBtn.onclick = async function () {
+
+            await completeTransaction(id);
+
+            closeTransactionModal();
+
+        };
+
+    }
+
+
+    // ==============================
+    // SHOW MODAL
+    // ==============================
+
     modal.classList.add("active");
-}
-
-function closeTransactionModal(){
-
-    document
-
-    .getElementById("transactionModal")
-
-    .classList.remove("active");
-
 }
 
 // ==========================================
