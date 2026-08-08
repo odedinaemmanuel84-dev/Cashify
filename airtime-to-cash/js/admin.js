@@ -497,19 +497,10 @@ async function loadUsers() {
 
     if (!result.success) {
 
-        alert(
-            "USERS ERROR:\n\n" +
-            (result.message || "Unknown error")
-        );
+        console.error("USERS ERROR:", result.message);
 
         return;
     }
-
-    alert(
-        "Users loaded successfully!\n\n" +
-        "Number of users: " +
-        (result.users?.length || 0)
-    );
 
     renderUsers(result.users || []);
 
