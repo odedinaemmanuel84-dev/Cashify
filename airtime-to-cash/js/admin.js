@@ -1116,3 +1116,36 @@ async function initializeAdminPanel() {
 }
 
 initializeAdminPanel();
+
+// ==========================================
+// TEST AIRTIMEBRIDGE CONNECTION
+// ==========================================
+
+async function testAirtimeBridge() {
+
+    try {
+
+        const result = await apiRequest(
+            "/api/airtime-bridge/test"
+        );
+
+        console.log("AIRTIMEBRIDGE TEST:", result);
+
+        alert(
+            result.success
+                ? "AirtimeBridge connection is working!"
+                : "AirtimeBridge test failed."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "AirtimeBridge test error:",
+            error
+        );
+
+        alert("Connection test failed.");
+
+    }
+
+}
