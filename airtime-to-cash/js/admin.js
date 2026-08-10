@@ -1094,6 +1094,42 @@ document.getElementById("searchInput")?.addEventListener("keyup",function(){
 });
 
 // ==========================================
+// TEST AIRTIMEBRIDGE OTP
+// ==========================================
+
+async function testAirtimeOtp() {
+
+    const network = prompt(
+        "Enter network: MTN, AIRTEL, GLO or 9MOBILE"
+    );
+
+    if (!network) return;
+
+    const sender = prompt(
+        "Enter YOUR phone number:"
+    );
+
+    if (!sender) return;
+
+    const result = await apiRequest(
+        "/api/airtime-bridge/request-otp",
+        "POST",
+        {
+            networkName: network,
+            sender: sender
+        }
+    );
+
+    console.log("OTP TEST RESULT:", result);
+
+    alert(
+        result.success
+            ? "✅ " + result.message
+            : "❌ " + (result.message || "OTP request failed.")
+    );
+}
+
+// ==========================================
 // START ADMIN PANEL
 // ==========================================
 
