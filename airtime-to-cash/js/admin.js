@@ -1168,6 +1168,43 @@ alert(
 }
 
 // ==========================================
+// TEST AIRTIMEQUOTA
+// ==========================================
+
+async function testAirtimeQuota() {
+
+    const network = prompt(
+        "Enter network: MTN, AIRTEL, GLO or 9MOBILE"
+    );
+
+    if (!network) return;
+
+    const amount = prompt(
+        "Enter airtime amount to test:"
+    );
+
+    if (!amount) return;
+
+    const result = await apiRequest(
+        "/api/airtime-bridge/check-quota",
+        "POST",
+        {
+            networkName: network,
+            amount: Number(amount)
+        }
+    );
+
+    console.log("🔥 QUOTA TEST RESULT:", result);
+
+    alert(
+        result.success
+            ? "✅ Quota available\n\n" + (result.message || "")
+            : "❌ Quota check failed\n\n" +
+              (result.message || "Unknown error")
+    );
+}
+
+// ==========================================
 // START ADMIN PANEL
 // ==========================================
 
