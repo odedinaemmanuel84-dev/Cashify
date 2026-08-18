@@ -1129,6 +1129,46 @@ async function testAirtimeOtp() {
     );
 }
 
+async function testAirtimeOtpVerify() {
+
+    const network = prompt(
+        "Enter network: MTN, AIRTEL, GLO or 9MOBILE"
+    );
+
+    if (!network) return;
+
+    const sender = prompt(
+        "Enter the same phone number:"
+    );
+
+    if (!sender) return;
+
+    const otp = prompt(
+        "Enter the OTP you received:"
+    );
+
+    if (!otp) return;
+
+    const result = await apiRequest(
+        "/api/airtime-bridge/verify-otp",
+        "POST",
+        {
+            networkName: network,
+            sender: sender,
+            otp: otp
+        }
+    );
+
+    console.log("OTP VERIFY RESULT:", result);
+
+    alert(
+        result.success
+            ? "✅ " + (result.message || "OTP verified successfully.")
+            : "❌ " + (result.message || "OTP verification failed.")
+    );
+
+}
+
 // ==========================================
 // START ADMIN PANEL
 // ==========================================
