@@ -1159,13 +1159,11 @@ async function testAirtimeOtpVerify() {
         }
     );
 
-    console.log("OTP VERIFY RESULT:", result);
+    console.log("FULL OTP VERIFY RESULT:", result);
 
-    alert(
-        result.success
-            ? "✅ " + (result.message || "OTP verified successfully.")
-            : "❌ " + (result.message || "OTP verification failed.")
-    );
+alert(
+    JSON.stringify(result, null, 2)
+);
 
 }
 
