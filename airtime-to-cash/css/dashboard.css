@@ -1628,6 +1628,97 @@ FORM
 
 }
 
+/* ==========================================
+   AIRTIME OTP & PIN
+========================================== */
+
+#otpSection,
+#pinSection {
+    margin-top: 20px;
+}
+
+/* OTP & PIN inputs */
+
+#airtimeOtp,
+#airtimePin {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 16px;
+    border: 1px solid #e1e5ea;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+/* Focus effect */
+
+#airtimeOtp:focus,
+#airtimePin:focus {
+    border-color: #00c853;
+    box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.12);
+}
+
+/* OTP */
+
+#airtimeOtp {
+    letter-spacing: 6px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* PIN */
+
+#airtimePin {
+    letter-spacing: 4px;
+}
+
+/* ==========================================
+   OTP / PIN BUTTONS
+========================================== */
+
+#requestOtpBtn,
+#verifyOtpBtn {
+    margin-top: 12px;
+    padding: 13px 20px;
+    border: none;
+    border-radius: 12px;
+    background: #00c853;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#requestOtpBtn:hover,
+#verifyOtpBtn:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+}
+
+#requestOtpBtn:disabled,
+#verifyOtpBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    #requestOtpBtn,
+    #verifyOtpBtn {
+        width: 100%;
+    }
+
+}
+
 /*==========================
 FILE INPUT
 ==========================*/
