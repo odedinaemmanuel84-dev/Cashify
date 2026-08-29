@@ -501,8 +501,46 @@
                     placeholder="08012345678"
                     required>
 
+                <button type="button" id="requestOtpBtn">
+                Request OTP
+                </button>
+                
             </div>
+     
+            <!-- OTP SECTION -->
+            
+            <div class="form-group" id="otpSection" style="display:none;">
 
+    <label>Enter OTP</label>
+
+    <input
+        type="text"
+        id="airtimeOtp"
+        placeholder="Enter OTP"
+        maxlength="6"
+        inputmode="numeric">
+
+    <button type="button" id="verifyOtpBtn">
+        Verify OTP
+    </button>
+
+             </div>
+
+       <!-- SHARE & SELL PIN -->
+            
+       <div class="form-group" id="pinSection" style="display:none;">
+
+    <label>MTN Share & Sell PIN</label>
+
+    <input
+        type="password"
+        id="airtimePin"
+        placeholder="Enter your Share & Sell PIN"
+        inputmode="numeric"
+        autocomplete="off">
+
+       </div>
+            
             <div class="form-group">
 
                 <label>Upload Airtime Screenshot</label>
