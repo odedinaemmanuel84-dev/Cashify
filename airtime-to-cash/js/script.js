@@ -757,15 +757,22 @@ if (convertForm) {
 
 }
 
-// ==========================================
+ // ==========================================
 // AIRTIME OTP FLOW
 // ==========================================
 
-const requestOtpBtn = document.getElementById("requestOtpBtn");
-const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+const requestOtpBtn =
+    document.getElementById("requestOtpBtn");
 
-const otpSection = document.getElementById("otpSection");
-const pinSection = document.getElementById("pinSection");
+const verifyOtpBtn =
+    document.getElementById("verifyOtpBtn");
+
+const otpSection =
+    document.getElementById("otpSection");
+
+const pinSection =
+    document.getElementById("pinSection");
+
 
 // ==========================================
 // REQUEST OTP
@@ -775,11 +782,15 @@ if (requestOtpBtn) {
 
     requestOtpBtn.addEventListener("click", async function () {
 
-        const network = document.getElementById("convertNetwork").value;
+        const network =
+            document.getElementById("convertNetwork").value;
+
         const phoneNumber =
             document.getElementById("phoneNumber").value.trim();
 
-        // Validate
+
+        // Validate network
+
         if (!network) {
 
             showToast(
@@ -788,7 +799,11 @@ if (requestOtpBtn) {
             );
 
             return;
+
         }
+
+
+        // Validate phone
 
         if (!phoneNumber) {
 
@@ -798,42 +813,47 @@ if (requestOtpBtn) {
             );
 
             return;
+
         }
 
-        // Disable button while requesting
+
+        // Disable button
+
         requestOtpBtn.disabled = true;
-        requestOtpBtn.textContent = "Sending OTP...";
+
+        requestOtpBtn.textContent =
+            "Sending OTP...";
+
 
         try {
 
-            const result = await apiFetch(
+            const result = await apiRequest(
                 "/api/airtime-bridge/request-otp",
+                "POST",
                 {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-
-                        networkName: network,
-                        sender: phoneNumber
-
-                    })
+                    networkName: network,
+                    sender: phoneNumber
                 }
             );
 
+
             console.log(
-                "REQUEST OTP RESPONSE:",
+                "🔥 REQUEST OTP RESPONSE:",
                 result
             );
+
 
             if (!result) {
 
                 requestOtpBtn.disabled = false;
-                requestOtpBtn.textContent = "Request OTP";
+
+                requestOtpBtn.textContent =
+                    "Request OTP";
 
                 return;
+
             }
+
 
             if (result.success) {
 
@@ -842,16 +862,23 @@ if (requestOtpBtn) {
                     "OTP sent successfully."
                 );
 
+
                 // Show OTP section
+
                 if (otpSection) {
 
-                    otpSection.style.display = "block";
+                    otpSection.style.display =
+                        "block";
 
                 }
 
+
                 // Focus OTP input
+
                 const otpInput =
-                    document.getElementById("airtimeOtp");
+                    document.getElementById(
+                        "airtimeOtp"
+                    );
 
                 if (otpInput) {
 
@@ -859,8 +886,10 @@ if (requestOtpBtn) {
 
                 }
 
+
                 requestOtpBtn.textContent =
                     "OTP Sent ✓";
+
 
             } else {
 
@@ -870,25 +899,31 @@ if (requestOtpBtn) {
                     "error"
                 );
 
+
                 requestOtpBtn.disabled = false;
+
                 requestOtpBtn.textContent =
                     "Request OTP";
 
             }
 
+
         } catch (error) {
 
             console.error(
-                "REQUEST OTP ERROR:",
+                "🔥 REQUEST OTP ERROR:",
                 error
             );
+
 
             showToast(
                 "Unable to request OTP. Please try again.",
                 "error"
             );
 
+
             requestOtpBtn.disabled = false;
+
             requestOtpBtn.textContent =
                 "Request OTP";
 
@@ -897,6 +932,7 @@ if (requestOtpBtn) {
     });
 
 }
+
 
 // ==========================================
 // VERIFY OTP
@@ -917,6 +953,7 @@ if (verifyOtpBtn) {
 
 
         // Validate
+
         if (!network || !phoneNumber) {
 
             showToast(
@@ -925,7 +962,9 @@ if (verifyOtpBtn) {
             );
 
             return;
+
         }
+
 
         if (!otp) {
 
@@ -935,36 +974,33 @@ if (verifyOtpBtn) {
             );
 
             return;
+
         }
 
 
         // Disable button
+
         verifyOtpBtn.disabled = true;
-        verifyOtpBtn.textContent = "Verifying...";
+
+        verifyOtpBtn.textContent =
+            "Verifying...";
 
 
         try {
 
-            const result = await apiFetch(
+            const result = await apiRequest(
                 "/api/airtime-bridge/verify-otp",
+                "POST",
                 {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-
-                        networkName: network,
-                        sender: phoneNumber,
-                        otp: otp
-
-                    })
+                    networkName: network,
+                    sender: phoneNumber,
+                    otp: otp
                 }
             );
 
 
             console.log(
-                "VERIFY OTP RESPONSE:",
+                "🔥 VERIFY OTP RESPONSE:",
                 result
             );
 
@@ -972,10 +1008,12 @@ if (verifyOtpBtn) {
             if (!result) {
 
                 verifyOtpBtn.disabled = false;
+
                 verifyOtpBtn.textContent =
                     "Verify OTP";
 
                 return;
+
             }
 
 
@@ -987,16 +1025,16 @@ if (verifyOtpBtn) {
                 );
 
 
-                // Mark OTP as verified
+                // OTP verified
+
                 verifyOtpBtn.textContent =
                     "Verified ✓";
 
-
-                // Prevent another verification
                 verifyOtpBtn.disabled = true;
 
 
                 // Show PIN section
+
                 if (pinSection) {
 
                     pinSection.style.display =
@@ -1005,9 +1043,12 @@ if (verifyOtpBtn) {
                 }
 
 
-                // Focus PIN
+                // Focus PIN input
+
                 const pinInput =
-                    document.getElementById("airtimePin");
+                    document.getElementById(
+                        "airtimePin"
+                    );
 
                 if (pinInput) {
 
@@ -1024,6 +1065,7 @@ if (verifyOtpBtn) {
                     "error"
                 );
 
+
                 verifyOtpBtn.disabled = false;
 
                 verifyOtpBtn.textContent =
@@ -1035,14 +1077,16 @@ if (verifyOtpBtn) {
         } catch (error) {
 
             console.error(
-                "VERIFY OTP ERROR:",
+                "🔥 VERIFY OTP ERROR:",
                 error
             );
+
 
             showToast(
                 "Unable to verify OTP. Please try again.",
                 "error"
             );
+
 
             verifyOtpBtn.disabled = false;
 
@@ -1053,7 +1097,7 @@ if (verifyOtpBtn) {
 
     });
 
-}
+}           
 
 // ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
