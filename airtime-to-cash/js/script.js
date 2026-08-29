@@ -758,6 +758,304 @@ if (convertForm) {
 }
 
 // ==========================================
+// AIRTIME OTP FLOW
+// ==========================================
+
+const requestOtpBtn = document.getElementById("requestOtpBtn");
+const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+
+const otpSection = document.getElementById("otpSection");
+const pinSection = document.getElementById("pinSection");
+
+// ==========================================
+// REQUEST OTP
+// ==========================================
+
+if (requestOtpBtn) {
+
+    requestOtpBtn.addEventListener("click", async function () {
+
+        const network = document.getElementById("convertNetwork").value;
+        const phoneNumber =
+            document.getElementById("phoneNumber").value.trim();
+
+        // Validate
+        if (!network) {
+
+            showToast(
+                "Please select your network first.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!phoneNumber) {
+
+            showToast(
+                "Please enter your phone number.",
+                "error"
+            );
+
+            return;
+        }
+
+        // Disable button while requesting
+        requestOtpBtn.disabled = true;
+        requestOtpBtn.textContent = "Sending OTP...";
+
+        try {
+
+            const result = await apiFetch(
+                "/api/airtime-bridge/request-otp",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+
+                        networkName: network,
+                        sender: phoneNumber
+
+                    })
+                }
+            );
+
+            console.log(
+                "REQUEST OTP RESPONSE:",
+                result
+            );
+
+            if (!result) {
+
+                requestOtpBtn.disabled = false;
+                requestOtpBtn.textContent = "Request OTP";
+
+                return;
+            }
+
+            if (result.success) {
+
+                showToast(
+                    result.message ||
+                    "OTP sent successfully."
+                );
+
+                // Show OTP section
+                if (otpSection) {
+
+                    otpSection.style.display = "block";
+
+                }
+
+                // Focus OTP input
+                const otpInput =
+                    document.getElementById("airtimeOtp");
+
+                if (otpInput) {
+
+                    otpInput.focus();
+
+                }
+
+                requestOtpBtn.textContent =
+                    "OTP Sent ✓";
+
+            } else {
+
+                showToast(
+                    result.message ||
+                    "Unable to send OTP.",
+                    "error"
+                );
+
+                requestOtpBtn.disabled = false;
+                requestOtpBtn.textContent =
+                    "Request OTP";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "REQUEST OTP ERROR:",
+                error
+            );
+
+            showToast(
+                "Unable to request OTP. Please try again.",
+                "error"
+            );
+
+            requestOtpBtn.disabled = false;
+            requestOtpBtn.textContent =
+                "Request OTP";
+
+        }
+
+    });
+
+}
+
+// ==========================================
+// VERIFY OTP
+// ==========================================
+
+if (verifyOtpBtn) {
+
+    verifyOtpBtn.addEventListener("click", async function () {
+
+        const network =
+            document.getElementById("convertNetwork").value;
+
+        const phoneNumber =
+            document.getElementById("phoneNumber").value.trim();
+
+        const otp =
+            document.getElementById("airtimeOtp").value.trim();
+
+
+        // Validate
+        if (!network || !phoneNumber) {
+
+            showToast(
+                "Please select your network and enter your phone number.",
+                "error"
+            );
+
+            return;
+        }
+
+        if (!otp) {
+
+            showToast(
+                "Please enter the OTP.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // Disable button
+        verifyOtpBtn.disabled = true;
+        verifyOtpBtn.textContent = "Verifying...";
+
+
+        try {
+
+            const result = await apiFetch(
+                "/api/airtime-bridge/verify-otp",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+
+                        networkName: network,
+                        sender: phoneNumber,
+                        otp: otp
+
+                    })
+                }
+            );
+
+
+            console.log(
+                "VERIFY OTP RESPONSE:",
+                result
+            );
+
+
+            if (!result) {
+
+                verifyOtpBtn.disabled = false;
+                verifyOtpBtn.textContent =
+                    "Verify OTP";
+
+                return;
+            }
+
+
+            if (result.success) {
+
+                showToast(
+                    result.message ||
+                    "OTP verified successfully."
+                );
+
+
+                // Mark OTP as verified
+                verifyOtpBtn.textContent =
+                    "Verified ✓";
+
+
+                // Prevent another verification
+                verifyOtpBtn.disabled = true;
+
+
+                // Show PIN section
+                if (pinSection) {
+
+                    pinSection.style.display =
+                        "block";
+
+                }
+
+
+                // Focus PIN
+                const pinInput =
+                    document.getElementById("airtimePin");
+
+                if (pinInput) {
+
+                    pinInput.focus();
+
+                }
+
+
+            } else {
+
+                showToast(
+                    result.message ||
+                    "OTP verification failed.",
+                    "error"
+                );
+
+                verifyOtpBtn.disabled = false;
+
+                verifyOtpBtn.textContent =
+                    "Verify OTP";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "VERIFY OTP ERROR:",
+                error
+            );
+
+            showToast(
+                "Unable to verify OTP. Please try again.",
+                "error"
+            );
+
+            verifyOtpBtn.disabled = false;
+
+            verifyOtpBtn.textContent =
+                "Verify OTP";
+
+        }
+
+    });
+
+}
+
+// ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
 // ==========================================
 
