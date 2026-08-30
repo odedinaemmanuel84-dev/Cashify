@@ -1225,15 +1225,30 @@ if (checkQuotaBtn) {
 
         try {
 
-            const result = await apiRequest(
-                "/api/airtime-bridge/check-quota",
-                "POST",
-                {
-                    networkName: network,
-                    amount: amount
-                }
-            );
+            const pin = document
+    .getElementById("airtimePin")
+    .value
+    .trim();
 
+if (!pin) {
+
+    showToast(
+        "Please enter your Share & Sell PIN.",
+        "error"
+    );
+
+    return;
+}
+
+const result = await apiRequest(
+    "/api/airtime-bridge/check-quota",
+    "POST",
+    {
+        networkName: network,
+        amount: amount,
+        pin: pin
+    }
+);
 
             console.log(
                 "🔥 CHECK QUOTA RESPONSE:",
