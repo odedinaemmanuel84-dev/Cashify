@@ -1650,8 +1650,6 @@ if (verifyOtpBtn) {
 // CHECK AIRTIME QUOTA
 // ==========================================
 
-let airtimeQuotaVerified = false;
-
 const checkQuotaBtn =
     document.getElementById("checkQuotaBtn");
 
@@ -1664,9 +1662,6 @@ if (checkQuotaBtn) {
 
         const airtimeAmount =
             document.getElementById("convertAmount").value;
-
-           // Reset quota verification for this new check
-             airtimeQuotaVerified = false;
 
         // ==========================================
         // VALIDATION
@@ -1770,8 +1765,6 @@ const result = await apiRequest(
             // ==========================================
 
             if (result.success) {
-
-               airtimeQuotaVerified = true;
                 
                 showToast(
                     result.message ||
