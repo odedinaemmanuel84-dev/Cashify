@@ -1719,6 +1719,62 @@ FORM
 
 }
 
+/* ==========================================
+   CHECK AIRTIME AVAILABILITY BUTTON
+========================================== */
+
+#checkQuotaBtn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    background: #00c853;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* Hover */
+
+#checkQuotaBtn:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+}
+
+/* Press */
+
+#checkQuotaBtn:active {
+    transform: translateY(0);
+}
+
+/* Disabled / Checking */
+
+#checkQuotaBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Success state */
+
+#checkQuotaBtn.quota-success {
+    background: #16a34a;
+    cursor: default;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    #checkQuotaBtn {
+        width: 100%;
+    }
+
+}
+
 /*==========================
 FILE INPUT
 ==========================*/
