@@ -1765,6 +1765,9 @@ const result = await apiRequest(
             // ==========================================
 
             if (result.success) {
+
+             // Quota check passed
+            airtimeQuotaVerified = true;
                 
                 showToast(
                     result.message ||
