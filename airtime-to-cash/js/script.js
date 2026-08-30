@@ -1154,6 +1154,177 @@ if (verifyOtpBtn) {
 }           
 
 // ==========================================
+// CHECK AIRTIME QUOTA
+// ==========================================
+
+const checkQuotaBtn =
+    document.getElementById("checkQuotaBtn");
+
+if (checkQuotaBtn) {
+
+    checkQuotaBtn.addEventListener("click", async function () {
+
+        const network =
+            document.getElementById("convertNetwork").value;
+
+        const airtimeAmount =
+            document.getElementById("convertAmount").value;
+
+
+        // ==========================================
+        // VALIDATION
+        // ==========================================
+
+        if (!network) {
+
+            showToast(
+                "Please select your network first.",
+                "error"
+            );
+
+            return;
+
+        }
+
+        if (!airtimeAmount) {
+
+            showToast(
+                "Please enter the airtime amount.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const amount = Number(airtimeAmount);
+
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+
+            showToast(
+                "Please enter a valid airtime amount.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        // ==========================================
+        // DISABLE BUTTON
+        // ==========================================
+
+        checkQuotaBtn.disabled = true;
+
+        checkQuotaBtn.textContent =
+            "Checking...";
+
+
+        try {
+
+            const result = await apiRequest(
+                "/api/airtime-bridge/check-quota",
+                "POST",
+                {
+                    networkName: network,
+                    amount: amount
+                }
+            );
+
+
+            console.log(
+                "🔥 CHECK QUOTA RESPONSE:",
+                result
+            );
+
+
+            if (!result) {
+
+                checkQuotaBtn.disabled = false;
+
+                checkQuotaBtn.textContent =
+                    "Check Airtime Availability";
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // QUOTA AVAILABLE
+            // ==========================================
+
+            if (result.success) {
+
+                showToast(
+                    result.message ||
+                    "Airtime is available for conversion."
+                );
+
+
+                checkQuotaBtn.textContent =
+                    "Airtime Available ✓";
+
+
+                // Keep disabled after successful check
+                checkQuotaBtn.disabled = true;
+
+
+                // ==========================================
+                // NEXT STEP WILL BE CONVERSION
+                // ==========================================
+
+                console.log(
+                    "✅ Airtime quota available."
+                );
+
+
+            } else {
+
+                showToast(
+                    result.message ||
+                    "Airtime is currently unavailable.",
+                    "error"
+                );
+
+
+                checkQuotaBtn.disabled = false;
+
+                checkQuotaBtn.textContent =
+                    "Check Airtime Availability";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "🔥 CHECK QUOTA ERROR:",
+                error
+            );
+
+
+            showToast(
+                "Unable to check airtime availability.",
+                "error"
+            );
+
+
+            checkQuotaBtn.disabled = false;
+
+            checkQuotaBtn.textContent =
+                "Check Airtime Availability";
+
+        }
+
+    });
+
+}
+
+// ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
 // ==========================================
 
