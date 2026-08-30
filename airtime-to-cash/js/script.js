@@ -1835,6 +1835,36 @@ const result = await apiRequest(
 }
 
 // ==========================================
+// RESET QUOTA WHEN NETWORK OR AMOUNT CHANGES
+// ==========================================
+
+const convertNetwork =
+    document.getElementById("convertNetwork");
+
+const convertAmount =
+    document.getElementById("convertAmount");
+
+if (convertNetwork) {
+
+    convertNetwork.addEventListener("change", () => {
+
+        resetAirtimeQuotaState();
+
+    });
+
+}
+
+if (convertAmount) {
+
+    convertAmount.addEventListener("input", () => {
+
+        resetAirtimeQuotaState();
+
+    });
+
+}
+
+// ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
 // ==========================================
 
