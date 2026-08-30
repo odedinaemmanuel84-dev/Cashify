@@ -734,6 +734,8 @@ if (convertForm) {
 
             convertForm.reset();
 
+            resetAirtimeOtpFlow();
+            
             document.getElementById("receiveAmount").textContent = "₦0.00";
 
             const preview = document.getElementById("screenshotPreview");
@@ -756,6 +758,58 @@ if (convertForm) {
     });
 
 }
+
+// ==========================================
+// RESET AIRTIME OTP FLOW
+// ==========================================
+
+function resetAirtimeOtpFlow() {
+
+    // Hide OTP section
+    if (otpSection) {
+        otpSection.style.display = "none";
+    }
+
+    // Hide PIN section
+    if (pinSection) {
+        pinSection.style.display = "none";
+    }
+
+    // Clear OTP
+    const otpInput =
+        document.getElementById("airtimeOtp");
+
+    if (otpInput) {
+        otpInput.value = "";
+    }
+
+    // Clear Share & Sell PIN
+    const pinInput =
+        document.getElementById("airtimePin");
+
+    if (pinInput) {
+        pinInput.value = "";
+    }
+
+    // Reset Request OTP button
+    if (requestOtpBtn) {
+
+        requestOtpBtn.disabled = false;
+
+        requestOtpBtn.textContent =
+            "Request OTP";
+    }
+
+    // Reset Verify OTP button
+    if (verifyOtpBtn) {
+
+        verifyOtpBtn.disabled = false;
+
+        verifyOtpBtn.textContent =
+            "Verify OTP";
+    }
+
+    }
 
  // ==========================================
 // AIRTIME OTP FLOW
