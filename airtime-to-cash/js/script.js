@@ -1658,10 +1658,12 @@ if (checkQuotaBtn) {
     checkQuotaBtn.addEventListener("click", async function () {
 
         const network =
-            document.getElementById("convertNetwork").value;
+            document.getElementById("convertNetwork")?.value
+            ?.trim()
+            ?.toUpperCase();
 
         const airtimeAmount =
-            document.getElementById("convertAmount").value;
+            document.getElementById("convertAmount")?.value;
 
         // ==========================================
         // VALIDATION
@@ -1689,14 +1691,15 @@ if (checkQuotaBtn) {
 
         }
 
-
         const amount = Number(airtimeAmount);
 
-
-        if (!Number.isFinite(amount) || amount <= 0) {
+        if (
+            !Number.isFinite(amount) ||
+            amount < 50
+        ) {
 
             showToast(
-                "Please enter a valid airtime amount.",
+                "Minimum airtime conversion amount is ₦50.",
                 "error"
             );
 
@@ -1704,6 +1707,11 @@ if (checkQuotaBtn) {
 
         }
 
+        // ==========================================
+        // RESET PREVIOUS QUOTA RESULT
+        // ==========================================
+
+        airtimeQuotaVerified = false;
 
         // ==========================================
         // DISABLE BUTTON
@@ -1714,39 +1722,30 @@ if (checkQuotaBtn) {
         checkQuotaBtn.textContent =
             "Checking...";
 
-
         try {
 
-            const pin = document
-    .getElementById("airtimePin")
-    .value
-    .trim();
+            // ==========================================
+            // CHECK AIRTIME AVAILABILITY
+            // PIN IS NOT REQUIRED HERE
+            // ==========================================
 
-if (!pin) {
-
-    showToast(
-        "Please enter your Share & Sell PIN.",
-        "error"
-    );
-
-    return;
-}
-
-const result = await apiRequest(
-    "/api/airtime-bridge/check-quota",
-    "POST",
-    {
-        networkName: network,
-        amount: amount,
-        pin: pin
-    }
-);
+            const result = await apiRequest(
+                "/api/airtime-bridge/check-quota",
+                "POST",
+                {
+                    networkName: network,
+                    amount: amount
+                }
+            );
 
             console.log(
                 "🔥 CHECK QUOTA RESPONSE:",
                 result
             );
 
+            // ==========================================
+            // NO RESPONSE
+            // ==========================================
 
             if (!result) {
 
@@ -1759,55 +1758,57 @@ const result = await apiRequest(
 
             }
 
-
             // ==========================================
             // QUOTA AVAILABLE
             // ==========================================
 
-            if (result.success) {
+            if (
+                result.success &&
+                result.available === true
+            ) {
 
-             // Quota check passed
-            airtimeQuotaVerified = true;
-                
+                // IMPORTANT:
+                // Remember that this exact
+                // network + amount passed quota check
+
+                airtimeQuotaVerified = true;
+
                 showToast(
                     result.message ||
                     "Airtime is available for conversion."
                 );
 
-
                 checkQuotaBtn.textContent =
                     "Airtime Available ✓";
 
-
-                // Keep disabled after successful check
+                // Keep disabled because this
+                // exact amount/network was checked
                 checkQuotaBtn.disabled = true;
 
-
-                // ==========================================
-                // NEXT STEP WILL BE CONVERSION
-                // ==========================================
-
                 console.log(
-                    "✅ Airtime quota available."
+                    "✅ Airtime quota verified."
                 );
 
-
-            } else {
-
-                showToast(
-                    result.message ||
-                    "Airtime is currently unavailable.",
-                    "error"
-                );
-
-
-                checkQuotaBtn.disabled = false;
-
-                checkQuotaBtn.textContent =
-                    "Check Airtime Availability";
+                return;
 
             }
 
+            // ==========================================
+            // QUOTA UNAVAILABLE
+            // ==========================================
+
+            airtimeQuotaVerified = false;
+
+            showToast(
+                result.message ||
+                "Airtime is currently unavailable.",
+                "error"
+            );
+
+            checkQuotaBtn.disabled = false;
+
+            checkQuotaBtn.textContent =
+                "Check Airtime Availability";
 
         } catch (error) {
 
@@ -1816,12 +1817,12 @@ const result = await apiRequest(
                 error
             );
 
+            airtimeQuotaVerified = false;
 
             showToast(
                 "Unable to check airtime availability.",
                 "error"
             );
-
 
             checkQuotaBtn.disabled = false;
 
