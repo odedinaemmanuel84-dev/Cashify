@@ -1665,6 +1665,8 @@ if (checkQuotaBtn) {
         const airtimeAmount =
             document.getElementById("convertAmount").value;
 
+           // Reset quota verification for this new check
+             airtimeQuotaVerified = false;
 
         // ==========================================
         // VALIDATION
