@@ -526,55 +526,52 @@
 
              </div>
 
-       <!-- SHARE & SELL PIN -->
-            
-       <div class="form-group" id="pinSection" style="display:none;">
+       <!-- ================= AIRTIME AVAILABILITY ================= -->
 
-    <label>MTN Share & Sell PIN</label>
+<div class="form-group" id="quotaSection" style="display:none;">
+
+    <button
+        type="button"
+        id="checkQuotaBtn"
+        class="auth-btn">
+
+        Check Airtime Availability
+
+    </button>
+
+    <div
+        id="quotaStatus"
+        class="quota-status"
+        style="display:none;">
+    </div>
+
+</div>
+            
+          <!-- ================= SCREENSHOT ================= -->
+
+<div class="form-group" id="screenshotSection" style="display:none;">
+
+    <label for="screenshot">
+        Upload Airtime Screenshot
+    </label>
 
     <input
-        type="password"
-        id="airtimePin"
-        placeholder="Enter your Share & Sell PIN"
-        inputmode="numeric"
-        autocomplete="off">
+        type="file"
+        id="screenshot"
+        accept="image/*">
 
-      <button
-    type="button"
-    id="checkQuotaBtn"
-    class="auth-btn">
-    Check Airtime Availability
-      </button>     
+</div>
 
-     <div
-    id="quotaStatus"
-    class="quota-status"
-    style="display:none;">
-     </div>
-           
-       </div>
+<div class="preview-box">
+
+    <img
+        id="screenshotPreview"
+        src=""
+        alt="Screenshot Preview"
+        style="display:none;">
+
+</div>
             
-            <div class="form-group">
-
-                <label>Upload Airtime Screenshot</label>
-
-                <input
-                    type="file"
-                    id="screenshot"
-                    accept="image/*">
-
-            </div>
-
-            <div class="preview-box">
-
-                <img
-                    id="screenshotPreview"
-                    src=""
-                    alt="Screenshot Preview"
-                    style="display:none;">
-
-            </div>
-
             <div class="form-group">
 
                 <label>Additional Note</label>
