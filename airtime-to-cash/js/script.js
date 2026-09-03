@@ -800,19 +800,6 @@ if (convertForm) {
 
             }
 
-
-            if (!pin) {
-
-                showToast(
-                    "Please enter your Share & Sell PIN.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
             // ==========================================
             // OTP VERIFICATION CHECK
             // ==========================================
@@ -858,7 +845,6 @@ if (convertForm) {
             // ==========================================
             // QUOTA CHECK
             // ==========================================
-
             if (!airtimeQuotaVerified) {
 
                 showToast(
@@ -902,7 +888,7 @@ if (convertForm) {
 
 
             // ==========================================
-            // CALCULATE CASH AMOUNT
+            // CALCULATES CASH AMOUNT
             // ==========================================
 
             const amountToReceive =
@@ -980,7 +966,7 @@ if (convertForm) {
                     await apiRequest(
                         "/api/airtime-bridge/convert",
                         "POST",
-                        {
+                      {
                             networkName: network,
                             sender: phoneNumber,
                             amount: airtimeAmount,
@@ -1785,9 +1771,20 @@ if (checkQuotaBtn) {
                 // exact amount/network was checked
                 checkQuotaBtn.disabled = true;
 
+                // ==========================================
+    // SHOW SCREENSHOT UPLOAD
+    // ==========================================
+                
+                const screenshotSection =
+    document.getElementById("screenshotSection");
+
+if (screenshotSection) {
+    screenshotSection.style.display = "block";
+}
+                
                 console.log(
                     "✅ Airtime quota verified."
-                );
+               );
 
                 return;
 
