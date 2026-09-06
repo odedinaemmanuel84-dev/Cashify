@@ -1570,7 +1570,6 @@ if (requestOtpBtn) {
 
 }
 
-
 // ==========================================
 // VERIFY OTP
 // ==========================================
@@ -1580,16 +1579,22 @@ if (verifyOtpBtn) {
     verifyOtpBtn.addEventListener("click", async function () {
 
         const network =
-            document.getElementById("convertNetwork").value;
+            document.getElementById("convertNetwork")?.value
+            ?.trim()
+            ?.toUpperCase();
 
         const phoneNumber =
-            document.getElementById("phoneNumber").value.trim();
+            document.getElementById("phoneNumber")?.value
+            ?.trim();
 
         const otp =
-            document.getElementById("airtimeOtp").value.trim();
+            document.getElementById("airtimeOtp")?.value
+            ?.trim();
 
 
-        // Validate
+        // ==========================================
+        // VALIDATION
+        // ==========================================
 
         if (!network || !phoneNumber) {
 
@@ -1599,7 +1604,6 @@ if (verifyOtpBtn) {
             );
 
             return;
-
         }
 
 
@@ -1611,11 +1615,12 @@ if (verifyOtpBtn) {
             );
 
             return;
-
         }
 
 
-        // Disable button
+        // ==========================================
+        // DISABLE BUTTON
+        // ==========================================
 
         verifyOtpBtn.disabled = true;
 
@@ -1625,15 +1630,20 @@ if (verifyOtpBtn) {
 
         try {
 
-            const result = await apiRequest(
-                "/api/airtime-bridge/verify-otp",
-                "POST",
-                {
-                    networkName: network,
-                    sender: phoneNumber,
-                    otp: otp
-                }
-            );
+            // ==========================================
+            // VERIFY OTP WITH CASHIFY BACKEND
+            // ==========================================
+
+            const result =
+                await apiRequest(
+                    "/api/airtime-bridge/verify-otp",
+                    "POST",
+                    {
+                        networkName: network,
+                        sender: phoneNumber,
+                        otp: otp
+                    }
+                );
 
 
             console.log(
@@ -1641,6 +1651,10 @@ if (verifyOtpBtn) {
                 result
             );
 
+
+            // ==========================================
+            // NO RESPONSE
+            // ==========================================
 
             if (!result) {
 
@@ -1650,40 +1664,54 @@ if (verifyOtpBtn) {
                     "Verify OTP";
 
                 return;
-
             }
 
- showToast(
-    result.message ||
-    "OTP verified successfully."
-);
+
+            // ==========================================
+            // OTP VERIFIED SUCCESSFULLY
+            // ==========================================
+
+            if (result.success) {
+
+                showToast(
+                    result.message ||
+                    "OTP verified successfully."
+                );
 
 
-// ==========================================
-// OTP VERIFIED
-// ==========================================
+                // ==========================================
+                // MARK OTP AS VERIFIED
+                // ==========================================
 
-verifyOtpBtn.textContent =
-    "Verified ✓";
+                verifyOtpBtn.textContent =
+                    "Verified ✓";
 
-verifyOtpBtn.disabled = true;
+                verifyOtpBtn.disabled = true;
 
 
-// ==========================================
-// SHOW AIRTIME AVAILABILITY
-// ==========================================
+                // ==========================================
+                // SHOW AIRTIME AVAILABILITY
+                // ==========================================
 
-const quotaSection =
-    document.getElementById("quotaSection");
+                const quotaSection =
+                    document.getElementById(
+                        "quotaSection"
+                    );
 
-if (quotaSection) {
 
-    quotaSection.style.display =
-        "block";
+                if (quotaSection) {
 
-}
+                    quotaSection.style.display =
+                        "block";
+
+                }
+
 
             } else {
+
+                // ==========================================
+                // OTP VERIFICATION FAILED
+                // ==========================================
 
                 showToast(
                     result.message ||
@@ -1723,9 +1751,8 @@ if (quotaSection) {
 
     });
 
-}           
+}
 
-// ==========================================
 // CHECK AIRTIME QUOTA
 // ==========================================
 
