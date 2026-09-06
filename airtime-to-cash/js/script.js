@@ -856,8 +856,8 @@ if (convertForm) {
 
             }
 
-// ==========================================
-// SHOW SHARE & SELL PIN
+            // ==========================================
+// SHARE & SELL PIN
 // ==========================================
 
 if (!pin) {
@@ -873,6 +873,7 @@ if (!pin) {
         document.getElementById("airtimePin");
 
     if (pinInput) {
+        pinInput.value = "";
         pinInput.focus();
     }
 
@@ -881,6 +882,7 @@ if (!pin) {
     );
 
     return;
+
 }
             
             // ==========================================
@@ -1299,6 +1301,46 @@ if (
     );
 
                 }
+
+// ==========================================
+// AUTO SUBMIT AFTER 4-DIGIT SHARE & SELL PIN
+// ==========================================
+
+const airtimePinInput =
+    document.getElementById("airtimePin");
+
+if (airtimePinInput) {
+
+    airtimePinInput.addEventListener("input", function () {
+
+        const pin =
+            this.value.trim();
+
+        if (pin.length !== 4) {
+            return;
+        }
+
+        if (!convertForm) {
+            return;
+        }
+
+        if (this.dataset.submitting === "true") {
+            return;
+        }
+
+        this.dataset.submitting = "true";
+
+        convertForm.requestSubmit();
+
+        setTimeout(() => {
+
+            this.dataset.submitting = "false";
+
+        }, 2000);
+
+    });
+
+}
 
 // ==========================================
 // RESET AIRTIME OTP FLOW
