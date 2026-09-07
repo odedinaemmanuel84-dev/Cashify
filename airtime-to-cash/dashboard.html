@@ -572,25 +572,138 @@
 
 </div>
 
-<!-- ================= SHARE & SELL PIN ================= -->
+<!-- ================= SHARE & SELL PIN POPUP ================= -->
 
-<div
-    class="form-group"
-    id="pinSection"
-    style="display:none;">
+<div id="pinOverlay" class="pin-overlay">
 
-    <label for="airtimePin">
-        Share & Sell PIN
-    </label>
+    <div class="pin-sheet">
 
-    <input
-        type="password"
-        id="airtimePin"
-        placeholder="Enter your Share & Sell PIN"
-        inputmode="numeric"
-        autocomplete="off">
+        <button
+            type="button"
+            id="closePinPopup"
+            class="pin-close"
+            aria-label="Close"
+        >
+            <i class="fas fa-times"></i>
+        </button>
 
-</div>
+        <div class="pin-icon">
+            <i class="fas fa-lock"></i>
+        </div>
+
+        <h3>Enter Share & Sell PIN</h3>
+
+        <p>
+            Enter your 4-digit Share & Sell PIN
+        </p>
+
+        <!-- Actual PIN value used by Cashify -->
+        <input
+            type="password"
+            id="airtimePin"
+            maxlength="4"
+            inputmode="none"
+            autocomplete="off"
+            readonly
+            aria-hidden="true"
+        >
+
+        <!-- PIN BOXES -->
+
+        <div class="pin-boxes" id="pinBoxes">
+
+            <div class="pin-box"></div>
+            <div class="pin-box"></div>
+            <div class="pin-box"></div>
+            <div class="pin-box"></div>
+
+        </div>
+
+        <!-- ERROR -->
+
+        <div
+            id="pinError"
+            class="pin-error"
+        ></div>
+
+
+        <!-- ================= NUMERIC KEYPAD ================= -->
+
+        <div class="pin-keypad">
+
+            <button type="button" class="pin-key" data-digit="1">
+                1
+            </button>
+
+            <button type="button" class="pin-key" data-digit="2">
+                2
+            </button>
+
+            <button type="button" class="pin-key" data-digit="3">
+                3
+            </button>
+
+
+            <button type="button" class="pin-key" data-digit="4">
+                4
+            </button>
+
+            <button type="button" class="pin-key" data-digit="5">
+                5
+            </button>
+
+            <button type="button" class="pin-key" data-digit="6">
+                6
+            </button>
+
+
+            <button type="button" class="pin-key" data-digit="7">
+                7
+            </button>
+
+            <button type="button" class="pin-key" data-digit="8">
+                8
+            </button>
+
+            <button type="button" class="pin-key" data-digit="9">
+                9
+            </button>
+
+
+            <button
+                type="button"
+                class="pin-key pin-empty"
+            ></button>
+
+            <button type="button" class="pin-key" data-digit="0">
+                0
+            </button>
+
+            <button
+                type="button"
+                id="pinBackspace"
+                class="pin-key pin-delete"
+            >
+                <i class="fas fa-backspace"></i>
+            </button>
+
+        </div>
+
+
+        <!-- CONTINUE -->
+
+        <button
+            type="button"
+            id="pinContinueBtn"
+            class="pin-continue-btn"
+            disabled
+        >
+            Continue
+        </button>
+
+    </div>
+
+    </div>
             
 <div class="form-group">
 
