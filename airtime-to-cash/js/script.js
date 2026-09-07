@@ -770,7 +770,6 @@ function resetAirtimeOtpFlow() {
 
 }
 
-
 // ==========================================
 // CONVERT FORM
 // ==========================================
@@ -783,48 +782,37 @@ if (convertForm) {
 
             e.preventDefault();
 
-
             // ==========================================
             // GET VALUES
             // ==========================================
 
             const network =
                 convertNetwork?.value
-                ?.trim()
-                ?.toUpperCase();
+                    ?.trim()
+                    ?.toUpperCase();
 
             const airtimeAmount =
-                Number(
-                    convertAmount?.value
-                );
+                Number(convertAmount?.value);
 
             const phoneNumber =
-                document.getElementById(
-                    "phoneNumber"
-                )?.value
-                ?.trim();
-
-            const pin =
-                airtimePinInput?.value
-                ?.trim();
+                document.getElementById("phoneNumber")
+                    ?.value
+                    ?.trim();
 
             const note =
-                document.getElementById(
-                    "conversionNote"
-                )?.value
-                ?.trim() || "";
+                document.getElementById("conversionNote")
+                    ?.value
+                    ?.trim() || "";
 
             const screenshotInput =
-                document.getElementById(
-                    "screenshot"
-                );
+                document.getElementById("screenshot");
 
             const screenshot =
                 screenshotInput?.files?.[0] || null;
 
 
             // ==========================================
-            // VALIDATION
+            // BASIC VALIDATION
             // ==========================================
 
             if (!network) {
@@ -835,7 +823,6 @@ if (convertForm) {
                 );
 
                 return;
-
             }
 
 
@@ -850,7 +837,6 @@ if (convertForm) {
                 );
 
                 return;
-
             }
 
 
@@ -862,10 +848,9 @@ if (convertForm) {
                 );
 
                 return;
-
             }
 
-    
+
             // ==========================================
             // OTP VERIFICATION CHECK
             // ==========================================
@@ -873,9 +858,7 @@ if (convertForm) {
             const otpVerified =
                 verifyOtpBtn &&
                 verifyOtpBtn.disabled &&
-                verifyOtpBtn.textContent.includes(
-                    "Verified"
-                );
+                verifyOtpBtn.textContent.includes("Verified");
 
 
             if (!otpVerified) {
@@ -890,7 +873,6 @@ if (convertForm) {
                 }
 
                 return;
-
             }
 
 
@@ -906,403 +888,428 @@ if (convertForm) {
                 );
 
                 return;
-
-            }
-
-    
-            // ==========================================
-            // GET EXCHANGE RATE
-            // ==========================================
-
-            const rateText =
-                document.getElementById(
-                    "currentRate"
-                )?.textContent
-                ?.replace("%", "")
-                ?.trim();
-
-            const exchangeRate =
-                Number(rateText);
-
-
-            if (
-                !Number.isFinite(exchangeRate) ||
-                exchangeRate <= 0
-            ) {
-
-                showToast(
-                    "Unable to determine the current exchange rate. Please select your network again.",
-                    "error"
-                );
-
-                return;
-
             }
 
 
             // ==========================================
-            // CALCULATE CASH AMOUNT
+            // OPEN SHARE & SELL PIN
             // ==========================================
 
-            const amountToReceive =
-                (airtimeAmount * exchangeRate) / 100;
-
-
-            if (
-                !Number.isFinite(amountToReceive) ||
-                amountToReceive <= 0
-            ) {
-
-                showToast(
-                    "Unable to calculate conversion amount.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            // ==========================================
-            // GENERATE REFERENCE
-            // ==========================================
-
-            const reference =
-                "CASHIFY-" +
-                Date.now() +
-                "-" +
-                Math.random()
-                    .toString(36)
-                    .substring(2, 8)
-                    .toUpperCase();
-
-
-            // ==========================================
-            // SUBMIT BUTTON
-            // ==========================================
-
-            const submitBtn =
-                convertForm.querySelector(
-                    'button[type="submit"]'
-                );
-
-
-            if (submitBtn) {
-
-                submitBtn.disabled = true;
-
-                submitBtn.innerHTML = `
-                    <i class="fas fa-spinner fa-spin"></i>
-                    Processing Airtime...
-                `;
-
-            }
-
-
-            try {
-
-                // ==========================================
-                // STEP 1
-                // AIRTIMEBRIDGE TRANSFER
-                // ==========================================
-
-                console.log(
-                    "🔥 Starting AirtimeBridge transfer..."
-                );
-
-
-                const transferResult =
-                    await apiRequest(
-                        "/api/airtime-bridge/convert",
-                        "POST",
-                        {
-                            networkName: network,
-                            sender: phoneNumber,
-                            amount: airtimeAmount,
-                            reference: reference,
-                            pin: pin
-                        }
-                    );
-
-
-                console.log(
-                    "🔥 AIRTIMEBRIDGE CONVERT RESPONSE:",
-                    transferResult
-                );
-
-
-                if (!transferResult) {
-
-                    showToast(
-                        "Unable to connect to the airtime provider.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                // ==========================================
-                // TRANSFER SUCCESS
-                // ==========================================
-
-                if (
-                    transferResult.success &&
-                    transferResult.status === "successful"
-                ) {
-
-                    showToast(
-                        "Airtime transfer successful. Creating your Cashify transaction..."
-                    );
-
-
-                    // ==========================================
-                    // CREATE TRANSACTION
-                    // ==========================================
-
-                    const formData =
-                        new FormData();
-
-
-                    formData.append(
-                        "network",
-                        network
-                    );
-
-                    formData.append(
-                        "phoneNumber",
-                        phoneNumber
-                    );
-
-                    formData.append(
-                        "airtimeAmount",
-                        airtimeAmount
-                    );
-
-                    formData.append(
-                        "exchangeRate",
-                        exchangeRate
-                    );
-
-                    formData.append(
-                        "amountToReceive",
-                        amountToReceive
-                    );
-
-                    formData.append(
-                        "note",
-                        note
-                    );
-
-                    formData.append(
-                        "reference",
-                        reference
-                    );
-
-
-                    if (screenshot) {
-
-                        formData.append(
-                            "screenshot",
-                            screenshot
-                        );
-
-                    }
-
-
-                    const transactionResult =
-                        await apiUpload(
-                            "/api/transaction/create",
-                            formData
-                        );
-
-
-                    console.log(
-                        "🔥 CASHIFY TRANSACTION RESPONSE:",
-                        transactionResult
-                    );
-
-
-                    if (
-                        transactionResult &&
-                        transactionResult.success
-                    ) {
-
-                        showToast(
-                            transactionResult.message ||
-                            "Conversion submitted successfully."
-                        );
-
-
-                        convertForm.reset();
-
-                        resetAirtimeOtpFlow();
-
-                        resetAirtimeQuotaState();
-
-
-                        const preview =
-                            document.getElementById(
-                                "screenshotPreview"
-                            );
-
-                        if (preview) {
-
-                            preview.src = "";
-
-                            preview.style.display =
-                                "none";
-
-                        }
-
-
-                        const receiveAmount =
-                            document.getElementById(
-                                "receiveAmount"
-                            );
-
-                        if (receiveAmount) {
-
-                            receiveAmount.textContent =
-                                "₦0.00";
-
-                        }
-
-
-                        const currentRate =
-                            document.getElementById(
-                                "currentRate"
-                            );
-
-                        if (currentRate) {
-
-                            currentRate.textContent =
-                                "--";
-
-                        }
-
-
-                        await loadTransactions();
-
-                        await loadDashboard();
-
-                    } else {
-
-                        showToast(
-                            transactionResult?.message ||
-                            "Airtime was transferred, but Cashify could not create the transaction. Please contact support.",
-                            "error"
-                        );
-
-                    }
-
-                    return;
-
-                }
-
-
-                // ==========================================
-                // TRANSFER PENDING
-                // ==========================================
-
-                if (
-                    transferResult.status === "pending"
-                ) {
-
-                    showToast(
-                        transferResult.message ||
-                        "Airtime transfer is pending. Please wait for confirmation.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                // ==========================================
-                // TRANSFER FAILED
-                // ==========================================
-
-                const failedMessage =
-                    transferResult.message || "";
-
-                const lowerMessage =
-                    failedMessage.toLowerCase();
-
-
-                if (
-                    lowerMessage.includes("pin") ||
-                    lowerMessage.includes("invalid") ||
-                    lowerMessage.includes("incorrect") ||
-                    lowerMessage.includes("wrong")
-                ) {
-
-                    showToast(
-                        "Incorrect Share & Sell PIN. Please check your PIN and try again.",
-                        "error"
-                    );
-
-
-                    if (pinSection) {
-                        pinSection.style.display = "block";
-                    }
-
-
-                    if (airtimePinInput) {
-
-                        airtimePinInput.focus();
-
-                        airtimePinInput.select();
-
-                    }
-
-                } else {
-
-                    showToast(
-                        failedMessage ||
-                        "Airtime transfer failed. Please try again.",
-                        "error"
-                    );
-
-                }
-
-
-            } catch (error) {
-
-                console.error(
-                    "🔥 CONVERSION ERROR:",
-                    error
-                );
-
-
-                showToast(
-                    "Unable to process airtime conversion. Please try again.",
-                    "error"
-                );
-
-
-            } finally {
-
-                if (submitBtn) {
-
-                    submitBtn.disabled = false;
-
-                    submitBtn.innerHTML = `
-                        <i class="fas fa-paper-plane"></i>
-                        Submit Conversion
-                    `;
-
-                }
-
-            }
+            openPinPopup();
 
         }
     );
 
 }
 
+
+// ==========================================
+// ACTUAL AIRTIME CONVERSION
+// ==========================================
+
+async function processAirtimeConversion(pin) {
+
+    const network =
+        convertNetwork?.value
+            ?.trim()
+            ?.toUpperCase();
+
+    const airtimeAmount =
+        Number(convertAmount?.value);
+
+    const phoneNumber =
+        document.getElementById("phoneNumber")
+            ?.value
+            ?.trim();
+
+    const note =
+        document.getElementById("conversionNote")
+            ?.value
+            ?.trim() || "";
+
+    const screenshotInput =
+        document.getElementById("screenshot");
+
+    const screenshot =
+        screenshotInput?.files?.[0] || null;
+
+
+    // ==========================================
+    // VALIDATION
+    // ==========================================
+
+    if (!network) {
+        throw new Error("Please select your network.");
+    }
+
+    if (
+        !Number.isFinite(airtimeAmount) ||
+        airtimeAmount < 50
+    ) {
+        throw new Error(
+            "Minimum airtime conversion amount is ₦50."
+        );
+    }
+
+    if (!phoneNumber) {
+        throw new Error(
+            "Please enter your phone number."
+        );
+    }
+
+    if (!airtimeQuotaVerified) {
+        throw new Error(
+            "Please check airtime availability first."
+        );
+    }
+
+    if (!pin || pin.length !== 4) {
+        throw new Error(
+            "Enter your 4-digit Share & Sell PIN."
+        );
+    }
+
+
+    // ==========================================
+    // GET EXCHANGE RATE
+    // ==========================================
+
+    const rateText =
+        document.getElementById("currentRate")
+            ?.textContent
+            ?.replace("%", "")
+            ?.trim();
+
+    const exchangeRate =
+        Number(rateText);
+
+
+    if (
+        !Number.isFinite(exchangeRate) ||
+        exchangeRate <= 0
+    ) {
+        throw new Error(
+            "Unable to determine the current exchange rate."
+        );
+    }
+
+
+    // ==========================================
+    // CALCULATE CASH AMOUNT
+    // ==========================================
+
+    const amountToReceive =
+        (airtimeAmount * exchangeRate) / 100;
+
+
+    if (
+        !Number.isFinite(amountToReceive) ||
+        amountToReceive <= 0
+    ) {
+        throw new Error(
+            "Unable to calculate conversion amount."
+        );
+    }
+
+
+    // ==========================================
+    // GENERATE REFERENCE
+    // ==========================================
+
+    const reference =
+        "CASHIFY-" +
+        Date.now() +
+        "-" +
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
+
+
+    console.log(
+        "🔥 Starting AirtimeBridge transfer..."
+    );
+
+
+    // ==========================================
+    // AIRTIMEBRIDGE TRANSFER
+    // ==========================================
+
+    const transferResult =
+        await apiRequest(
+            "/api/airtime-bridge/convert",
+            "POST",
+            {
+                networkName: network,
+                sender: phoneNumber,
+                amount: airtimeAmount,
+                reference: reference,
+                pin: pin
+            }
+        );
+
+
+    console.log(
+        "🔥 AIRTIMEBRIDGE CONVERT RESPONSE:",
+        transferResult
+    );
+
+
+    if (!transferResult) {
+
+        throw new Error(
+            "Unable to connect to the airtime provider."
+        );
+    }
+
+
+    // ==========================================
+    // PROVIDER FAILED
+    // ==========================================
+
+    if (!transferResult.success) {
+
+        const failedMessage =
+            transferResult.message || "";
+
+        const lowerMessage =
+            failedMessage.toLowerCase();
+
+
+        if (
+            lowerMessage.includes("pin") ||
+            lowerMessage.includes("incorrect") ||
+            lowerMessage.includes("wrong") ||
+            lowerMessage.includes("invalid")
+        ) {
+
+            throw new Error(
+                "Incorrect Share & Sell PIN. Please try again."
+            );
+        }
+
+
+        throw new Error(
+            failedMessage ||
+            "Airtime transfer failed. Please try again."
+        );
+    }
+
+
+    // ==========================================
+    // PENDING
+    // ==========================================
+
+    if (
+        transferResult.status === "pending"
+    ) {
+
+        throw new Error(
+            transferResult.message ||
+            "Airtime transfer is pending. Please wait for confirmation."
+        );
+    }
+
+
+    // ==========================================
+    // CREATE CASHIFY TRANSACTION
+    // ==========================================
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "network",
+        network
+    );
+
+    formData.append(
+        "phoneNumber",
+        phoneNumber
+    );
+
+    formData.append(
+        "airtimeAmount",
+        airtimeAmount
+    );
+
+    formData.append(
+        "exchangeRate",
+        exchangeRate
+    );
+
+    formData.append(
+        "amountToReceive",
+        amountToReceive
+    );
+
+    formData.append(
+        "note",
+        note
+    );
+
+    formData.append(
+        "reference",
+        reference
+    );
+
+
+    if (screenshot) {
+
+        formData.append(
+            "screenshot",
+            screenshot
+        );
+
+    }
+
+
+    console.log(
+        "🔥 Creating Cashify transaction..."
+    );
+
+
+    const transactionResult =
+        await apiUpload(
+            "/api/transaction/create",
+            formData
+        );
+
+
+    console.log(
+        "🔥 CASHIFY TRANSACTION RESPONSE:",
+        transactionResult
+    );
+
+
+    if (
+        !transactionResult ||
+        !transactionResult.success
+    ) {
+
+        throw new Error(
+            transactionResult?.message ||
+            "Airtime was transferred, but Cashify could not create the transaction. Please contact support."
+        );
+    }
+
+
+    // ==========================================
+    // SUCCESS
+    // ==========================================
+
+    closePinPopupFunction();
+
+
+    if (airtimePinInput) {
+
+        airtimePinInput.value = "";
+
+    }
+
+
+    updatePinBoxes();
+
+
+    airtimeQuotaVerified = false;
+
+
+    showToast(
+        transactionResult.message ||
+        "Conversion submitted successfully."
+    );
+
+
+    // ==========================================
+    // RESET FORM
+    // ==========================================
+
+    convertForm.reset();
+
+
+    resetAirtimeOtpFlow();
+
+    resetAirtimeQuotaState();
+
+
+    const preview =
+        document.getElementById(
+            "screenshotPreview"
+        );
+
+
+    if (preview) {
+
+        preview.src = "";
+
+        preview.style.display = "none";
+
+    }
+
+
+    const receiveAmount =
+        document.getElementById(
+            "receiveAmount"
+        );
+
+
+    if (receiveAmount) {
+
+        receiveAmount.textContent =
+            "₦0.00";
+
+    }
+
+
+    const currentRate =
+        document.getElementById(
+            "currentRate"
+        );
+
+
+    if (currentRate) {
+
+        currentRate.textContent =
+            "--";
+
+    }
+
+
+    // ==========================================
+    // REFRESH DASHBOARD
+    // ==========================================
+
+    try {
+
+        if (
+            typeof loadTransactions ===
+            "function"
+        ) {
+            await loadTransactions();
+        }
+
+        if (
+            typeof loadDashboard ===
+            "function"
+        ) {
+            await loadDashboard();
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Dashboard refresh warning:",
+            error
+        );
+
+    }
+
+
+    return transactionResult;
+
+            }                                                            
+                    
 // ==========================================
 // CASHIFY SHARE & SELL PIN POPUP
 // ==========================================
@@ -1532,42 +1539,120 @@ if (pinBackspace) {
 
 }
 
-
 // ==========================================
 // CONTINUE
 // ==========================================
 
-pinContinueBtn.addEventListener("click", async function () {
+if (pinContinueBtn) {
 
-    const pin = airtimePinInput?.value?.trim();
+    pinContinueBtn.addEventListener(
+        "click",
+        async function () {
 
-    if (!pin || pin.length !== 4) {
-        pinError.textContent = "Enter your 4-digit Share & Sell PIN.";
-        return;
-    }
+            const pin =
+                popupPinInput?.value?.trim() || "";
 
-    pinError.textContent = "";
 
-    // Prevent double clicking
-    if (this.dataset.processing === "true") return;
+            if (pin.length !== 4) {
 
-    this.dataset.processing = "true";
-    this.disabled = true;
-    this.textContent = "Processing...";
+                if (pinError) {
 
-    try {
-        await processAirtimeConversion(pin);
-    } catch (error) {
-        console.error("PIN conversion error:", error);
+                    pinError.textContent =
+                        "Enter your 4-digit Share & Sell PIN.";
 
-        pinError.textContent =
-            error?.message || "Unable to process conversion.";
-    } finally {
-        this.dataset.processing = "false";
-        this.disabled = false;
-        this.textContent = "Continue";
-    }
-});
+                }
+
+                return;
+            }
+
+
+            if (
+                this.dataset.processing ===
+                "true"
+            ) {
+                return;
+            }
+
+
+            this.dataset.processing =
+                "true";
+
+
+            this.disabled = true;
+
+
+            this.innerHTML = `
+                <i class="fas fa-spinner fa-spin"></i>
+                Processing...
+            `;
+
+
+            if (pinError) {
+
+                pinError.textContent =
+                    "";
+
+            }
+
+
+            try {
+
+                await processAirtimeConversion(
+                    pin
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "🔥 PIN CONVERSION ERROR:",
+                    error
+                );
+
+
+                // Keep popup OPEN
+                // so user can enter PIN again
+
+                if (pinError) {
+
+                    pinError.textContent =
+                        error?.message ||
+                        "Unable to process conversion.";
+
+                }
+
+
+                // Clear incorrect PIN
+
+                if (popupPinInput) {
+
+                    popupPinInput.value =
+                        "";
+
+                }
+
+
+                updatePinBoxes();
+
+
+            } finally {
+
+                this.dataset.processing =
+                    "false";
+
+
+                this.disabled = false;
+
+
+                this.innerHTML =
+                    "Continue";
+
+            }
+
+        }
+    );
+
+}
 
 // ==========================================
 // CLOSE BUTTON
