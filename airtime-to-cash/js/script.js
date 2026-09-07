@@ -910,29 +910,11 @@ if (convertForm) {
             }
 
 
-            // ==========================================
-            // SHARE & SELL PIN
-            // ==========================================
-
             if (!pin) {
 
-                if (pinSection) {
-                    pinSection.style.display = "block";
-                }
+    openPinPopup();
 
-                if (airtimePinInput) {
-
-                    airtimePinInput.value = "";
-
-                    airtimePinInput.focus();
-
-                }
-
-                showToast(
-                    "Enter your Share & Sell PIN to continue."
-                );
-
-                return;
+    return;
 
             }
 
@@ -1330,53 +1312,321 @@ if (convertForm) {
 
 }
 
+// ==========================================
+// CASHIFY SHARE & SELL PIN POPUP
+// ==========================================
+
+const pinOverlay =
+    document.getElementById("pinOverlay");
+
+const closePinPopup =
+    document.getElementById("closePinPopup");
+
+const pinContinueBtn =
+    document.getElementById("pinContinueBtn");
+
+const pinError =
+    document.getElementById("pinError");
+
+const pinBoxes =
+    document.querySelectorAll(".pin-box");
+
+const popupPinInput =
+    document.getElementById("airtimePin");
+
+const pinKeys =
+    document.querySelectorAll(".pin-key[data-digit]");
+
+const pinBackspace =
+    document.getElementById("pinBackspace");
+
 
 // ==========================================
-// AUTO SUBMIT AFTER 4-DIGIT PIN
+// UPDATE PIN DISPLAY
 // ==========================================
 
-if (airtimePinInput) {
+function updatePinBoxes() {
 
-    airtimePinInput.addEventListener(
-        "input",
+    const pin =
+        popupPinInput?.value || "";
+
+    pinBoxes.forEach(
+        (box, index) => {
+
+            box.classList.remove("filled");
+            box.classList.remove("active");
+
+            if (index < pin.length) {
+
+                box.classList.add(
+                    "filled"
+                );
+
+            }
+
+            if (index === pin.length) {
+
+                box.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+
+    if (pinContinueBtn) {
+
+        pinContinueBtn.disabled =
+            pin.length !== 4;
+
+    }
+
+}
+
+
+// ==========================================
+// OPEN PIN POPUP
+// ==========================================
+
+function openPinPopup() {
+
+    if (!pinOverlay) return;
+
+
+    if (popupPinInput) {
+
+        popupPinInput.value = "";
+
+    }
+
+
+    if (pinError) {
+
+        pinError.textContent = "";
+
+    }
+
+
+    updatePinBoxes();
+
+
+    pinOverlay.classList.add("show");
+
+}
+
+
+// ==========================================
+// CLOSE PIN POPUP
+// ==========================================
+
+function closePinPopupFunction() {
+
+    if (!pinOverlay) return;
+
+    pinOverlay.classList.remove("show");
+
+
+    if (popupPinInput) {
+
+        popupPinInput.value = "";
+
+    }
+
+
+    if (pinError) {
+
+        pinError.textContent = "";
+
+    }
+
+
+    updatePinBoxes();
+
+}
+
+
+// ==========================================
+// NUMBER BUTTONS
+// ==========================================
+
+pinKeys.forEach(
+    function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                if (!popupPinInput) return;
+
+
+                let pin =
+                    popupPinInput.value || "";
+
+
+                if (pin.length >= 4) {
+                    return;
+                }
+
+
+                const digit =
+                    this.dataset.digit;
+
+
+                if (!digit) return;
+
+
+                pin += digit;
+
+
+                popupPinInput.value =
+                    pin;
+
+
+                if (pinError) {
+
+                    pinError.textContent =
+                        "";
+
+                }
+
+
+                updatePinBoxes();
+
+            }
+        );
+
+    }
+);
+
+
+// ==========================================
+// BACKSPACE
+// ==========================================
+
+if (pinBackspace) {
+
+    pinBackspace.addEventListener(
+        "click",
         function () {
 
-            const pin =
-                this.value.trim();
+            if (!popupPinInput) return;
 
 
-            if (pin.length !== 4) {
-                return;
+            let pin =
+                popupPinInput.value || "";
+
+
+            pin =
+                pin.slice(0, -1);
+
+
+            popupPinInput.value =
+                pin;
+
+
+            if (pinError) {
+
+                pinError.textContent =
+                    "";
+
             }
 
 
-            if (!convertForm) {
-                return;
-            }
-
-
-            if (this.dataset.submitting === "true") {
-                return;
-            }
-
-
-            this.dataset.submitting = "true";
-
-
-            convertForm.requestSubmit();
-
-
-            setTimeout(() => {
-
-                this.dataset.submitting = "false";
-
-            }, 2000);
+            updatePinBoxes();
 
         }
     );
 
 }
 
+
+// ==========================================
+// CONTINUE
+// ==========================================
+
+if (pinContinueBtn) {
+
+    pinContinueBtn.addEventListener(
+        "click",
+        function () {
+
+            const pin =
+                popupPinInput?.value?.trim();
+
+
+            if (!pin || pin.length !== 4) {
+
+                return;
+
+            }
+
+
+            // Close popup first
+
+            closePinPopupFunction();
+
+
+            // Submit conversion again
+
+            if (convertForm) {
+
+                convertForm.requestSubmit();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// CLOSE BUTTON
+// ==========================================
+
+if (closePinPopup) {
+
+    closePinPopup.addEventListener(
+        "click",
+        function () {
+
+            closePinPopupFunction();
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// CLICK OUTSIDE
+// ==========================================
+
+if (pinOverlay) {
+
+    pinOverlay.addEventListener(
+        "click",
+        function (e) {
+
+            if (e.target === pinOverlay) {
+
+                closePinPopupFunction();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// INITIAL DISPLAY
+// ==========================================
+
+updatePinBoxes();
 
 // ==========================================
 // REQUEST OTP
