@@ -909,14 +909,6 @@ if (convertForm) {
 
             }
 
-            if (!pin || pin.length !== 4) {
-    openPinPopup();
-    return;
-}
-
-// The actual conversion is handled by
-// processAirtimeConversion() from the PIN popup.
-return;
     
             // ==========================================
             // GET EXCHANGE RATE
