@@ -695,7 +695,6 @@ function resetAirtimeQuotaState() {
 
 }
 
-
 // ==========================================
 // CONVERT FORM
 // ==========================================
@@ -1171,7 +1170,6 @@ if (!pin) {
 
                         }
 
-
                         // ==========================================
                         // REFRESH DASHBOARD
                         // ==========================================
@@ -1195,7 +1193,6 @@ if (!pin) {
                     return;
 
                 }
-
 
                 // ==========================================
                 // TRANSFER PENDING
@@ -1409,7 +1406,6 @@ const otpSection =
 
 const pinSection =
     document.getElementById("pinSection");
-
 
 // ==========================================
 // REQUEST OTP
