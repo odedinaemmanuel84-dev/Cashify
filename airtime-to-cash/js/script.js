@@ -665,8 +665,1245 @@ async function loadExchangeRate() {
 
 }
 
+// ==========================================
+// CONVERT AIRTIME
+// ==========================================
 
-                                        
+let airtimeQuotaVerified = false;
+
+
+// ==========================================
+// SELECTORS
+// ==========================================
+
+const convertForm =
+    document.getElementById("convertForm");
+
+const requestOtpBtn =
+    document.getElementById("requestOtpBtn");
+
+const verifyOtpBtn =
+    document.getElementById("verifyOtpBtn");
+
+const otpSection =
+    document.getElementById("otpSection");
+
+const pinSection =
+    document.getElementById("pinSection");
+
+const checkQuotaBtn =
+    document.getElementById("checkQuotaBtn");
+
+const convertNetwork =
+    document.getElementById("convertNetwork");
+
+const convertAmount =
+    document.getElementById("convertAmount");
+
+const airtimePinInput =
+    document.getElementById("airtimePin");
+
+
+// ==========================================
+// RESET QUOTA STATE
+// ==========================================
+
+function resetAirtimeQuotaState() {
+
+    airtimeQuotaVerified = false;
+
+    if (checkQuotaBtn) {
+
+        checkQuotaBtn.disabled = false;
+
+        checkQuotaBtn.textContent =
+            "Check Airtime Availability";
+
+    }
+
+}
+
+
+// ==========================================
+// RESET OTP + PIN FLOW
+// ==========================================
+
+function resetAirtimeOtpFlow() {
+
+    if (otpSection) {
+        otpSection.style.display = "none";
+    }
+
+    if (pinSection) {
+        pinSection.style.display = "none";
+    }
+
+    const otpInput =
+        document.getElementById("airtimeOtp");
+
+    if (otpInput) {
+        otpInput.value = "";
+    }
+
+    if (airtimePinInput) {
+        airtimePinInput.value = "";
+        airtimePinInput.dataset.submitting = "false";
+    }
+
+    if (requestOtpBtn) {
+
+        requestOtpBtn.disabled = false;
+
+        requestOtpBtn.textContent =
+            "Request OTP";
+
+    }
+
+    if (verifyOtpBtn) {
+
+        verifyOtpBtn.disabled = false;
+
+        verifyOtpBtn.textContent =
+            "Verify OTP";
+
+    }
+
+}
+
+
+// ==========================================
+// CONVERT FORM
+// ==========================================
+
+if (convertForm) {
+
+    convertForm.addEventListener(
+        "submit",
+        async function (e) {
+
+            e.preventDefault();
+
+
+            // ==========================================
+            // GET VALUES
+            // ==========================================
+
+            const network =
+                convertNetwork?.value
+                ?.trim()
+                ?.toUpperCase();
+
+            const airtimeAmount =
+                Number(
+                    convertAmount?.value
+                );
+
+            const phoneNumber =
+                document.getElementById(
+                    "phoneNumber"
+                )?.value
+                ?.trim();
+
+            const pin =
+                airtimePinInput?.value
+                ?.trim();
+
+            const note =
+                document.getElementById(
+                    "conversionNote"
+                )?.value
+                ?.trim() || "";
+
+            const screenshotInput =
+                document.getElementById(
+                    "screenshot"
+                );
+
+            const screenshot =
+                screenshotInput?.files?.[0] || null;
+
+
+            // ==========================================
+            // VALIDATION
+            // ==========================================
+
+            if (!network) {
+
+                showToast(
+                    "Please select your network.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(airtimeAmount) ||
+                airtimeAmount < 50
+            ) {
+
+                showToast(
+                    "Minimum airtime conversion amount is ₦50.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!phoneNumber) {
+
+                showToast(
+                    "Please enter your phone number.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // OTP VERIFICATION CHECK
+            // ==========================================
+
+            const otpVerified =
+                verifyOtpBtn &&
+                verifyOtpBtn.disabled &&
+                verifyOtpBtn.textContent.includes(
+                    "Verified"
+                );
+
+
+            if (!otpVerified) {
+
+                showToast(
+                    "Please verify your phone number with OTP first.",
+                    "error"
+                );
+
+                if (otpSection) {
+                    otpSection.style.display = "block";
+                }
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // QUOTA CHECK
+            // ==========================================
+
+            if (!airtimeQuotaVerified) {
+
+                showToast(
+                    "Please check airtime availability first.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // SHARE & SELL PIN
+            // ==========================================
+
+            if (!pin) {
+
+                if (pinSection) {
+                    pinSection.style.display = "block";
+                }
+
+                if (airtimePinInput) {
+
+                    airtimePinInput.value = "";
+
+                    airtimePinInput.focus();
+
+                }
+
+                showToast(
+                    "Enter your Share & Sell PIN to continue."
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // GET EXCHANGE RATE
+            // ==========================================
+
+            const rateText =
+                document.getElementById(
+                    "currentRate"
+                )?.textContent
+                ?.replace("%", "")
+                ?.trim();
+
+            const exchangeRate =
+                Number(rateText);
+
+
+            if (
+                !Number.isFinite(exchangeRate) ||
+                exchangeRate <= 0
+            ) {
+
+                showToast(
+                    "Unable to determine the current exchange rate. Please select your network again.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // CALCULATE CASH AMOUNT
+            // ==========================================
+
+            const amountToReceive =
+                (airtimeAmount * exchangeRate) / 100;
+
+
+            if (
+                !Number.isFinite(amountToReceive) ||
+                amountToReceive <= 0
+            ) {
+
+                showToast(
+                    "Unable to calculate conversion amount.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // ==========================================
+            // GENERATE REFERENCE
+            // ==========================================
+
+            const reference =
+                "CASHIFY-" +
+                Date.now() +
+                "-" +
+                Math.random()
+                    .toString(36)
+                    .substring(2, 8)
+                    .toUpperCase();
+
+
+            // ==========================================
+            // SUBMIT BUTTON
+            // ==========================================
+
+            const submitBtn =
+                convertForm.querySelector(
+                    'button[type="submit"]'
+                );
+
+
+            if (submitBtn) {
+
+                submitBtn.disabled = true;
+
+                submitBtn.innerHTML = `
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Processing Airtime...
+                `;
+
+            }
+
+
+            try {
+
+                // ==========================================
+                // STEP 1
+                // AIRTIMEBRIDGE TRANSFER
+                // ==========================================
+
+                console.log(
+                    "🔥 Starting AirtimeBridge transfer..."
+                );
+
+
+                const transferResult =
+                    await apiRequest(
+                        "/api/airtime-bridge/convert",
+                        "POST",
+                        {
+                            networkName: network,
+                            sender: phoneNumber,
+                            amount: airtimeAmount,
+                            reference: reference,
+                            pin: pin
+                        }
+                    );
+
+
+                console.log(
+                    "🔥 AIRTIMEBRIDGE CONVERT RESPONSE:",
+                    transferResult
+                );
+
+
+                if (!transferResult) {
+
+                    showToast(
+                        "Unable to connect to the airtime provider.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                // ==========================================
+                // TRANSFER SUCCESS
+                // ==========================================
+
+                if (
+                    transferResult.success &&
+                    transferResult.status === "successful"
+                ) {
+
+                    showToast(
+                        "Airtime transfer successful. Creating your Cashify transaction..."
+                    );
+
+
+                    // ==========================================
+                    // CREATE TRANSACTION
+                    // ==========================================
+
+                    const formData =
+                        new FormData();
+
+
+                    formData.append(
+                        "network",
+                        network
+                    );
+
+                    formData.append(
+                        "phoneNumber",
+                        phoneNumber
+                    );
+
+                    formData.append(
+                        "airtimeAmount",
+                        airtimeAmount
+                    );
+
+                    formData.append(
+                        "exchangeRate",
+                        exchangeRate
+                    );
+
+                    formData.append(
+                        "amountToReceive",
+                        amountToReceive
+                    );
+
+                    formData.append(
+                        "note",
+                        note
+                    );
+
+                    formData.append(
+                        "reference",
+                        reference
+                    );
+
+
+                    if (screenshot) {
+
+                        formData.append(
+                            "screenshot",
+                            screenshot
+                        );
+
+                    }
+
+
+                    const transactionResult =
+                        await apiUpload(
+                            "/api/transaction/create",
+                            formData
+                        );
+
+
+                    console.log(
+                        "🔥 CASHIFY TRANSACTION RESPONSE:",
+                        transactionResult
+                    );
+
+
+                    if (
+                        transactionResult &&
+                        transactionResult.success
+                    ) {
+
+                        showToast(
+                            transactionResult.message ||
+                            "Conversion submitted successfully."
+                        );
+
+
+                        convertForm.reset();
+
+                        resetAirtimeOtpFlow();
+
+                        resetAirtimeQuotaState();
+
+
+                        const preview =
+                            document.getElementById(
+                                "screenshotPreview"
+                            );
+
+                        if (preview) {
+
+                            preview.src = "";
+
+                            preview.style.display =
+                                "none";
+
+                        }
+
+
+                        const receiveAmount =
+                            document.getElementById(
+                                "receiveAmount"
+                            );
+
+                        if (receiveAmount) {
+
+                            receiveAmount.textContent =
+                                "₦0.00";
+
+                        }
+
+
+                        const currentRate =
+                            document.getElementById(
+                                "currentRate"
+                            );
+
+                        if (currentRate) {
+
+                            currentRate.textContent =
+                                "--";
+
+                        }
+
+
+                        await loadTransactions();
+
+                        await loadDashboard();
+
+                    } else {
+
+                        showToast(
+                            transactionResult?.message ||
+                            "Airtime was transferred, but Cashify could not create the transaction. Please contact support.",
+                            "error"
+                        );
+
+                    }
+
+                    return;
+
+                }
+
+
+                // ==========================================
+                // TRANSFER PENDING
+                // ==========================================
+
+                if (
+                    transferResult.status === "pending"
+                ) {
+
+                    showToast(
+                        transferResult.message ||
+                        "Airtime transfer is pending. Please wait for confirmation.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                // ==========================================
+                // TRANSFER FAILED
+                // ==========================================
+
+                const failedMessage =
+                    transferResult.message || "";
+
+                const lowerMessage =
+                    failedMessage.toLowerCase();
+
+
+                if (
+                    lowerMessage.includes("pin") ||
+                    lowerMessage.includes("invalid") ||
+                    lowerMessage.includes("incorrect") ||
+                    lowerMessage.includes("wrong")
+                ) {
+
+                    showToast(
+                        "Incorrect Share & Sell PIN. Please check your PIN and try again.",
+                        "error"
+                    );
+
+
+                    if (pinSection) {
+                        pinSection.style.display = "block";
+                    }
+
+
+                    if (airtimePinInput) {
+
+                        airtimePinInput.focus();
+
+                        airtimePinInput.select();
+
+                    }
+
+                } else {
+
+                    showToast(
+                        failedMessage ||
+                        "Airtime transfer failed. Please try again.",
+                        "error"
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "🔥 CONVERSION ERROR:",
+                    error
+                );
+
+
+                showToast(
+                    "Unable to process airtime conversion. Please try again.",
+                    "error"
+                );
+
+
+            } finally {
+
+                if (submitBtn) {
+
+                    submitBtn.disabled = false;
+
+                    submitBtn.innerHTML = `
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Conversion
+                    `;
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// AUTO SUBMIT AFTER 4-DIGIT PIN
+// ==========================================
+
+if (airtimePinInput) {
+
+    airtimePinInput.addEventListener(
+        "input",
+        function () {
+
+            const pin =
+                this.value.trim();
+
+
+            if (pin.length !== 4) {
+                return;
+            }
+
+
+            if (!convertForm) {
+                return;
+            }
+
+
+            if (this.dataset.submitting === "true") {
+                return;
+            }
+
+
+            this.dataset.submitting = "true";
+
+
+            convertForm.requestSubmit();
+
+
+            setTimeout(() => {
+
+                this.dataset.submitting = "false";
+
+            }, 2000);
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// REQUEST OTP
+// ==========================================
+
+if (requestOtpBtn) {
+
+    requestOtpBtn.addEventListener(
+        "click",
+        async function () {
+
+            const network =
+                convertNetwork?.value
+                ?.trim()
+                ?.toUpperCase();
+
+            const phoneNumber =
+                document.getElementById(
+                    "phoneNumber"
+                )?.value
+                ?.trim();
+
+
+            if (!network) {
+
+                showToast(
+                    "Please select your network first.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!phoneNumber) {
+
+                showToast(
+                    "Please enter your phone number.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            requestOtpBtn.disabled = true;
+
+            requestOtpBtn.textContent =
+                "Sending OTP...";
+
+
+            try {
+
+                const result =
+                    await apiRequest(
+                        "/api/airtime-bridge/request-otp",
+                        "POST",
+                        {
+                            networkName: network,
+                            sender: phoneNumber
+                        }
+                    );
+
+
+                console.log(
+                    "🔥 REQUEST OTP RESPONSE:",
+                    result
+                );
+
+
+                if (!result) {
+
+                    requestOtpBtn.disabled = false;
+
+                    requestOtpBtn.textContent =
+                        "Request OTP";
+
+                    return;
+
+                }
+
+
+                if (result.success) {
+
+                    showToast(
+                        result.message ||
+                        "OTP sent successfully."
+                    );
+
+
+                    if (otpSection) {
+
+                        otpSection.style.display =
+                            "block";
+
+                    }
+
+
+                    const otpInput =
+                        document.getElementById(
+                            "airtimeOtp"
+                        );
+
+                    if (otpInput) {
+                        otpInput.focus();
+                    }
+
+
+                    requestOtpBtn.textContent =
+                        "OTP Sent ✓";
+
+
+                } else {
+
+                    showToast(
+                        result.message ||
+                        "Unable to send OTP.",
+                        "error"
+                    );
+
+
+                    requestOtpBtn.disabled = false;
+
+                    requestOtpBtn.textContent =
+                        "Request OTP";
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "🔥 REQUEST OTP ERROR:",
+                    error
+                );
+
+
+                showToast(
+                    "Unable to request OTP. Please try again.",
+                    "error"
+                );
+
+
+                requestOtpBtn.disabled = false;
+
+                requestOtpBtn.textContent =
+                    "Request OTP";
+
+            }
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// VERIFY OTP
+// ========================================
+
+if (verifyOtpBtn) {
+
+    verifyOtpBtn.addEventListener(
+        "click",
+        async function () {
+
+            const network =
+                convertNetwork?.value
+                ?.trim()
+                ?.toUpperCase();
+
+            const phoneNumber =
+                document.getElementById(
+                    "phoneNumber"
+                )?.value
+                ?.trim();
+
+            const otp =
+                document.getElementById(
+                    "airtimeOtp"
+                )?.value
+                ?.trim();
+
+
+            if (!network || !phoneNumber) {
+
+                showToast(
+                    "Please select your network and enter your phone number.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!otp) {
+
+                showToast(
+                    "Please enter the OTP.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            verifyOtpBtn.disabled = true;
+
+            verifyOtpBtn.textContent =
+                "Verifying...";
+
+
+            try {
+
+                const result =
+                    await apiRequest(
+                        "/api/airtime-bridge/verify-otp",
+                        "POST",
+                        {
+                            networkName: network,
+                            sender: phoneNumber,
+                            otp: otp
+                        }
+                    );
+
+
+                console.log(
+                    "🔥 VERIFY OTP RESPONSE:",
+                    result
+                );
+
+
+                if (!result) {
+
+                    verifyOtpBtn.disabled = false;
+
+                    verifyOtpBtn.textContent =
+                        "Verify OTP";
+
+                    return;
+
+                }
+
+
+                if (result.success) {
+
+                    showToast(
+                        result.message ||
+                        "OTP verified successfully."
+                    );
+
+
+                    verifyOtpBtn.textContent =
+                        "Verified ✓";
+
+                    verifyOtpBtn.disabled = true;
+
+
+                    const quotaSection =
+                        document.getElementById(
+                            "quotaSection"
+                        );
+
+
+                    if (quotaSection) {
+
+                        quotaSection.style.display =
+                            "block";
+
+                    }
+
+
+                } else {
+
+                    showToast(
+                        result.message ||
+                        "OTP verification failed.",
+                        "error"
+                    );
+
+
+                    verifyOtpBtn.disabled = false;
+
+                    verifyOtpBtn.textContent =
+                        "Verify OTP";
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "🔥 VERIFY OTP ERROR:",
+                    error
+                );
+
+
+                showToast(
+                    "Unable to verify OTP. Please try again.",
+                    "error"
+                );
+
+
+                verifyOtpBtn.disabled = false;
+
+                verifyOtpBtn.textContent =
+                    "Verify OTP";
+
+            }
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// CHECK AIRTIME QUOTA
+// ==========================================
+
+if (checkQuotaBtn) {
+
+    checkQuotaBtn.addEventListener(
+        "click",
+        async function () {
+
+            const network =
+                convertNetwork?.value
+                ?.trim()
+                ?.toUpperCase();
+
+            const amount =
+                Number(
+                    convertAmount?.value
+                );
+
+
+            if (!network) {
+
+                showToast(
+                    "Please select your network first.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !Number.isFinite(amount) ||
+                amount < 50
+            ) {
+
+                showToast(
+                    "Minimum airtime conversion amount is ₦50.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            airtimeQuotaVerified = false;
+
+            checkQuotaBtn.disabled = true;
+
+            checkQuotaBtn.textContent =
+                "Checking...";
+
+
+            try {
+
+                const result =
+                    await apiRequest(
+                        "/api/airtime-bridge/check-quota",
+                        "POST",
+                        {
+                            networkName: network,
+                            amount: amount
+                        }
+                    );
+
+
+                console.log(
+                    "🔥 CHECK QUOTA RESPONSE:",
+                    result
+                );
+
+
+                if (!result) {
+
+                    checkQuotaBtn.disabled = false;
+
+                    checkQuotaBtn.textContent =
+                        "Check Airtime Availability";
+
+                    return;
+
+                }
+
+
+                if (
+                    result.success &&
+                    result.available === true
+                ) {
+
+                    airtimeQuotaVerified = true;
+
+
+                    showToast(
+                        result.message ||
+                        "Airtime is available for conversion."
+                    );
+
+
+                    checkQuotaBtn.textContent =
+                        "Airtime Available ✓";
+
+                    checkQuotaBtn.disabled = true;
+
+
+                    const screenshotSection =
+                        document.getElementById(
+                            "screenshotSection"
+                        );
+
+
+                    if (screenshotSection) {
+
+                        screenshotSection.style.display =
+                            "block";
+
+                    }
+
+
+                    console.log(
+                        "✅ Airtime quota verified."
+                    );
+
+
+                    return;
+
+                }
+
+
+                airtimeQuotaVerified = false;
+
+
+                showToast(
+                    result.message ||
+                    "Airtime is currently unavailable.",
+                    "error"
+                );
+
+
+                checkQuotaBtn.disabled = false;
+
+                checkQuotaBtn.textContent =
+                    "Check Airtime Availability";
+
+
+            } catch (error) {
+
+                console.error(
+                    "🔥 CHECK QUOTA ERROR:",
+                    error
+                );
+
+
+                airtimeQuotaVerified = false;
+
+
+                showToast(
+                    "Unable to check airtime availability.",
+                    "error"
+                );
+
+
+                checkQuotaBtn.disabled = false;
+
+                checkQuotaBtn.textContent =
+                    "Check Airtime Availability";
+
+            }
+
+        }
+    );
+
+        }
+                
+       // ==========================================
+// RESET QUOTA WHEN NETWORK OR AMOUNT CHANGES
+// ==========================================
+
+if (convertNetwork) {
+
+    convertNetwork.addEventListener(
+        "change",
+        function () {
+
+            resetAirtimeQuotaState();
+
+        }
+    );
+
+}
+
+
+if (convertAmount) {
+
+    convertAmount.addEventListener(
+        "input",
+        function () {
+
+            resetAirtimeQuotaState();
+
+        }
+    );
+
+}                                 
+
 // ==========================================
 // LIVE CALCULATOR (HOMEPAGE)
 // ==========================================
