@@ -865,6 +865,131 @@ if (convertForm) {
 
             }
 
+       async function processAirtimeConversion(pin) {
+
+    const network =
+        document.getElementById("convertNetwork")?.value?.trim()?.toUpperCase();
+
+    const airtimeAmount =
+        Number(document.getElementById("convertAmount")?.value);
+
+    const phoneNumber =
+        document.getElementById("phoneNumber")?.value?.trim();
+
+    const note =
+        document.getElementById("conversionNote")?.value?.trim() || "";
+
+    if (!network || !phoneNumber || !airtimeAmount) {
+        throw new Error("Please complete the conversion details.");
+    }
+
+    if (!airtimeQuotaVerified) {
+        throw new Error("Please check airtime availability first.");
+    }
+
+    if (!pin || pin.length !== 4) {
+        throw new Error("Enter your 4-digit Share & Sell PIN.");
+    }
+
+    // Generate transaction reference
+    const reference =
+        "CFY-" +
+        Date.now() +
+        "-" +
+        Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    console.log("🔥 Starting AirtimeBridge conversion...");
+
+    const transferResult = await apiRequest(
+        "/api/airtime-bridge/convert",
+        "POST",
+        {
+            networkName: network,
+            sender: phoneNumber,
+            amount: airtimeAmount,
+            reference,
+            pin
+        }
+    );
+
+    console.log("🔥 Conversion response:", transferResult);
+
+    /*
+     * WRONG PIN
+     */
+    const responseMessage =
+        transferResult?.message ||
+        transferResult?.data?.message ||
+        "";
+
+    const lowerMessage = String(responseMessage).toLowerCase();
+
+    if (
+        lowerMessage.includes("incorrect pin") ||
+        lowerMessage.includes("invalid pin") ||
+        lowerMessage.includes("wrong pin") ||
+        lowerMessage.includes("invalid transfer pin") ||
+        lowerMessage.includes("incorrect transfer pin")
+    ) {
+        throw new Error("Incorrect Share & Sell PIN. Please try again.");
+    }
+
+    /*
+     * FAILED
+     */
+    if (!transferResult?.success) {
+        throw new Error(
+            responseMessage || "Airtime conversion failed."
+        );
+    }
+
+    /*
+     * SUCCESS
+     */
+
+    // Close PIN popup only after successful conversion
+    closePinPopup();
+
+    // Clear PIN
+    if (airtimePinInput) {
+        airtimePinInput.value = "";
+        updatePinBoxes();
+    }
+
+    // Reset conversion state
+    airtimeQuotaVerified = false;
+
+    showToast(
+        "Airtime conversion successful! Your cash is being processed."
+    );
+
+    // Optional: refresh dashboard/balance
+    if (typeof loadDashboardData === "function") {
+        try {
+            await loadDashboardData();
+        } catch (error) {
+            console.warn("Dashboard refresh failed:", error);
+        }
+    }
+
+    // Reset form fields
+    const screenshotInput =
+        document.getElementById("screenshot");
+
+    if (screenshotInput) {
+        screenshotInput.value = "";
+    }
+
+    const screenshotPreview =
+        document.getElementById("screenshotPreview");
+
+    if (screenshotPreview) {
+        screenshotPreview.src = "";
+        screenshotPreview.style.display = "none";
+    }
+
+    return transferResult;
+       }
 
             // ==========================================
             // OTP VERIFICATION CHECK
@@ -909,16 +1034,15 @@ if (convertForm) {
 
             }
 
-
-            if (!pin) {
-
+            if (!pin || pin.length !== 4) {
     openPinPopup();
-
     return;
+}
 
-            }
-
-
+// The actual conversion is handled by
+// processAirtimeConversion() from the PIN popup.
+return;
+    
             // ==========================================
             // GET EXCHANGE RATE
             // ==========================================
@@ -1546,41 +1670,37 @@ if (pinBackspace) {
 // CONTINUE
 // ==========================================
 
-if (pinContinueBtn) {
+pinContinueBtn.addEventListener("click", async function () {
 
-    pinContinueBtn.addEventListener(
-        "click",
-        function () {
+    const pin = airtimePinInput?.value?.trim();
 
-            const pin =
-                popupPinInput?.value?.trim();
+    if (!pin || pin.length !== 4) {
+        pinError.textContent = "Enter your 4-digit Share & Sell PIN.";
+        return;
+    }
 
+    pinError.textContent = "";
 
-            if (!pin || pin.length !== 4) {
+    // Prevent double clicking
+    if (this.dataset.processing === "true") return;
 
-                return;
+    this.dataset.processing = "true";
+    this.disabled = true;
+    this.textContent = "Processing...";
 
-            }
+    try {
+        await processAirtimeConversion(pin);
+    } catch (error) {
+        console.error("PIN conversion error:", error);
 
-
-            // Close popup first
-
-            closePinPopupFunction();
-
-
-            // Submit conversion again
-
-            if (convertForm) {
-
-                convertForm.requestSubmit();
-
-            }
-
-        }
-    );
-
-}
-
+        pinError.textContent =
+            error?.message || "Unable to process conversion.";
+    } finally {
+        this.dataset.processing = "false";
+        this.disabled = false;
+        this.textContent = "Continue";
+    }
+});
 
 // ==========================================
 // CLOSE BUTTON
