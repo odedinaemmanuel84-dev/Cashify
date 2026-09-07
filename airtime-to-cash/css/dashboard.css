@@ -1897,6 +1897,368 @@ IMAGE PREVIEW
 
 }
 
+/* ==========================================
+   CASHIFY PIN BOTTOM SHEET
+========================================== */
+
+.pin-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    z-index: 99999;
+}
+
+.pin-overlay.show {
+    display: flex;
+}
+
+.pin-sheet {
+    width: 100%;
+    max-width: 500px;
+
+    background: #ffffff;
+
+    border-radius: 25px 25px 0 0;
+
+    padding: 25px 20px 30px;
+
+    position: relative;
+
+    text-align: center;
+
+    animation: cashifyPinUp 0.3s ease-out;
+}
+
+@keyframes cashifyPinUp {
+
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+
+}
+
+
+/* CLOSE */
+
+.pin-close {
+    position: absolute;
+
+    top: 15px;
+    right: 18px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f2f2f2;
+
+    color: #555;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+/* LOCK ICON */
+
+.pin-icon {
+    width: 52px;
+    height: 52px;
+
+    margin: 3px auto 12px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 128, 0, 0.1);
+
+    color: #008000;
+
+    font-size: 21px;
+}
+
+
+/* TITLE */
+
+.pin-sheet h3 {
+    margin: 0;
+
+    font-size: 19px;
+
+    color: #222;
+}
+
+.pin-sheet p {
+    margin: 7px 0 20px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* HIDDEN REAL INPUT */
+
+#airtimePin {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+/* ==========================================
+   PIN BOXES
+========================================== */
+
+.pin-boxes {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-bottom: 12px;
+}
+
+.pin-box {
+    width: 53px;
+    height: 58px;
+
+    border: 2px solid #d9d9d9;
+
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+
+    color: #222;
+
+    transition: all 0.15s ease;
+}
+
+.pin-box.active {
+    border-color: #008000;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 128, 0, 0.08);
+}
+
+.pin-box.filled::after {
+    content: "•";
+
+    font-size: 34px;
+
+    line-height: 1;
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.pin-error {
+    min-height: 20px;
+
+    margin-bottom: 8px;
+
+    color: #e53935;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   NUMERIC KEYPAD
+========================================== */
+
+.pin-keypad {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    max-width: 360px;
+
+    margin: 0 auto 18px;
+}
+
+.pin-key {
+    height: 52px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #f5f5f5;
+
+    color: #222;
+
+    font-size: 21px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.08s ease,
+        background 0.1s ease;
+}
+
+.pin-key:active {
+    transform: scale(0.94);
+
+    background: #e5e5e5;
+}
+
+.pin-empty {
+    visibility: hidden;
+}
+
+.pin-delete {
+    font-size: 18px;
+
+    color: #555;
+}
+
+
+/* ==========================================
+   CONTINUE BUTTON
+========================================== */
+
+.pin-continue-btn {
+    width: 100%;
+
+    max-width: 360px;
+
+    height: 50px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #008000;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.pin-continue-btn:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+.pin-continue-btn:not(:disabled):active {
+    transform: scale(0.98);
+}
+
+
+/* ==========================================
+   SMALL PHONES
+========================================== */
+
+@media (max-width: 380px) {
+
+    .pin-sheet {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .pin-box {
+        width: 48px;
+        height: 54px;
+    }
+
+    .pin-key {
+        height: 48px;
+    }
+
+}
+
+
+/* ==========================================
+   DARK MODE
+========================================== */
+
+body.dark-mode .pin-sheet {
+    background: #1c1c1c;
+}
+
+body.dark-mode .pin-sheet h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .pin-sheet p {
+    color: #aaa;
+}
+
+body.dark-mode .pin-box {
+    background: #252525;
+
+    border-color: #444;
+
+    color: #ffffff;
+}
+
+body.dark-mode .pin-key {
+    background: #292929;
+
+    color: #ffffff;
+}
+
+body.dark-mode .pin-key:active {
+    background: #383838;
+}
+
+body.dark-mode .pin-close {
+    background: #333;
+
+    color: #ddd;
+  }
+
 /*==========================
 SUBMIT BUTTON
 ==========================*/
